@@ -1,0 +1,96 @@
+package org.nutrition.app.user.service;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.nutrition.app.user.dto.request.CreateUserRequest;
+import org.nutrition.app.user.dto.request.UpdateUserRequest;
+import org.nutrition.app.user.dto.UserDTO;
+import org.nutrition.app.user.entity.User;
+import org.nutrition.app.user.repository.UserRepository;
+import org.nutrition.app.util.Mapper;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class UserService implements UserDetailsService {
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public Optional<List<UserDTO>> findAll() {
+        return Optional.of(userRepository.findAll().stream().map(this::mapToDTO).toList());
+    }
+
+    public Optional<UserDTO> findById(final UUID id) {
+        return userRepository.findById(id).map(this::mapToDTO);
+    }
+
+    private String extractJwtFromContext() {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth instanceof UsernamePasswordAuthenticationToken token) {
+            Object credentials = token.getCredentials();
+            if (credentials instanceof String jwt) {
+                return jwt;
+            }
+        }
+        return null;
+    }
+
+    public Optional<UserDTO> create(final CreateUserRequest request) {
+        var user = userRepository.save(
+                User.builder()
+                        .withUsername(request.getUsername())
+                        .withEmail(request.getEmail())
+                        .withPassword(passwordEncoder.encode(request.getPassword()))
+                        .withRole(request.getRole())
+                        .build()
+        );
+
+        return Optional.of(mapToDTO(user));
+    }
+
+    public Optional<UserDTO> update(final UpdateUserRequest request) {
+        return userRepository.findById(request.getId())
+                .map(user -> {
+                    Mapper.updateValues(user, request);
+
+                    userRepository.save(user);
+
+                    return mapToDTO(user);
+                });
+    }
+
+    public Optional<UserDTO> deleteById(final UUID id) {
+        return userRepository.findById(id)
+                .filter(user -> userRepository.deleteByIdReturning(id) != 0)
+                .map(this::mapToDTO);
+    }
+
+    @Override
+    public User loadUserByUsername(final String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    public Optional<UserDTO> findByEmail(final String email) {
+        return userRepository.findByEmail(email).map(this::mapToDTO);
+    }
+
+    public boolean updateUserPassword(final UUID id, final String newPassword) {
+        return userRepository.updateUserPassword(id, passwordEncoder.encode(newPassword)) != 0;
+    }
+
+    public UserDTO mapToDTO(final User user) {
+        return Mapper.mapTo(user, UserDTO.class);
+    }
+}

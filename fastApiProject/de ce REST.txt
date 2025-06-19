@@ -1,0 +1,27 @@
+De ce serviciu REST persistent?
+Modelul se încarcă o singură dată când pornește serviciul, deci inferența este rapidă la fiecare cerere, fără costul de startup.
+
+Poți lansa mai multe instanțe în paralel pentru a face față cererilor concurente (scalare orizontală).
+
+Poți folosi orchestratoare (Kubernetes, Docker Swarm) pentru managementul automată al resurselor și scalarea dinamică.
+
+Comunicarea REST este standard, ușor de integrat cu backend-ul Java.
+
+Poți implementa caching, logging, monitorizare și retry-uri mai ușor.
+
+Da, chiar dacă backendul Java este singurul client care comunică cu microserviciul de inferență, tot este foarte recomandat să folosești un serviciu REST persistent pentru aceste motive:
+
+Performanță
+Modelul de inferență se încarcă o singură dată, nu trebuie să pornești procesul Python la fiecare cerere — răspunsuri mult mai rapide.
+
+Separarea clară a responsabilităților
+Backendul Java rămâne curat și concentrat pe business logic, iar microserviciul Python pe procesarea imaginii și inferență. Aceasta facilitează mentenanța și testarea.
+
+Scalabilitate și flexibilitate
+Poți crește numărul de instanțe ale microserviciului în funcție de cerere, fără să modifici backendul Java. Mai mult, dacă în viitor apar și alți clienți, infrastructura deja funcționează.
+
+Management și monitorizare independente
+Microserviciul poate avea propriul ciclu de viață, logging, monitorizare și poate fi actualizat independent.
+
+Extensibilitate viitoare
+Dacă vei extinde aplicația sau vei adăuga funcționalități, un serviciu REST este mult mai flexibil decât execuția unui proces Python la cerere.
