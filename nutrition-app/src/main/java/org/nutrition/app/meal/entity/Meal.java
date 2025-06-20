@@ -72,7 +72,6 @@ public class Meal {
     @Column
     private BigDecimal totalSugars;
 
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonBackReference

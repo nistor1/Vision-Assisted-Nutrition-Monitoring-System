@@ -1,37 +1,39 @@
-package org.nutrition.app.meal.dto;
+package org.nutrition.app.goals.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.nutrition.app.meal.constants.MealStatus;
-import org.nutrition.app.meal.constants.MealType;
 import org.nutrition.app.user.dto.UserDTO;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder(setterPrefix = "with")
-public class MealDTO implements Serializable{
-    private UUID id;
-    private UserDTO user;
-    private String name;
-    private MealType mealType;
-    private MealStatus mealStatus;
-    private Date createdAt;
-    private BigDecimal totalCalories;
-    private BigDecimal totalProteins;
-    private BigDecimal totalCarbohydrates;
-    private BigDecimal totalFats;
-    private BigDecimal totalSugars;
-    private List<MealEntryDTO> entries;
-}
+public class GoalDTO implements Serializable {
 
+    private UUID id;
+
+    private UserDTO user;
+
+    private Date createdAt;
+
+    private Date endedAt;
+
+    private BigDecimal totalCalories;
+
+    private BigDecimal totalProteins;
+
+    private BigDecimal totalCarbohydrates;
+
+    private BigDecimal totalFats;
+
+    private BigDecimal totalSugars;
+}

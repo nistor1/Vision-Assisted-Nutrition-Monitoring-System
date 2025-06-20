@@ -20,6 +20,7 @@ import org.nutrition.app.meal.entity.NutritionTotals;
 import org.nutrition.app.meal.repository.MealRepository;
 import org.nutrition.app.meal.service.statistics.StatisticsUtils;
 import org.nutrition.app.security.config.AppContext;
+import org.nutrition.app.user.dto.UserDTO;
 import org.nutrition.app.user.entity.User;
 import org.nutrition.app.util.Constants.Time;
 import org.nutrition.app.util.Mapper;
@@ -271,7 +272,13 @@ public class MealService {
         cacheManager.getCache("dailyStatistics").evict(cacheKey);
     }
 
+    public UserDTO mapUserToDTO(final User user) {
+        return Mapper.mapTo(user, UserDTO.class);
+    }
+
     public MealDTO mapMealToDTO(final Meal meal) {
-        return Mapper.mapTo(meal, MealDTO.class);
+        MealDTO mealDTO = Mapper.mapTo(meal, MealDTO.class);
+        mealDTO.setUser(mapUserToDTO(meal.getUser()));
+        return mealDTO;
     }
 }
