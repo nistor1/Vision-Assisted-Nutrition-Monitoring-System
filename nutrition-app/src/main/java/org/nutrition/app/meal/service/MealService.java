@@ -10,6 +10,7 @@ import org.nutrition.app.food.repository.FoodItemRepository;
 import org.nutrition.app.meal.constants.MealStatus;
 import org.nutrition.app.meal.constants.MealType;
 import org.nutrition.app.meal.dto.MealDTO;
+import org.nutrition.app.meal.dto.request.CreateMealRequest;
 import org.nutrition.app.meal.dto.request.UpdateMealEntryRequest;
 import org.nutrition.app.meal.dto.request.UpdateMealRequest;
 import org.nutrition.app.meal.entity.DetectedObject;
@@ -84,6 +85,42 @@ public class MealService {
         Meal savedMeal = mealRepository.save(meal);
 
         return Optional.of(mapMealToDTO(savedMeal));
+    }
+
+    @Transactional
+    public Optional<MealDTO> createMeal(final CreateMealRequest request) {
+        Meal meal = initializeMealDraft();
+
+        Optional.ofNullable(request.getName()).ifPresent(meal::setName);
+        Optional.ofNullable(request.getMealType()).ifPresent(meal::setMealType);
+
+        Set<UUID> incomingIds = new HashSet<>();
+
+        for (UpdateMealEntryRequest dto : request.getEntries()) {
+            UUID foodId = dto.getFoodItemId();
+            incomingIds.add(foodId);
+
+            FoodItem food = foodItemRepository.findById(foodId)
+                    .orElseThrow(() -> new NutritionException(
+                            NutritionError.FOOD_NOT_FOUND, HttpStatus.NOT_FOUND));
+
+            MealEntry newEntry = MealEntry.builder()
+                    .withMeal(meal)
+                    .withFoodItem(food)
+                    .withQuantity(dto.getQuantity())
+                    .build();
+            meal.addEntry(newEntry);
+        }
+
+        meal.getEntries().removeIf(e -> !incomingIds.contains(e.getFoodItem().getId()));
+
+        NutritionTotals totals = nutritionCalculatorService.calculateTotals(meal.getEntries());
+        meal.setTotalCalories(totals.getCalories());
+        meal.setTotalCarbohydrates(totals.getCarbohydrates());
+        meal.setTotalProteins(totals.getProteins());
+
+        Meal saved = mealRepository.save(meal);
+        return Optional.of(mapMealToDTO(saved));
     }
 
     public Optional<MealDTO> finalizeMeal(final UUID id) {

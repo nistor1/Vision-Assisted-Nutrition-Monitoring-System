@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.nutrition.app.security.config.AppContext;
 import org.nutrition.app.user.entity.User;
 import org.nutrition.app.exception.NutritionError;
 import org.nutrition.app.security.service.JwtService;
@@ -44,6 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserService usersService;
     private final PathPatternParser pathPatternParser;
+    private final AppContext appContext;
 
     @SneakyThrows
     @Override
@@ -60,6 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String jwtToken = getJwtFromHeader(authHeader);
+        appContext.setToken(jwtToken);
         Optional<String> usernameOptional = jwtService.extractUsername(jwtToken);
         if (usernameOptional.isEmpty()) {
             handleInvalidAuth(response, NutritionError.BAD_TOKEN, HttpServletResponse.SC_BAD_REQUEST);

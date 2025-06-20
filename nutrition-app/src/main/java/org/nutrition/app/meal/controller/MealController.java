@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.nutrition.app.exception.NutritionError;
 import org.nutrition.app.meal.dto.MealDTO;
+import org.nutrition.app.meal.dto.request.CreateMealRequest;
 import org.nutrition.app.meal.dto.request.UpdateMealRequest;
 import org.nutrition.app.meal.service.MealService;
 import org.nutrition.app.util.response.NutritionResponse;
@@ -59,6 +60,16 @@ public class MealController {
                         new NutritionError(failedToSave(MealDTO.class)),
                         BAD_REQUEST));
     }
+
+    @PostMapping("/request")
+    public NutritionResponse<MealDTO> createMeal(@RequestBody @Valid final CreateMealRequest request) {
+        return mealService.createMeal(request)
+                .map(NutritionResponse::successResponse)
+                .orElse(NutritionResponse.failureResponse(
+                        new NutritionError(failedToSave(MealDTO.class)),
+                        BAD_REQUEST));
+    }
+
 
     @PostMapping("/{id}/finalize")
     public NutritionResponse<MealDTO> finalizeMeal(@PathVariable @Valid final UUID id) {

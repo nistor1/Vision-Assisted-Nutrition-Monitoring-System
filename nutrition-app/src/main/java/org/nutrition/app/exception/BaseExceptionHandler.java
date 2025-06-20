@@ -2,7 +2,6 @@ package org.nutrition.app.exception;
 
 import jakarta.validation.ConstraintViolationException;
 import org.nutrition.app.util.response.NutritionResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -49,11 +48,22 @@ public class BaseExceptionHandler {
         );
     }
 
-    public ResponseEntity<?> handleDealException(final NutritionException exception) {
-        return new ResponseEntity<>(new NutritionError(exception.getMessage()), exception.getStatus());
+    @ExceptionHandler(NutritionException.class)
+    @ResponseBody
+    public NutritionResponse<?> handleNutritionException(final NutritionException exception) {
+        return NutritionResponse.failureResponse(
+                        new NutritionError(exception.getMessage()),
+                        exception.getStatus()
+                );
     }
 
-    public ResponseEntity<?> handle(final Exception exception) {
-        return new ResponseEntity<>(new NutritionError(exception.getMessage()), HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public NutritionResponse<?> handleGenericException(final Exception exception) {
+        return NutritionResponse.failureResponse(
+                        new NutritionError("Unexpected error: " + exception.getMessage()),
+                        HttpStatus.INTERNAL_SERVER_ERROR
+                );
     }
+
 }

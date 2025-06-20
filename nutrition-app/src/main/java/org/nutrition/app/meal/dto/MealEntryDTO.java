@@ -7,7 +7,6 @@ import java.util.UUID;
 
 public record MealEntryDTO(
         UUID id,
-        UUID mealId,
         FoodItemSimpleDTO foodItem,
         Double quantity
 ) implements Serializable {

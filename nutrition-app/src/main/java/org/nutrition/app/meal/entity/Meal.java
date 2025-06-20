@@ -63,6 +63,7 @@ public class Meal {
 
     @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
+    @Builder.Default
     private List<MealEntry> entries = new ArrayList<>();
 
     public void addEntry(MealEntry entry) {

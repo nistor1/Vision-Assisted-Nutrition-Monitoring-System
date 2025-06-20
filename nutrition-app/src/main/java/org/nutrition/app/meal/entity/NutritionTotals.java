@@ -14,8 +14,14 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class NutritionTotals {
+
+    @Builder.Default
     private BigDecimal calories = BigDecimal.ZERO;
+
+    @Builder.Default
     private BigDecimal carbohydrates = BigDecimal.ZERO;
+
+    @Builder.Default
     private BigDecimal proteins = BigDecimal.ZERO;
 
 }

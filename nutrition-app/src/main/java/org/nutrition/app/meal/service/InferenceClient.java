@@ -1,10 +1,12 @@
 package org.nutrition.app.meal.service;
 
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.nutrition.app.exception.NutritionError;
 import org.nutrition.app.exception.NutritionException;
 import org.nutrition.app.meal.constants.MealConstants;
 import org.nutrition.app.meal.entity.DetectedObject;
+import org.nutrition.app.security.config.AppContext;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -23,13 +25,12 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class InferenceClient {
 
     private final RestTemplate restTemplate;
+    private final AppContext appContext;
 
-    public InferenceClient(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     public List<DetectedObject> predict(final MultipartFile image) {
         try {
@@ -47,6 +48,9 @@ public class InferenceClient {
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+            String token = appContext.getToken();
+            headers.setBearerAuth(token);
 
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
