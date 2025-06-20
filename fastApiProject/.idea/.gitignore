@@ -7,6 +7,9 @@
 /dataSources/
 /dataSources.local.xml
 
+venv/
+
+
 *.pt
 *.pth
 

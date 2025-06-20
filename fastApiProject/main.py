@@ -1,33 +1,62 @@
+import os
+import shutil
+import base64
+from collections import Counter
+from fastapi import FastAPI, UploadFile, File, Header, HTTPException, Depends
+from jose import jwt, JWTError
+
 from model_loader import load_models
 from inference import detect_and_crop, classify_with_resnet
-from collections import Counter
-from fastapi import FastAPI, UploadFile, File
-import shutil
-import os
 
+# === JWT ===
+BASE64_SECRET = "dW4tc2VjcmV0LWFsZWF0b3ItY29tcGxleC1kZS1taW5pbS0yNTYtYml0cw=="
+ALGORITHM = "HS256"
+
+try:
+    SECRET_KEY = base64.b64decode(BASE64_SECRET)
+except Exception:
+    raise RuntimeError("Invalid Base64 secret key")
+
+# === VERIFY JWT ===
+def verify_jwt(authorization: str = Header(..., description="Bearer <token>")):
+    scheme, _, token = authorization.partition(" ")
+    if scheme.lower() != "bearer" or not token:
+        raise HTTPException(status_code=401, detail="Missing or invalid Authorization header")
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return payload
+    except JWTError as e:
+        raise HTTPException(status_code=401, detail="Invalid or expired JWT token")
+
+# === INIT FASTAPI ===
 app = FastAPI()
 
-# Load models only once
 yolo_model, resnet_model, device = load_models()
 class_names = [str(i) for i in range(30)]
 
-@app.post("/predict/")
+# === SECURE ENDPOINT ===
+@app.post("/predict/", dependencies=[Depends(verify_jwt)])
 async def predict(file: UploadFile = File(...)):
     temp_file = f"temp_{file.filename}"
-    with open(temp_file, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+    try:
+        with open(temp_file, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
 
-    # Inference
-    cropped_images = detect_and_crop(temp_file, yolo_model)
-    labels = []
-    for cropped in cropped_images:
-        label = classify_with_resnet(cropped, resnet_model, device, class_names)
-        labels.append(label)
+        cropped_images = detect_and_crop(temp_file, yolo_model)
+        labels = [
+            classify_with_resnet(img, resnet_model, device, class_names)
+            for img in cropped_images
+        ]
+        counts = Counter(labels)
 
-    os.remove(temp_file)
+        return [{"tag": int(tag), "count": count} for tag, count in counts.items()]
 
-    counts = Counter(labels)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Error during inference")
 
-    results = [{"tag": int(tag), "count": count} for tag, count in counts.items()]
-
-    return results
+    finally:
+        if os.path.exists(temp_file):
+            try:
+                os.remove(temp_file)
+            except Exception:
+                pass
