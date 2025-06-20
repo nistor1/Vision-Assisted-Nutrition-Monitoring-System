@@ -42,3 +42,4 @@ logging:
   level:
     root: INFO
     org.nutrition: DEBUG
+    org.springframework.cache: DEBUG

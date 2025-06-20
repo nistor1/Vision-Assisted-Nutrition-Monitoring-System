@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.nutrition.app.exception.NutritionException;
 import org.nutrition.app.security.config.AppContext;
 import org.nutrition.app.user.entity.User;
 import org.nutrition.app.exception.NutritionError;
@@ -17,6 +18,7 @@ import org.nutrition.app.security.service.JwtService;
 import org.nutrition.app.user.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.PathContainer;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -63,6 +65,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String jwtToken = getJwtFromHeader(authHeader);
         appContext.setToken(jwtToken);
+        jwtService.extractUserId(jwtToken).ifPresentOrElse(
+                appContext::setUserId,
+                () -> {
+                    throw new NutritionException(NutritionError.INVALID_OR_MISSING_USER_ID_IN_TOKEN, HttpStatus.BAD_REQUEST);
+                }
+        );
+
         Optional<String> usernameOptional = jwtService.extractUsername(jwtToken);
         if (usernameOptional.isEmpty()) {
             handleInvalidAuth(response, NutritionError.BAD_TOKEN, HttpServletResponse.SC_BAD_REQUEST);

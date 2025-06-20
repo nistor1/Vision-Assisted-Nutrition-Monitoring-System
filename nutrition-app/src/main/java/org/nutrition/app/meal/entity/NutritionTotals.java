@@ -24,5 +24,11 @@ public class NutritionTotals {
     @Builder.Default
     private BigDecimal proteins = BigDecimal.ZERO;
 
+    @Builder.Default
+    private BigDecimal fats = BigDecimal.ZERO;
+
+    @Builder.Default
+    private BigDecimal sugars = BigDecimal.ZERO;
+
 }
 

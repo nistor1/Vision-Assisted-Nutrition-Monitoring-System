@@ -18,6 +18,8 @@ public record MealDTO(
         BigDecimal totalCalories,
         BigDecimal totalProteins,
         BigDecimal totalCarbohydrates,
+        BigDecimal totalFats,
+        BigDecimal totalSugars,
         List<MealEntryDTO> entries
 ) implements Serializable {
 }

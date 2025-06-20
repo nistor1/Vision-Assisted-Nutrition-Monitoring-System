@@ -15,6 +15,7 @@ public record NutritionError(String message) implements Serializable {
     public static final NutritionError USER_UPDATE_FAILED = new NutritionError("Failed to update user");
     public static final NutritionError USER_DELETE_FAILED = new NutritionError("Failed to delete user");
     public static final NutritionError USER_CREATE_FAILED = new NutritionError("Failed to create user");
+    public static final String INVALID_OR_MISSING_USER_ID_IN_TOKEN = "Invalid or missing user ID in token";
 
     // === User Validation ===
     public static final String USERNAME_REQUIRED = "Username is required";
@@ -47,6 +48,6 @@ public record NutritionError(String message) implements Serializable {
 
     // === Meal Errors ===
     public static final String MEAL_NOT_FOUND = "Meal not found";
-
+    public static final String NO_MEALS_FOUND_IN_THE_LAST_WEEK  = "No meals found in the last week";
 }
 

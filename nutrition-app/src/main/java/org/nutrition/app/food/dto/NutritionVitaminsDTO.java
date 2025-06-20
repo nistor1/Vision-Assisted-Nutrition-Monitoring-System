@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public record NutritionVitaminsDTO(
         UUID id,
-        float portionSize,
+        Double portionSize,
         String unit,
         Double vitaminA,
         Double vitaminB1,

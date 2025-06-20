@@ -18,14 +18,21 @@ import org.nutrition.app.meal.entity.Meal;
 import org.nutrition.app.meal.entity.MealEntry;
 import org.nutrition.app.meal.entity.NutritionTotals;
 import org.nutrition.app.meal.repository.MealRepository;
+import org.nutrition.app.meal.service.statistics.StatisticsUtils;
+import org.nutrition.app.security.config.AppContext;
+import org.nutrition.app.user.entity.User;
 import org.nutrition.app.util.Constants.Time;
 import org.nutrition.app.util.Mapper;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +53,11 @@ public class MealService {
 
     private final InferenceClient inferenceClient;
 
-    private final NutritionCalculatorService nutritionCalculatorService;
+    private final StatisticsUtils nutritionUtils;
+
+    private final AppContext appContext;
+
+    private final CacheManager cacheManager;
 
 
     public Optional<List<MealDTO>> findAll() {
@@ -76,15 +87,11 @@ public class MealService {
 
         meal.setEntries(entries);
 
-        NutritionTotals totals = nutritionCalculatorService.calculateTotals(entries);
+        Meal saved = mealRepository.save(setTotals(meal, nutritionUtils.calculateTotals(entries)));
 
-        meal.setTotalCalories(totals.getCalories());
-        meal.setTotalCarbohydrates(totals.getCarbohydrates());
-        meal.setTotalProteins(totals.getProteins());
+        evictDailyStatistics(saved.getUser().getId(), saved.getCreatedAt());
 
-        Meal savedMeal = mealRepository.save(meal);
-
-        return Optional.of(mapMealToDTO(savedMeal));
+        return Optional.of(mapMealToDTO(saved));
     }
 
     @Transactional
@@ -114,12 +121,10 @@ public class MealService {
 
         meal.getEntries().removeIf(e -> !incomingIds.contains(e.getFoodItem().getId()));
 
-        NutritionTotals totals = nutritionCalculatorService.calculateTotals(meal.getEntries());
-        meal.setTotalCalories(totals.getCalories());
-        meal.setTotalCarbohydrates(totals.getCarbohydrates());
-        meal.setTotalProteins(totals.getProteins());
+        Meal saved = mealRepository.save(setTotals(meal, nutritionUtils.calculateTotals(meal.getEntries())));
 
-        Meal saved = mealRepository.save(meal);
+        evictDailyStatistics(saved.getUser().getId(), saved.getCreatedAt());
+
         return Optional.of(mapMealToDTO(saved));
     }
 
@@ -179,21 +184,21 @@ public class MealService {
 
         meal.getEntries().removeIf(e -> !incomingIds.contains(e.getFoodItem().getId()));
 
-        NutritionTotals totals = nutritionCalculatorService.calculateTotals(meal.getEntries());
-        meal.setTotalCalories(totals.getCalories());
-        meal.setTotalCarbohydrates(totals.getCarbohydrates());
-        meal.setTotalProteins(totals.getProteins());
+        Meal saved = mealRepository.save(setTotals(meal, nutritionUtils.calculateTotals(meal.getEntries())));
 
-        Meal saved = mealRepository.save(meal);
+        evictDailyStatistics(saved.getUser().getId(), saved.getCreatedAt());
+
         return Optional.of(mapMealToDTO(saved));
     }
-
 
     @Transactional
     public Optional<MealDTO> deleteById(final UUID id) {
         return mealRepository.findById(id)
                 .map(meal -> {
                     mealRepository.delete(meal);
+
+                    evictDailyStatistics(meal.getUser().getId(), meal.getCreatedAt());
+
                     return mapMealToDTO(meal);
                 });
     }
@@ -204,6 +209,11 @@ public class MealService {
         LocalTime now = LocalTime.now();
         MealType mealType = determineMealType(now);
 
+        User user = new User();
+        user.setId(appContext.getUserId());
+        meal.setUser(user);
+
+        meal.setUser(user);
         meal.setMealType(mealType);
         meal.setName(generateAutomaticMealName(mealType, now));
         meal.setMealStatus(MealStatus.DRAFT);
@@ -243,6 +253,22 @@ public class MealService {
         entry.setFoodItem(foodItem);
         entry.setQuantity(count.doubleValue());
         return entry;
+    }
+
+    private Meal setTotals(Meal meal, NutritionTotals totals) {
+        meal.setTotalCalories(totals.getCalories());
+        meal.setTotalCarbohydrates(totals.getCarbohydrates());
+        meal.setTotalProteins(totals.getProteins());
+        meal.setTotalFats(totals.getFats());
+        meal.setTotalSugars(totals.getSugars());
+
+        return meal;
+    }
+
+    private void evictDailyStatistics(UUID userId, Date createdAt) {
+        LocalDate date = createdAt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        String cacheKey = userId + "_" + date;
+        cacheManager.getCache("dailyStatistics").evict(cacheKey);
     }
 
     public MealDTO mapMealToDTO(final Meal meal) {

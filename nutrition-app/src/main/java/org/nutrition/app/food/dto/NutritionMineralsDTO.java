@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public record NutritionMineralsDTO (
         UUID id,
-        float portionSize,
+        Double portionSize,
         String unit,
         Double calcium,
         Double iron,

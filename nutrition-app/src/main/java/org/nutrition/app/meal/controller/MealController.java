@@ -6,8 +6,12 @@ import org.nutrition.app.exception.NutritionError;
 import org.nutrition.app.meal.dto.MealDTO;
 import org.nutrition.app.meal.dto.request.CreateMealRequest;
 import org.nutrition.app.meal.dto.request.UpdateMealRequest;
+import org.nutrition.app.meal.dto.response.DailyStatisticResponse;
 import org.nutrition.app.meal.service.MealService;
+import org.nutrition.app.meal.service.statistics.StatisticsService;
+import org.nutrition.app.security.config.AppContext;
 import org.nutrition.app.util.response.NutritionResponse;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +38,8 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class MealController {
 
     private final MealService mealService;
+    private final AppContext appContext;
+    private final StatisticsService statisticsService;
 
     @GetMapping
     public NutritionResponse<List<MealDTO>> getMeals() {
@@ -100,5 +107,29 @@ public class MealController {
                         new NutritionError(notFound(MealDTO.class, "id", id)),
                         NOT_FOUND));
     }
+
+    @GetMapping("/statistics/day")
+    public NutritionResponse<DailyStatisticResponse> getStatisticsForDay(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final LocalDate date) {
+        return statisticsService.getStatisticsForDay(appContext.getUserId(), date)
+                .map(NutritionResponse::successResponse)
+                .orElse(NutritionResponse.failureResponse(
+                        new NutritionError(notFound(DailyStatisticResponse.class, "date", date)),
+                        NOT_FOUND));
+    }
+
+    @GetMapping("/statistics/week")
+    public NutritionResponse<List<DailyStatisticResponse>> getStatisticsForWeek() {
+        final List<DailyStatisticResponse> stats = statisticsService.getStatisticsForWeek(appContext.getUserId());
+
+        if (stats.isEmpty()) {
+            return NutritionResponse.failureResponse(
+                    new NutritionError(NutritionError.NO_MEALS_FOUND_IN_THE_LAST_WEEK),
+                    NOT_FOUND);
+        }
+
+        return NutritionResponse.successResponse(stats);
+    }
+
 
 }
