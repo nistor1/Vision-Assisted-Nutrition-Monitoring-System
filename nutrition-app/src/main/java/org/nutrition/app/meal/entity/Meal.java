@@ -1,18 +1,14 @@
 package org.nutrition.app.meal.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +18,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.nutrition.app.meal.constants.MealStatus;
 import org.nutrition.app.meal.constants.MealType;
-import org.nutrition.app.user.entity.User;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -72,10 +67,8 @@ public class Meal {
     @Column
     private BigDecimal totalSugars;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference
-    private User user;
+    @Column(nullable = false)
+    private UUID userId;
 
     @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference

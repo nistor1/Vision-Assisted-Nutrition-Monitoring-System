@@ -22,7 +22,7 @@ import java.util.UUID;
 @Builder(setterPrefix = "with")
 public class MealDTO implements Serializable{
     private UUID id;
-    private UserDTO user;
+    private UUID userId;
     private String name;
     private MealType mealType;
     private MealStatus mealStatus;

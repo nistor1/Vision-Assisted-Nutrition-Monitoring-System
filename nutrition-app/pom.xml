@@ -159,7 +159,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<finalName>identity-service</finalName>
+		<finalName>nutrition-app</finalName>
 	</build>
 
 </project>

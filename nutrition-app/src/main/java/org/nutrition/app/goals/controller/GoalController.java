@@ -41,6 +41,15 @@ public class GoalController {
                         NOT_FOUND));
     }
 
+    @GetMapping("/user/{id}")
+    public NutritionResponse<List<GoalDTO>> getGoalsByUserId(@PathVariable final UUID id) {
+        return goalService.findAllByUserId(id)
+                .map(NutritionResponse::successResponse)
+                .orElse(NutritionResponse.failureResponse(
+                        new NutritionError(notFound(GoalDTO.class, "id", id)),
+                        NOT_FOUND));
+    }
+
     @GetMapping("/{id}")
     public NutritionResponse<GoalDTO> getGoalById(@PathVariable final UUID id) {
         return goalService.findById(id)
