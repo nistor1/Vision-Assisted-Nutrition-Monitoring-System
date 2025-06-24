@@ -34,6 +34,14 @@ public class GoalService {
         return Optional.of(goalRepository.findAll().stream().map(this::mapGoalToDTO).toList());
     }
 
+    public Optional<List<GoalDTO>> findAllByUserId(final UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() ->
+                        new NutritionException(NutritionError.USER_NOT_FOUND.toString(), HttpStatus.NOT_FOUND)
+                );
+        return Optional.of(goalRepository.findAllByUser(user).stream().map(this::mapGoalToDTO).toList());
+    }
+
     public Optional<GoalDTO> findById(final UUID id) {
         return goalRepository.findById(id).map(this::mapGoalToDTO);
     }

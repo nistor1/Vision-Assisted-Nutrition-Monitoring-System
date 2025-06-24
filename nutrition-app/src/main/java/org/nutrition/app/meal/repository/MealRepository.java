@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface MealRepository extends JpaRepository<Meal, UUID>{
 
-    List<Meal> findAllByUser_IdAndCreatedAtBetween(UUID userId, Date start, Date end);
+    List<Meal> findAllByUserIdAndCreatedAtBetween(UUID userId, Date start, Date end);
 
 
 }

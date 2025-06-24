@@ -15,15 +15,12 @@ public record UserDTO(
         String email,
         Timestamp createdAt,
         Role role,
-        Set<UUID> productCategoryIds,
         String fullName,
         String address,
         String city,
         String country,
         String postalCode,
-        String phoneNumber,
-        String profileUrl,
-        String storeAddress
+        String phoneNumber
 ) implements Serializable {
 }
 

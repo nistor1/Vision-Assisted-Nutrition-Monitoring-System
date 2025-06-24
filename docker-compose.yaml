@@ -1,0 +1,53 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: nutrition-db
+    restart: always
+    environment:
+      POSTGRES_DB: nutrition_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-sql:/docker-entrypoint-initdb.d
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@nutrition.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    restart: always
+
+  nutrition-app:
+    build:
+      context: ./nutrition-app
+    container_name: nutrition-app
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/nutrition_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8080:8080"
+    restart: always
+
+  inference-app:
+    build:
+      context: ./inference-app
+    container_name: inference-app
+    depends_on:
+      - nutrition-app
+    ports:
+      - "8000:8000"
+    restart: always
+
+volumes:
+  pgdata:

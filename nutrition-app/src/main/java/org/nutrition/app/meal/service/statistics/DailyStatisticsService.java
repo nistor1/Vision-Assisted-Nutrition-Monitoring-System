@@ -39,7 +39,7 @@ public class DailyStatisticsService {
         Date startOfDay = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date endOfDay = Date.from(date.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        List<Meal> meals = mealRepository.findAllByUser_IdAndCreatedAtBetween(userId, startOfDay, endOfDay);
+        List<Meal> meals = mealRepository.findAllByUserIdAndCreatedAtBetween(userId, startOfDay, endOfDay);
 
         if (meals.isEmpty()) {
             return Optional.empty();
