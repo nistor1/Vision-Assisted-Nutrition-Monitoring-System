@@ -8,6 +8,9 @@ import org.nutrition.app.user.dto.request.CreateUserRequest;
 import org.nutrition.app.user.dto.request.UpdateUserRequest;
 import org.nutrition.app.exception.NutritionError;
 import org.nutrition.app.user.service.UserService;
+import org.nutrition.app.util.response.PageResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.UUID;
 
 import static org.nutrition.app.util.Constants.ReturnMessages.failedToSave;
@@ -35,12 +37,13 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public NutritionResponse<List<UserDTO>> getUsers() {
-        return userService.findAll()
-                .map(NutritionResponse::successResponse)
+    public NutritionResponse<PageResponse<UserDTO>> getUsers(Pageable pageable) {
+        return userService.findAll(pageable)
+                .map(page -> NutritionResponse.successResponse(new PageResponse<>(page)))
                 .orElse(NutritionResponse.failureResponse(
                         new NutritionError(notFound(UserDTO.class)),
-                        NOT_FOUND));
+                        NOT_FOUND
+                ));
     }
 
     @GetMapping("/{id}")

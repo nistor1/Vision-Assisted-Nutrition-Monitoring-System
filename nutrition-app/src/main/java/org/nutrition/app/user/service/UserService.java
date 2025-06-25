@@ -8,6 +8,9 @@ import org.nutrition.app.user.dto.UserDTO;
 import org.nutrition.app.user.entity.User;
 import org.nutrition.app.user.repository.UserRepository;
 import org.nutrition.app.util.Mapper;
+import org.nutrition.app.util.Role;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +18,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,8 +29,8 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Optional<List<UserDTO>> findAll() {
-        return Optional.of(userRepository.findAll().stream().map(this::mapToDTO).toList());
+    public Optional<Page<UserDTO>> findAll(Pageable pageable) {
+        return Optional.of(userRepository.findAll(pageable).map(this::mapToDTO));
     }
 
     public Optional<UserDTO> findById(final UUID id) {
@@ -47,12 +49,14 @@ public class UserService implements UserDetailsService {
     }
 
     public Optional<UserDTO> create(final CreateUserRequest request) {
+        var role = request.getRole() != null ? request.getRole() : Role.USER;
+
         var user = userRepository.save(
                 User.builder()
                         .withUsername(request.getUsername())
                         .withEmail(request.getEmail())
                         .withPassword(passwordEncoder.encode(request.getPassword()))
-                        .withRole(request.getRole())
+                        .withRole(role)
                         .build()
         );
 

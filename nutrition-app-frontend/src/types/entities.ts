@@ -10,11 +10,15 @@ export interface BaseEntity {
   id: string;
 }
 
-export interface  User {
+export interface User {
+  id: string;
   username: string;
   role: UserRole;
   email: string;
   createdAt: string;
+}
+
+export interface  UserDetails extends User {
   fullName: string;
   address: string;
   city: string;
@@ -33,6 +37,23 @@ export interface AuthUser {
 
 export interface AuthContextType {
   user: AuthUser;
-  login: (username: string, roleFromBackend: string, jwtToken: string, id: string) => void;
+  login: (auth: AuthData) => void;
   logout: () => void;
+  isAuthenticated: boolean;
+}
+
+export interface AuthRequest {
+  username: string;
+  password: string;
+}
+
+export interface AuthData {
+  accessToken: string;
+  user: User;
+}
+
+export interface RegisterRequest {
+  username: string;
+  email: string;
+  password: string;
 }

@@ -1,31 +1,30 @@
-import type { User } from '../types/entities.ts';
+import type { User, AuthRequest, AuthData, RegisterRequest } from '../types/entities.ts';
 import type {
   NutritionResponse,
   NutritionResponseBody,
+  PageResponse,
 } from '../types/response.ts';
 
 import { API_CONFIG } from '../utils/constants';
 
 class ApiService {
   private async request<T>(
-    endpoint: string,
-    options: RequestInit = {}
+      endpoint: string,
+      options: RequestInit = {}
   ): Promise<NutritionResponse<T>> {
     const url = `${API_CONFIG.BASE_URL}${endpoint}`;
-    const token = localStorage.getItem('token');
+    const authUser = localStorage.getItem('authUser');
+    const token = authUser ? JSON.parse(authUser).jwtToken : null;
 
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       ...(options.headers as Record<string, string>),
     };
 
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
+    headers['Authorization'] = `Bearer ${token ?? 'hardcoded-token-aici'}`;
 
     const response = await fetch(url, {
       ...options,
-      method: options.method ?? 'GET',
       headers,
     });
 
@@ -35,15 +34,15 @@ class ApiService {
     });
 
     const isJson = response.headers
-      .get('content-type')
-      ?.includes('application/json');
+        .get('content-type')
+        ?.includes('application/json');
 
     const body: NutritionResponseBody<T> = isJson
-      ? await response.json()
-      : {
-        message: response.statusText,
-        status: response.status,
-      };
+        ? await response.json()
+        : {
+          message: response.statusText,
+          status: response.status,
+        };
 
     return {
       body,
@@ -53,10 +52,45 @@ class ApiService {
     };
   }
 
-  async getUsers(): Promise<NutritionResponse<User[]>> {
+  // === USERS ===
+
+  async getUsers(filters :{
+    page?: number;
+    size?: number;
+  }): Promise<NutritionResponse<PageResponse<User>>> {
     console.log('Fetching users...');
-    return this.request<User[]>('/users', { method: 'GET' });
+    const params = new URLSearchParams();
+    params.append('page', (filters.page ?? 0).toString());
+    params.append('size', (filters.size ?? 10).toString());
+    return this.request<PageResponse<User>>(`/users?${params.toString()}`, { method: 'GET' });
   }
+
+  async login(credentials: AuthRequest): Promise<AuthData> {
+    const response = await this.request<AuthData>('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify(credentials),
+    });
+
+    if (response.body.status !== 'OK' || !response.body.payload) {
+      throw new Error(response.body.message || 'Login failed');
+    }
+
+    return response.body.payload;
+  }
+
+  async register(data: RegisterRequest): Promise<AuthData> {
+    const response = await this.request<AuthData>('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+
+    if (response.body.status !== 'OK' || !response.body.payload) {
+      throw new Error(response.body.message || 'Registration failed');
+    }
+
+    return response.body.payload;
+  }
+
 }
 
 export const apiService = new ApiService();

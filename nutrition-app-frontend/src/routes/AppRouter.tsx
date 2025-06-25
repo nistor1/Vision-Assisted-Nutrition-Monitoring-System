@@ -1,8 +1,8 @@
 import {Route, Routes} from "react-router-dom";
 //import NotFoundPage from "../pages/NotFoundPage.tsx";
-//import RegisterPage from "../pages/RegisterPage";
+import RegisterPage from "../pages/RegisterPage";
 import HomePage from '../pages/HomePage';
-//import LoginPage from "../pages/LoginPage.tsx";
+import LoginPage from "../pages/LoginPage.tsx";
 //import ProfilePage from "../pages/ProfilePage.tsx";
 //import ForgotPasswordPage from "../pages/ForgotPasswordPage.tsx";
 //import ResetPasswordPage from "../pages/ResetPasswordPage.tsx";
@@ -10,8 +10,7 @@ import HomePage from '../pages/HomePage';
 //import ContactPage from "../pages/ContactPage.tsx";
 
 /*
-<Route path={ROUTES.REGISTER} element={<RegisterPage/>}/>
-<Route path={ROUTES.LOGIN} element={<LoginPage/>}/>
+
 <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage/>}/>
 <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage/>}/>
 
@@ -29,6 +28,7 @@ export const ROUTES = {
   INDEX: "/",
   HOME: "/home",
   LOGIN: "/login",
+  LOGOUT: "/logout",
   REGISTER: "/register",
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password",
@@ -44,6 +44,9 @@ export default function AppRouter() {
   <Routes>
     <Route path={ROUTES.HOME} element={<HomePage/>}/>
     <Route path={ROUTES.INDEX} element={<HomePage/>}/>
+    <Route path={ROUTES.LOGIN} element={<LoginPage/>}/>
+    <Route path={ROUTES.REGISTER} element={<RegisterPage/>}/>
+
   </Routes>
 );
 }

@@ -19,7 +19,7 @@ const { Header } = Layout;
 export const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { user, logout, isAuthenticated } = useAuth();
 
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -36,27 +36,27 @@ export const Navbar: React.FC = () => {
   }, []);
 
   const handleMenuClick = ({ key }: { key: string }) => {
-    if (key === 'logout') {
+    if (key === ROUTES.LOGOUT) {
       logout();
-      navigate(ROUTES.HOME);
+      navigate(ROUTES.LOGIN);
     } else {
       navigate(key);
     }
     setMobileMenuVisible(false);
   };
 
-  const menuItems = user.logged
+  const menuItems = isAuthenticated
     ? [
       { key: ROUTES.HOME, icon: <HomeOutlined />, label: 'Home' },
       { key: ROUTES.PROFILE.replace(':username', user.username), icon: <UserOutlined />, label: 'Profile' },
       { key: ROUTES.CONTACT, icon: <ContactsOutlined />, label: 'Contact' },
-      { key: 'logout', icon: <LogoutOutlined />, label: '' },
+      { key: ROUTES.LOGOUT, icon: <LogoutOutlined />, label: '' },
     ]
     : [
       { key: ROUTES.HOME, icon: <HomeOutlined />, label: 'Home' },
+      { key: ROUTES.CONTACT, icon: <ContactsOutlined />, label: 'Contact' },
       { key: ROUTES.LOGIN, icon: <LoginOutlined />, label: 'Login' },
       { key: ROUTES.REGISTER, icon: <DoubleRightOutlined />, label: 'Register' },
-      { key: ROUTES.CONTACT, icon: <ContactsOutlined />, label: 'Contact' },
     ];
 
   return (

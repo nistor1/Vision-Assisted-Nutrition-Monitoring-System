@@ -33,6 +33,5 @@ public class CreateUserRequest {
         @Email(message = NutritionError.EMAIL_INVALID)
         private String email;
 
-        @NotNull(message = NutritionError.ROLE_REQUIRED)
         private Role role;
 }
