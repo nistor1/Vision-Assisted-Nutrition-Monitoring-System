@@ -1,4 +1,4 @@
-import type { User, AuthRequest, AuthData, RegisterRequest } from '../types/entities.ts';
+import type {User, AuthRequest, AuthData, RegisterRequest, UserDetails} from '../types/entities.ts';
 import type {
   NutritionResponse,
   NutritionResponseBody,
@@ -63,6 +63,40 @@ class ApiService {
     params.append('page', (filters.page ?? 0).toString());
     params.append('size', (filters.size ?? 10).toString());
     return this.request<PageResponse<User>>(`/users?${params.toString()}`, { method: 'GET' });
+  }
+
+  async deleteUser(id: string): Promise<void> {
+    if (!id?.trim()) {
+      throw new Error('Invalid user ID');
+    }
+
+    await this.request<void>(`/users/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async getUserById(id: string): Promise<NutritionResponse<UserDetails>> {
+    if (!id?.trim()) {
+      throw new Error('Invalid user ID');
+    }
+
+    return this.request<UserDetails>(`/users/${id}`, {
+      method: 'GET',
+    });
+  }
+
+  async createUser(user: Omit<UserDetails, 'id'>): Promise<NutritionResponse<UserDetails>> {
+    return this.request<UserDetails>('/users', {
+      method: 'POST',
+      body: JSON.stringify(user),
+    });
+  }
+
+  async updateUser(data: UserDetails): Promise<NutritionResponse<UserDetails>> {
+    return this.request<UserDetails>(`/users`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
   }
 
   async login(credentials: AuthRequest): Promise<AuthData> {

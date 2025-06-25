@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button, Layout, Typography, Form, Input, Divider, Card, Alert } from 'antd';
 import { GoogleOutlined, AppleOutlined } from '@ant-design/icons';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import type { AuthRequest, AuthData } from '../types/entities';
 import { getRedirectedPath } from '../utils/url';
@@ -26,8 +26,8 @@ export default function LoginPage() {
             const authData: AuthData = await apiService.login(values);
             login(authData);
             navigate(getRedirectedPath(location.search));
-        } catch (err: any) {
-            setError(err?.message || 'Login failed');
+        }catch (err) {
+          setError("Login failed");
         } finally {
             setLoading(false);
         }
@@ -57,6 +57,12 @@ export default function LoginPage() {
 
                         <Form.Item label="Password" name="password" rules={[{ required: true }]}>
                             <Input.Password />
+                        </Form.Item>
+
+                        <Form.Item>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Link to="/forgot-password">Forgot password?</Link>
+                          </div>
                         </Form.Item>
 
                         <Form.Item>

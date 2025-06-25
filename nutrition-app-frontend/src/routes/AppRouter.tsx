@@ -3,6 +3,10 @@ import {Route, Routes} from "react-router-dom";
 import RegisterPage from "../pages/RegisterPage";
 import HomePage from '../pages/HomePage';
 import LoginPage from "../pages/LoginPage.tsx";
+import UsersPage from "../pages/UsersPage.tsx";
+import UserProfilePage from "../pages/UsersProfilePage.tsx";
+import CreateUserPage from "../pages/CreateUserPage.tsx";
+import UpdateUserPage from "../pages/UpdateUserPage.tsx";
 //import ProfilePage from "../pages/ProfilePage.tsx";
 //import ForgotPasswordPage from "../pages/ForgotPasswordPage.tsx";
 //import ResetPasswordPage from "../pages/ResetPasswordPage.tsx";
@@ -36,6 +40,10 @@ export const ROUTES = {
   ABOUT: "/about",
   CONTACT: "/contact",
   ADMIN_ROUTE: "/admin",
+  USERS: "/users",
+  USER_PROFILE: "/users/:id",
+  USER_CREATE: "/users/new",
+  USER_UPDATE: "/users/edit/:id",
   NOT_FOUND: "*"
 } as const;
 
@@ -45,7 +53,12 @@ export default function AppRouter() {
     <Route path={ROUTES.HOME} element={<HomePage/>}/>
     <Route path={ROUTES.INDEX} element={<HomePage/>}/>
     <Route path={ROUTES.LOGIN} element={<LoginPage/>}/>
+    <Route path={ROUTES.ADMIN_ROUTE + ROUTES.USERS} element={<UsersPage />} />
     <Route path={ROUTES.REGISTER} element={<RegisterPage/>}/>
+    <Route path={ROUTES.USER_PROFILE} element={<UserProfilePage />} />
+    <Route path={ROUTES.USER_CREATE} element={<CreateUserPage />} />
+    <Route path={ROUTES.USER_UPDATE} element={<UpdateUserPage />} />
+
 
   </Routes>
 );

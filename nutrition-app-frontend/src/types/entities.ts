@@ -4,7 +4,7 @@ export interface PageResponse<T> {
   totalElements?: number;
 }
 
-export type UserRole = "USER" | "ADMIN"| undefined;
+export type UserRole = "USER" | "ADMIN";
 
 export interface BaseEntity {
   id: string;

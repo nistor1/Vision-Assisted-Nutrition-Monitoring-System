@@ -1,85 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import { Typography, Button, Row, Col, Card, Alert, Spin, List } from 'antd';
+import React from 'react';
+import { Layout, Typography, Button, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { apiService } from '../services/api';
-import type { User } from '../types/entities';
+import { useAuth } from '../context/AuthContext';
 
+const { Content, Footer } = Layout;
 const { Title, Paragraph } = Typography;
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const [users, setUsers] = useState<User[] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-
-    const fetchUsers = async () => {
-      try {
-        const response = await apiService.getUsers({ page: 4, size: 1 });
-
-        console.log('[HomePage] Full response:', response);
-
-        if (
-            response.body.status === 'OK' &&
-            response.body.payload &&
-            Array.isArray(response.body.payload.content)
-        ) {
-          setUsers(response.body.payload.content);
-        } else {
-          console.error('[HomePage] Errors:', response.body.errors);
-          setError('Failed to load users');
-        }
-      } catch (err) {
-        console.error('[HomePage] Exception:', err);
-        setError('Unexpected error');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, []);
-
-
-  // Log users when they are updated
-  useEffect(() => {
-    if (users) {
-      console.log('Fetched users:', users);
-    }
-  }, [users]);
+  const { isAuthenticated, user } = useAuth();
 
   return (
-      <Row justify="center" align="middle" style={{ minHeight: '80vh', padding: '24px' }}>
-        <Col xs={24} sm={20} md={16} lg={12}>
-          <Card style={{ textAlign: 'center' }}>
-            {loading && <Spin />}
-            {error && <Alert type="error" message={error} showIcon style={{ marginBottom: 16 }} />}
+    <Layout>
+      <Content>
+        <div style={{ padding: 24, textAlign: 'center' }}>
+          <Title>Welcome to the Nutrition App</Title>
+          <Paragraph>
+            Track your meals, monitor your daily nutrients, and get smart food recommendations for a healthier life.
+          </Paragraph>
+          <Button type="primary" onClick={() => navigate('/available-food')}>
+            Browse Available Food
+          </Button>
+        </div>
+      </Content>
 
-            <Title>Welcome to Nutrition App</Title>
-            <Paragraph>
-              Track your meals, monitor your daily nutrients, and get smart food recommendations.
-            </Paragraph>
-
-            <Button type="primary" size="large" onClick={() => navigate('/dashboard')}>
-              Go to Dashboard
-            </Button>
-
-            {users && (
-                <List
-                    header={<div>Fetched Users</div>}
-                    bordered
-                    dataSource={users}
-                    renderItem={(user) => (
-                        <List.Item key={user.email}>{user.username}</List.Item>
-                    )}
-                    style={{ marginTop: 24 }}
-                />
+      <Footer>
+        <div style={{textAlign: 'center'}}>
+          <Space direction="vertical">
+            {isAuthenticated && (
+              <>
+                <Button block onClick={() => navigate('/summary')}>View Summary</Button>
+                <Button block onClick={() => navigate('/meals')}>Manage Meals</Button>
+              </>
             )}
-          </Card>
-        </Col>
-      </Row>
-  );
+            {user?.role === 'ADMIN' && (
+              <Button block type="dashed" onClick={() => navigate('/admin/users')}>
+                Manage Users
+              </Button>
+            )}
+          </Space>
+        </div>
+      </Footer>
+    </Layout>
+);
 };
 
 export default HomePage;

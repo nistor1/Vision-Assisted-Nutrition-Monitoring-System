@@ -51,14 +51,20 @@ public class UserService implements UserDetailsService {
     public Optional<UserDTO> create(final CreateUserRequest request) {
         var role = request.getRole() != null ? request.getRole() : Role.USER;
 
-        var user = userRepository.save(
-                User.builder()
-                        .withUsername(request.getUsername())
-                        .withEmail(request.getEmail())
-                        .withPassword(passwordEncoder.encode(request.getPassword()))
-                        .withRole(role)
-                        .build()
-        );
+        var user = User.builder()
+                .withUsername(request.getUsername())
+                .withEmail(request.getEmail())
+                .withPassword(passwordEncoder.encode(request.getPassword()))
+                .withRole(role)
+                .withFullName(request.getFullName())
+                .withPhoneNumber(request.getPhoneNumber())
+                .withAddress(request.getAddress())
+                .withCity(request.getCity())
+                .withPostalCode(request.getPostalCode())
+                .withCountry(request.getCountry())
+                .build();
+
+        user = userRepository.save(user);
 
         return Optional.of(mapToDTO(user));
     }

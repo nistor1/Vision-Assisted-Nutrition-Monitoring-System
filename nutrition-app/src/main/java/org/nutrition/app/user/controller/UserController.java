@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -64,7 +65,7 @@ public class UserController {
                         BAD_REQUEST));
     }
 
-    @PutMapping
+    @PatchMapping
     public NutritionResponse<UserDTO> update(@RequestBody @Valid final UpdateUserRequest request) {
         return userService.update(request)
                 .map(NutritionResponse::successResponse)
@@ -72,7 +73,6 @@ public class UserController {
                         new NutritionError(notFound(UserDTO.class, "id", request.getId())),
                         NOT_FOUND));
     }
-
 
     @DeleteMapping("/{id}")
     public NutritionResponse<UserDTO> deleteUserById(@PathVariable final UUID id) {

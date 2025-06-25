@@ -48,7 +48,7 @@ export const Navbar: React.FC = () => {
   const menuItems = isAuthenticated
     ? [
       { key: ROUTES.HOME, icon: <HomeOutlined />, label: 'Home' },
-      { key: ROUTES.PROFILE.replace(':username', user.username), icon: <UserOutlined />, label: 'Profile' },
+      { key: `${ROUTES.USERS}/${user.id}`, icon: <UserOutlined />, label: 'Profile' },
       { key: ROUTES.CONTACT, icon: <ContactsOutlined />, label: 'Contact' },
       { key: ROUTES.LOGOUT, icon: <LogoutOutlined />, label: '' },
     ]
