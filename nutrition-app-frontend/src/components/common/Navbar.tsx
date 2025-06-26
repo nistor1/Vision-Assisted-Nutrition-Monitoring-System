@@ -19,7 +19,7 @@ const { Header } = Layout;
 export const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout, isAuthenticated } = useAuth();
+  const { logout, isAuthenticated } = useAuth();
 
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -48,7 +48,7 @@ export const Navbar: React.FC = () => {
   const menuItems = isAuthenticated
     ? [
       { key: ROUTES.HOME, icon: <HomeOutlined />, label: 'Home' },
-      { key: `${ROUTES.USERS}/${user.id}`, icon: <UserOutlined />, label: 'Profile' },
+      { key: ROUTES.USER_PERSONAL_PROFILE, icon: <UserOutlined />, label: 'Profile' },
       { key: ROUTES.CONTACT, icon: <ContactsOutlined />, label: 'Contact' },
       { key: ROUTES.LOGOUT, icon: <LogoutOutlined />, label: '' },
     ]

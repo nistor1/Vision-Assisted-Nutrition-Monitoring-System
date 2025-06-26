@@ -2,6 +2,7 @@ package org.nutrition.app.user.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.nutrition.app.security.config.AppContext;
 import org.nutrition.app.util.response.NutritionResponse;
 import org.nutrition.app.user.dto.UserDTO;
 import org.nutrition.app.user.dto.request.CreateUserRequest;
@@ -9,7 +10,6 @@ import org.nutrition.app.user.dto.request.UpdateUserRequest;
 import org.nutrition.app.exception.NutritionError;
 import org.nutrition.app.user.service.UserService;
 import org.nutrition.app.util.response.PageResponse;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
@@ -36,10 +36,13 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class UserController {
 
     private final UserService userService;
+    private final AppContext appContext;
 
     @GetMapping
-    public NutritionResponse<PageResponse<UserDTO>> getUsers(Pageable pageable) {
-        return userService.findAll(pageable)
+    public NutritionResponse<PageResponse<UserDTO>> getUsers(
+            @RequestParam(required = false) String search,
+            Pageable pageable) {
+        return userService.findAll(search, pageable)
                 .map(page -> NutritionResponse.successResponse(new PageResponse<>(page)))
                 .orElse(NutritionResponse.failureResponse(
                         new NutritionError(notFound(UserDTO.class)),
@@ -53,6 +56,15 @@ public class UserController {
                 .map(NutritionResponse::successResponse)
                 .orElse(NutritionResponse.failureResponse(
                         new NutritionError(notFound(UserDTO.class, "id", id)),
+                        NOT_FOUND));
+    }
+
+    @GetMapping("/personal")
+    public NutritionResponse<UserDTO> getUserPersonal() {
+        return userService.findById(appContext.getUserId())
+                .map(NutritionResponse::successResponse)
+                .orElse(NutritionResponse.failureResponse(
+                        new NutritionError(notFound(UserDTO.class, "id", appContext.getUserId())),
                         NOT_FOUND));
     }
 

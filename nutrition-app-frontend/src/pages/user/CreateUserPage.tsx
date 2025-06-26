@@ -1,10 +1,10 @@
 import React from 'react';
 import { Card, message } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
-import type { UserDetails } from '../types/entities';
-import { apiService } from '../services/api';
-import UserForm from "../components/user/UserForm";
-import { getRedirectedPath } from '../utils/url';
+import type { UserDetails } from '../../types/UserEntities.ts';
+import { apiService } from '../../services/api.ts';
+import UserForm from "../../components/user/UserForm.tsx";
+import { getRedirectedPath } from '../../utils/url.ts';
 
 const CreateUserPage: React.FC = () => {
   const navigate = useNavigate();

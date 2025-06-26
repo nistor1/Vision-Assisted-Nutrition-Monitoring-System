@@ -16,6 +16,7 @@ spring:
   jwt:
     secret-key: dW4tc2VjcmV0LWFsZWF0b3ItY29tcGxleC1kZS1taW5pbS0yNTYtYml0cw==
     token-expiration-days: 1
+
   mail:
     host: localhost
     port: 1025

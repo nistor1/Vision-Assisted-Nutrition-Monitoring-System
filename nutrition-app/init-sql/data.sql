@@ -291,7 +291,7 @@ INSERT INTO food_item (
     created_at, updated_at, active,
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
-             '1da71bb6-6737-42ec-99a7-010965000034', 5, 'Bread', 'Baked Products',
+             '1da71bb6-6737-42ec-99a7-010965000034', 5, 'Bread', 'Other',
              'https://example.com/images/bread.jpg', 500.0, 'g',
              '2025-06-18T15:00:00.000+00:00', '2025-06-18T15:00:00.000+00:00', TRUE,
              '1da71bb6-6737-42ec-99a7-010965000030', '1da71bb6-6737-42ec-99a7-010965000031',
@@ -962,7 +962,7 @@ INSERT INTO food_item (
     created_at, updated_at, active,
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
-             'ea2dfb7e-e5f0-4e90-a0aa-010965000098', 12, 'Egg', 'Protein',
+             'ea2dfb7e-e5f0-4e90-a0aa-010965000098', 12, 'Egg', 'Other',
              'https://example.com/images/egg.jpg', 60.0, 'g',
              '2025-06-18T17:00:00.000+00:00', '2025-06-18T17:00:00.000+00:00', TRUE,
              'ea2dfb7e-e5f0-4e90-a0aa-010965000094', 'ea2dfb7e-e5f0-4e90-a0aa-010965000095',
@@ -1254,7 +1254,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id,
     nutrition_vitamins_id
 ) VALUES (
-             'fb3c2f66-e1d4-5f3c-9e13-121076001135', 15, 'Ginger', 'Root',
+             'fb3c2f66-e1d4-5f3c-9e13-121076001135', 15, 'Ginger', 'Other',
              'https://example.com/images/ginger.jpg', 30.0, 'g',
              '2025-06-18T17:45:00.000+00:00', '2025-06-18T17:45:00.000+00:00', TRUE,
              'fb3c2f66-e1d4-5f3c-9e13-121076001130', 'fb3c2f66-e1d4-5f3c-9e13-121076001131',

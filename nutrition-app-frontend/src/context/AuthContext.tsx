@@ -1,10 +1,10 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
-import type { AuthContextType, AuthUser, AuthData } from '../types/entities.ts';
+import type { AuthContextType, AuthUser, AuthData } from '../types/UserEntities.ts';
 
 const defaultUser: AuthUser = {
   logged: false,
   username: '',
-  role: undefined,
+  role: 'USER',
   jwtToken: '',
   id: '',
 };

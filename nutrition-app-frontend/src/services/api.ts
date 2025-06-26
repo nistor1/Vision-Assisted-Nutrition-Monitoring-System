@@ -1,4 +1,4 @@
-import type {User, AuthRequest, AuthData, RegisterRequest, UserDetails} from '../types/entities.ts';
+import type {User, AuthRequest, AuthData, RegisterRequest, UserDetails} from '../types/UserEntities.ts';
 import type {
   NutritionResponse,
   NutritionResponseBody,
@@ -6,6 +6,7 @@ import type {
 } from '../types/response.ts';
 
 import { API_CONFIG } from '../utils/constants';
+import type {FoodItem, FoodItemSimple} from "../types/FoodEntities.ts";
 
 class ApiService {
   private async request<T>(
@@ -21,7 +22,7 @@ class ApiService {
       ...(options.headers as Record<string, string>),
     };
 
-    headers['Authorization'] = `Bearer ${token ?? 'hardcoded-token-aici'}`;
+    headers['Authorization'] = `Bearer ${token ?? ''}`;
 
     const response = await fetch(url, {
       ...options,
@@ -57,11 +58,15 @@ class ApiService {
   async getUsers(filters :{
     page?: number;
     size?: number;
+    role?: string;
   }): Promise<NutritionResponse<PageResponse<User>>> {
     console.log('Fetching users...');
     const params = new URLSearchParams();
     params.append('page', (filters.page ?? 0).toString());
-    params.append('size', (filters.size ?? 10).toString());
+    params.append('size', (filters.size ?? 5).toString());
+    if (filters.role) {
+      params.append('search', filters.role);
+    }
     return this.request<PageResponse<User>>(`/users?${params.toString()}`, { method: 'GET' });
   }
 
@@ -81,6 +86,12 @@ class ApiService {
     }
 
     return this.request<UserDetails>(`/users/${id}`, {
+      method: 'GET',
+    });
+  }
+
+  async getUserPersonal(): Promise<NutritionResponse<UserDetails>> {
+    return this.request<UserDetails>(`/users/personal`, {
       method: 'GET',
     });
   }
@@ -123,6 +134,56 @@ class ApiService {
     }
 
     return response.body.payload;
+  }
+
+  // === FOOD ITEMS ===
+
+  async getFoodItems(filters: {
+    page?: number;
+    size?: number;
+    category?: string;
+  }): Promise<NutritionResponse<PageResponse<FoodItemSimple>>> {
+    const params = new URLSearchParams();
+    params.append('page', (filters.page ?? 0).toString());
+    params.append('size', (filters.size ?? 10).toString());
+    if (filters.category) {
+      params.append('search', filters.category);
+    }
+    return this.request(`/food-items?${params.toString()}`, { method: 'GET' });
+  }
+
+  async getFoodItemById(id: string): Promise<NutritionResponse<FoodItem>> {
+    if (!id?.trim()) {
+      throw new Error('Invalid food item ID');
+    }
+
+    return this.request<FoodItem>(`/food-items/${id}`, {
+      method: 'GET',
+    });
+  }
+
+  async deleteFoodItem(id: string): Promise<void> {
+    if (!id?.trim()) {
+      throw new Error('Invalid food item ID');
+    }
+
+    await this.request<void>(`/food-items/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async createFoodItem(user: Omit<FoodItem, 'id'>): Promise<NutritionResponse<FoodItem>> {
+    return this.request<FoodItem>('/food-items', {
+      method: 'POST',
+      body: JSON.stringify(user),
+    });
+  }
+
+  async updateFoodItem(data: FoodItem): Promise<NutritionResponse<FoodItem>> {
+    return this.request<FoodItem>(`/food-items`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
   }
 
 }

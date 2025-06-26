@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import UserProfile from '../components/user/UserProfile.tsx';
+import UserProfile from '../../components/user/UserProfile.tsx';
 
 const UserProfilePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();

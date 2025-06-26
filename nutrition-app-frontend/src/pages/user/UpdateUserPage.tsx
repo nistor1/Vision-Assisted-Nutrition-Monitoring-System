@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { message, Card, Spin, Alert } from 'antd';
-import type { UserDetails } from '../types/entities';
-import { apiService } from '../services/api';
-import UserForm from '../components/user/UserForm';
-import { getRedirectedPath } from '../utils/url';
+import type { UserDetails } from '../../types/UserEntities.ts';
+import { apiService } from '../../services/api.ts';
+import UserForm from '../../components/user/UserForm.tsx';
+import { getRedirectedPath } from '../../utils/url.ts';
 
 const UpdateUserPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();

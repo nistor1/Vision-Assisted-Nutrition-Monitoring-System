@@ -29,9 +29,20 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Optional<Page<UserDTO>> findAll(Pageable pageable) {
-        return Optional.of(userRepository.findAll(pageable).map(this::mapToDTO));
+    public Optional<Page<UserDTO>> findAll(String search, Pageable pageable) {
+        Page<User> users;
+
+        if ("ADMIN".equalsIgnoreCase(search)) {
+            users = userRepository.findByRole(Role.ADMIN, pageable);
+        } else if ("USER".equalsIgnoreCase(search)) {
+            users = userRepository.findByRole(Role.USER, pageable);
+        } else {
+            users = userRepository.findAll(pageable);
+        }
+
+        return Optional.of(users.map(this::mapToDTO));
     }
+
 
     public Optional<UserDTO> findById(final UUID id) {
         return userRepository.findById(id).map(this::mapToDTO);

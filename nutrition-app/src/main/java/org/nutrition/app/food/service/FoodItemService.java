@@ -17,8 +17,13 @@ import org.nutrition.app.food.entity.NutritionMinerals;
 import org.nutrition.app.food.entity.NutritionProximates;
 import org.nutrition.app.food.entity.NutritionVitamins;
 import org.nutrition.app.food.repository.FoodItemRepository;
+import org.nutrition.app.user.dto.UserDTO;
+import org.nutrition.app.user.entity.User;
 import org.nutrition.app.util.Constants.Time;
 import org.nutrition.app.util.Mapper;
+import org.nutrition.app.util.Role;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,12 +37,28 @@ public class FoodItemService {
 
     private final FoodItemRepository foodItemRepository;
 
-    public Optional<List<FoodItemDTO>> findAll() {
-        return Optional.of(foodItemRepository.findAll().stream().map(this::mapFoodItemToDTO).toList());
+    public Optional<Page<FoodItemDTO>> findAll(String search, Pageable pageable) {
+        Page<FoodItem> foodItems;
+
+        if (search != null && !search.trim().isEmpty()) {
+            foodItems = foodItemRepository.findByCategory(search, pageable);
+        } else {
+            foodItems = foodItemRepository.findAll(pageable);
+        }
+
+        return Optional.of(foodItems.map(this::mapFoodItemToDTO));
     }
 
-    public Optional<List<FoodItemSimpleDTO>> findAllSimple() {
-        return Optional.of(foodItemRepository.findAll().stream().map(this::mapFoodItemToSimpleDTO).toList());
+    public Optional<Page<FoodItemSimpleDTO>> findAllSimple(String search, Pageable pageable) {
+        Page<FoodItem> foodItems;
+
+        if (search != null && !search.trim().isEmpty()) {
+            foodItems = foodItemRepository.findByCategory(search, pageable);
+        } else {
+            foodItems = foodItemRepository.findAll(pageable);
+        }
+
+        return Optional.of(foodItems.map(this::mapFoodItemToSimpleDTO));
     }
 
     public Optional<FoodItemDTO> findById(final UUID id) {
@@ -79,6 +100,7 @@ public class FoodItemService {
         return foodItemRepository.findById(request.getId())
                 .map(foodItem -> {
                     Mapper.updateValues(foodItem, request);
+                    foodItem.setUpdatedAt(Time.now());
 
                     foodItemRepository.save(foodItem);
 

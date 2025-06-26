@@ -2,6 +2,7 @@ package org.nutrition.app.user.repository;
 
 import jakarta.transaction.Transactional;
 import org.nutrition.app.user.entity.User;
+import org.nutrition.app.util.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,9 @@ import java.util.UUID;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
+
+    @NonNull
+    Page<User> findByRole(@NonNull final Role role, @NonNull final Pageable pageable);
 
     @NonNull
     Page<User> findAll(@NonNull final Pageable pageable);

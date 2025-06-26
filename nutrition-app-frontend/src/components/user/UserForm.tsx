@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Form, Input, Button, Card, Select } from 'antd';
-import type { UserDetails } from '../../types/entities';
+import type { UserDetails } from '../../types/UserEntities.ts';
 
 const { Option } = Select;
 
@@ -30,46 +30,52 @@ const UserForm: React.FC<UserFormProps> = ({ initialValues, onSubmit, onCancel, 
   };
 
   return (
-    <Card title={initialValues ? 'Edit User' : 'Create User'} style={{ maxWidth: 700, margin: '0 auto' }}>
+    <Card>
+      <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+        <h2>General Info</h2>
+        <Button onClick={onCancel} type="default">
+          Cancel
+        </Button>
+      </div>
+
       <Form layout="vertical" form={form} onFinish={handleFinish}>
-        <Form.Item name="username" label="Username" rules={[{ required: true }]}>
-          <Input />
+        <Form.Item name="username" label="Username" rules={[{required: true}]}>
+          <Input/>
         </Form.Item>
-        <Form.Item name="email" label="Email" rules={[{ required: true, type: 'email' }]}>
-          <Input />
+        <Form.Item name="email" label="Email" rules={[{required: true, type: 'email'}]}>
+          <Input/>
         </Form.Item>
         {!initialValues?.id && (
-          <Form.Item name="password" label="Password" rules={[{ required: true, min: 6 }]}>
-            <Input.Password />
+          <Form.Item name="password" label="Password" rules={[{required: true, min: 6}]}>
+            <Input.Password/>
           </Form.Item>
         )}
         <Form.Item name="fullName" label="Full Name">
-          <Input />
+          <Input/>
         </Form.Item>
         <Form.Item name="phoneNumber" label="Phone Number">
-          <Input />
+          <Input/>
         </Form.Item>
         <Form.Item name="address" label="Address">
-          <Input />
+          <Input/>
         </Form.Item>
         <Form.Item name="city" label="City">
-          <Input />
+          <Input/>
         </Form.Item>
         <Form.Item name="postalCode" label="Postal Code">
-          <Input />
+          <Input/>
         </Form.Item>
         <Form.Item name="country" label="Country">
-          <Input />
+          <Input/>
         </Form.Item>
-        <Form.Item name="role" label="Role" rules={[{ required: true }]}>
+        <Form.Item name="role" label="Role" rules={[{required: true}]}>
           <Select placeholder="Select role">
             <Option value="USER">USER</Option>
             <Option value="ADMIN">ADMIN</Option>
           </Select>
         </Form.Item>
         <Form.Item>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-            <Button onClick={onCancel}>Cancel</Button>
+          <div style={{display: 'flex', justifyContent: 'flex-end'}}>
             <Button type="primary" htmlType="submit" loading={loading}>
               {initialValues ? 'Update' : 'Create'}
             </Button>

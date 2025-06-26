@@ -18,7 +18,7 @@ const HomePage: React.FC = () => {
           <Paragraph>
             Track your meals, monitor your daily nutrients, and get smart food recommendations for a healthier life.
           </Paragraph>
-          <Button type="primary" onClick={() => navigate('/available-food')}>
+          <Button type="primary" onClick={() => navigate('/food-items')}>
             Browse Available Food
           </Button>
         </div>

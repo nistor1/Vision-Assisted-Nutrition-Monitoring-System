@@ -1,16 +1,23 @@
 import React from 'react';
 import { Table, Button, Space, Tag } from 'antd';
-import type { User } from '../../types/entities';
+import type { User } from '../../types/UserEntities.ts';
 import dayjs from 'dayjs';
+import type { TablePaginationConfig } from 'antd/es/table';
 
 interface UsersTableProps {
   data: User[];
   onView: (id: string) => void;
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
+  pagination: {
+    current: number;
+    pageSize: number;
+    total: number;
+  };
+  onChange: (pagination: TablePaginationConfig) => void;
 }
 
-const UsersTable: React.FC<UsersTableProps> = ({ data, onView, onEdit, onDelete }) => {
+const UsersTable: React.FC<UsersTableProps> = ({ data, onView, onEdit, onDelete, pagination, onChange }) => {
   const columns = [
     {
       title: 'Username',
@@ -53,10 +60,13 @@ const UsersTable: React.FC<UsersTableProps> = ({ data, onView, onEdit, onDelete 
       columns={columns}
       rowKey="id"
       pagination={{
+        current: pagination.current,
+        pageSize: pagination.pageSize,
+        total: pagination.total,
         showSizeChanger: true,
         pageSizeOptions: ['5', '10', '20', '30'],
-        defaultPageSize: 5,
       }}
+      onChange={(pagination) => onChange(pagination)}
     />
   );
 };

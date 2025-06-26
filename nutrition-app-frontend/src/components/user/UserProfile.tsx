@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Descriptions, Card, Spin, Alert, Button } from 'antd';
 import dayjs from 'dayjs';
-import type { UserDetails } from '../../types/entities.ts';
+import type { UserDetails } from '../../types/UserEntities.ts';
 import { apiService } from '../../services/api.ts';
 
 interface UserProfileProps {
-  userId: string;
+  userId?: string;
   onClose: () => void;
 }
 
@@ -19,8 +19,13 @@ const UserProfile: React.FC<UserProfileProps> = ({ userId, onClose }) => {
       setLoading(true);
       setError(null);
       try {
-        const data = await apiService.getUserById(userId);
-        setUser(data.body.payload ?? null);
+        if(userId === undefined || userId === null) {
+          const data = await apiService.getUserPersonal();
+          setUser(data.body.payload ?? null);
+        } else {
+          const data = await apiService.getUserById(userId);
+          setUser(data.body.payload ?? null);
+        }
       } catch (err) {
         setError('Failed to load user details');
         console.error(err);

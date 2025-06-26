@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotNull;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -52,25 +51,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @SneakyThrows
     @Override
     protected void doFilterInternal(
-            final @NonNull HttpServletRequest request,
-            final @NonNull HttpServletResponse response,
-            final @NonNull FilterChain filterChain) {
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain) {
 
         log.info("[AuthFilter] {} {}", request.getMethod(), request.getRequestURI());
+
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (!isValidHeader(authHeader)) {
-            handleInvalidAuth(response, NutritionError.BAD_TOKEN, HttpServletResponse.SC_BAD_REQUEST);
+            filterChain.doFilter(request, response);
             return;
         }
 
         String jwtToken = getJwtFromHeader(authHeader);
-        appContext.setToken(jwtToken);
-        jwtService.extractUserId(jwtToken).ifPresentOrElse(
-                appContext::setUserId,
-                () -> {
-                    throw new NutritionException(NutritionError.INVALID_OR_MISSING_USER_ID_IN_TOKEN, HttpStatus.BAD_REQUEST);
-                }
-        );
 
         Optional<String> usernameOptional = jwtService.extractUsername(jwtToken);
         if (usernameOptional.isEmpty()) {
@@ -79,9 +72,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String username = usernameOptional.get();
+
         try {
             User user = usersService.loadUserByUsername(username);
-            if (!isAuthenticated(username) && jwtService.isValidToken(jwtToken, user.getId(), user.getUsername(), user.getRole())) {
+            if (!isAuthenticated(username) &&
+                    jwtService.isValidToken(jwtToken, user.getId(), user.getUsername(), user.getRole())) {
+
+                appContext.setToken(jwtToken);
+                jwtService.extractUserId(jwtToken).ifPresent(appContext::setUserId);
                 authenticate(user, request);
             } else {
                 handleInvalidAuth(response, NutritionError.BAD_TOKEN, HttpServletResponse.SC_UNAUTHORIZED);
@@ -130,7 +128,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected boolean shouldNotFilter(@NotNull final HttpServletRequest request) {
+    protected boolean shouldNotFilter(@NonNull final HttpServletRequest request) {
         return whitelistedPaths.stream()
                 .map(pathPatternParser::parse)
                 .anyMatch(pattern -> pattern.matches(PathContainer.parsePath(request.getRequestURI())));
