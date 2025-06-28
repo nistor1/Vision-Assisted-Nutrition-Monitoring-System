@@ -4,7 +4,7 @@ spring:
   jackson:
       time-zone: Europe/Bucharest
   datasource:
-    url: jdbc:postgresql://localhost:5432/nutrition_db
+    url: jdbc:postgresql://postgres:5433/nutrition_db
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver

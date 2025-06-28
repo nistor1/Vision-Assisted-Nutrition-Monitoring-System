@@ -25,7 +25,7 @@ const FoodPage: React.FC = () => {
     setLoading(true);
     try {
       console.log('Fetching food items with params:', { page, size, category });
-      const response = await apiService.getFoodItems({ page, size, category });
+      const response = await apiService.getFoodItemsSimple({ page, size, category });
       const payload = response.body.payload;
       console.log('Fetched food items: ', payload);
       setFoods(payload?.content || []);

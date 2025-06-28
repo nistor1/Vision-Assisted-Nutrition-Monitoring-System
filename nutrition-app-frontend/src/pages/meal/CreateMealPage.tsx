@@ -33,7 +33,7 @@ const CreateMealPage: React.FC = () => {
 
     return (
         <Card title="Create New Meal" style={{ maxWidth: 1000, margin: '0 auto' }}>
-            <MealForm onSubmitSuccess={handleSubmit} onCancel={handleCancel} />
+            <MealForm onSubmit={handleSubmit} onCancel={handleCancel} />
         </Card>
     );
 };

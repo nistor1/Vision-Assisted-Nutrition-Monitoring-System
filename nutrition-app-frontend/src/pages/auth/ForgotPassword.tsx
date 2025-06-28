@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Form, Input, Button, message } from 'antd';
-import { apiService } from '../../services/api.ts'; // Asigură-te că există acest fișier
+import { useNavigate } from 'react-router-dom';
+import { apiService } from '../../services/api.ts';
 import { useAuth } from '../../context/AuthContext.tsx';
 
 const ForgotPassword: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const { logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     logout();
@@ -17,6 +19,7 @@ const ForgotPassword: React.FC = () => {
       const response = await apiService.forgotPassword(values.email);
       if (response.body?.status === 'OK') {
         message.success('Email sent successfully');
+        navigate('/login');
       } else {
         const errors = (response.body?.errors as { message: string }[] | undefined)
           ?.map((e) => e.message)

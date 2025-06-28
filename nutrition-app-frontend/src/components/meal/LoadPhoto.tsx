@@ -1,30 +1,58 @@
 import React, { useState } from 'react';
 import { Upload, Button, Image } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined, CloseOutlined } from '@ant-design/icons';
 
-const ImageUploader: React.FC = () => {
+const { Dragger } = Upload;
+
+interface ImageUploaderProps {
+  onCancel: () => void;
+  onImageSelected: (file: File) => void;
+}
+
+const ImageUploader: React.FC<ImageUploaderProps> = ({ onCancel, onImageSelected }) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  const handleImageChange = (file: File) => {
+  const handleBeforeUpload = (file: File) => {
     const url = URL.createObjectURL(file);
     setImageUrl(url);
+    onImageSelected(file);
+    return false;
   };
 
   return (
-    <div style={{ textAlign: 'center' }}>
-      <Upload
-        beforeUpload={(file) => {
-          handleImageChange(file);
-          return false;
+    <div style={{ position: 'relative', maxWidth: 600, margin: '0 auto' }}>
+      {/* Cancel button top-right */}
+      <Button
+        icon={<CloseOutlined />}
+        onClick={onCancel}
+        type="text"
+        style={{
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          zIndex: 2,
         }}
+      />
+
+      <Dragger
+        beforeUpload={handleBeforeUpload}
         showUploadList={false}
         accept="image/*"
+        style={{
+          padding: 20,
+          borderRadius: 8,
+          background: '#fafafa',
+          border: '1px dashed #d9d9d9',
+        }}
       >
-        <Button icon={<UploadOutlined />}>Select Image</Button>
-      </Upload>
+        <p className="ant-upload-drag-icon">
+          <UploadOutlined />
+        </p>
+        <p className="ant-upload-text">Click or drag an image</p>
+      </Dragger>
 
       {imageUrl && (
-        <div style={{ marginTop: 16 }}>
+        <div style={{ marginTop: 24, textAlign: 'center' }}>
           <Image
             src={imageUrl}
             alt="Preview"

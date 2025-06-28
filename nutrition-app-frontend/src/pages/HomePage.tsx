@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout, Typography, Button, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext.tsx';
+import { useAuth } from '../context/AuthContext.tsx';
 
 const { Content, Footer } = Layout;
 const { Title, Paragraph } = Typography;

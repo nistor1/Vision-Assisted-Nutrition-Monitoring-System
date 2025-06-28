@@ -3,7 +3,6 @@ import { Layout, Menu, Button, Drawer } from 'antd';
 import {
   HomeOutlined,
   DoubleRightOutlined,
-  ContactsOutlined,
   MenuOutlined,
   CloseOutlined,
   UserOutlined,
@@ -49,12 +48,10 @@ export const Navbar: React.FC = () => {
     ? [
       { key: ROUTES.HOME, icon: <HomeOutlined />, label: 'Home' },
       { key: ROUTES.USER_PERSONAL_PROFILE, icon: <UserOutlined />, label: 'Profile' },
-      { key: ROUTES.CONTACT, icon: <ContactsOutlined />, label: 'Contact' },
       { key: ROUTES.LOGOUT, icon: <LogoutOutlined />, label: '' },
     ]
     : [
       { key: ROUTES.HOME, icon: <HomeOutlined />, label: 'Home' },
-      { key: ROUTES.CONTACT, icon: <ContactsOutlined />, label: 'Contact' },
       { key: ROUTES.LOGIN, icon: <LoginOutlined />, label: 'Login' },
       { key: ROUTES.REGISTER, icon: <DoubleRightOutlined />, label: 'Register' },
     ];

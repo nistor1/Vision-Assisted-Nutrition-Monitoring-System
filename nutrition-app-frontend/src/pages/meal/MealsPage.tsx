@@ -12,7 +12,7 @@ import type { TablePaginationConfig } from 'antd/es/table';
 import type { Meal } from '../../types/MealEntities';
 import { apiService } from '../../services/api';
 import MealTable from '../../components/meal/MealTable';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 
 const { Title } = Typography;
 
@@ -28,14 +28,14 @@ const MealsPage: React.FC = () => {
   const fetchMeals = async (page = 0, size = 5, date?: string) => {
     setLoading(true);
     try {
-      //const response = await apiService.getMealsByUser(undefined, page, size, date);
-      //const payload = response.body.payload;
-      //setMeals(payload?.content || []);
-      //setPagination({
-      //  current: page + 1,
-      / / pageSize: size,
-      //  total: payload?.totalElements || 0,
-     // });
+      const response = await apiService.getMealsForUser({page, size, date});
+      const payload = response.body.payload;
+      setMeals(payload?.content || []);
+      setPagination({
+        current: page + 1,
+       pageSize: size,
+        total: payload?.totalElements || 0,
+      });
     } catch (err) {
       message.error('Failed to fetch meals');
     } finally {
@@ -48,12 +48,13 @@ const MealsPage: React.FC = () => {
     fetchMeals(pagination.current - 1, pagination.pageSize, isoDate);
   }, [pagination.current, pagination.pageSize, selectedDate]);
 
-  const handleAdd = () => navigate('/meals/new?redirect=' + location.pathname);
+  const handleAddFromForm = () => navigate('/meals/new/request?redirect=' + location.pathname);
+  const handleAdd = () => navigate('/meals/new/?redirect=' + location.pathname);
   const handleView = (id: string) => navigate(`/meals/${id}`);
   const handleEdit = (id: string) => navigate(`/meals/edit/${id}?redirect=` + location.pathname);
   const handleDelete = async (id: string) => {
     try {
-     // await apiService.deleteMeal(id);
+      await apiService.deleteMeal(id);
       message.success('Meal deleted');
       const isoDate = selectedDate?.format('YYYY-MM-DD') ?? undefined;
       fetchMeals(pagination.current - 1, pagination.pageSize, isoDate);
@@ -82,7 +83,10 @@ const MealsPage: React.FC = () => {
       >
         <Space style={{ justifyContent: 'space-between', width: '100%' }}>
           <Title level={2}>Meals</Title>
-          <Button type="primary" onClick={handleAdd}>Add Meal</Button>
+          <div>
+            <Button type="primary" onClick={handleAdd}  style={{ marginRight: '8px' }}>Add Meal</Button>
+            <Button onClick={handleAddFromForm}>Add Meal Form</Button>
+          </div>
         </Space>
 
         <Space>
