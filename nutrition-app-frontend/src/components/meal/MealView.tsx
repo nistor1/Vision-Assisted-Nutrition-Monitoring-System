@@ -1,16 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import {
-  Descriptions,
-  Card,
-  Spin,
-  Alert,
-  Button,
-  List,
-  Avatar,
-  Divider,
-  Tag
-} from 'antd';
+import { Descriptions, Card, Spin, Alert, Button, List, Avatar, Divider, Tag } from 'antd';
 import dayjs from 'dayjs';
 import type { Meal } from '../../types/MealEntities';
 import { apiService } from '../../services/api';

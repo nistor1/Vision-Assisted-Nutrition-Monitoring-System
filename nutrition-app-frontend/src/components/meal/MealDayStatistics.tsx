@@ -9,8 +9,6 @@ interface DailyStatisticViewProps {
   editable?: boolean;
 }
 
-
-
 const getColor = (value: number, goal?: number): string | undefined => {
   if (goal === undefined || goal === null || goal === 0) return undefined;
   const lower = goal - goal * 0.2;

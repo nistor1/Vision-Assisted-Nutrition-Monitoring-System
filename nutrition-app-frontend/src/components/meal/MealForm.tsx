@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Card, Form, Input, Button, Select, Divider, Space, InputNumber, message
-} from 'antd';
+import { Card, Form, Input, Button, Select, Divider, Space, InputNumber, message } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import type {
   CreateMealRequest,

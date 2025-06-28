@@ -1,14 +1,4 @@
-export interface PageResponse<T> {
-  content: T[];
-  totalPages?: number;
-  totalElements?: number;
-}
-
 export type UserRole = "USER" | "ADMIN";
-
-export interface BaseEntity {
-  id: string;
-}
 
 export interface User {
   id: string;

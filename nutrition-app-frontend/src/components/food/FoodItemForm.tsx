@@ -82,8 +82,6 @@ const FoodForm: React.FC<FoodFormProps> = ({ initialValues, onSubmit, onCancel, 
           </Button>
         </div>
 
-
-
         <Form.Item name="foodName" label="Food Name" rules={[{ required: true }]}>
           <Input />
         </Form.Item>

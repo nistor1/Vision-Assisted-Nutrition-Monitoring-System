@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Card,
-  Typography,
-  DatePicker,
-  Radio,
-  Spin,
-  Alert,
-  Button,
-} from 'antd';
+import { Card, Typography, DatePicker, Radio, Spin, Alert, Button,} from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { apiService } from '../../services/api';
 import type { DailyStatisticResponse, GoalsStatistics } from '../../types/MealEntities';

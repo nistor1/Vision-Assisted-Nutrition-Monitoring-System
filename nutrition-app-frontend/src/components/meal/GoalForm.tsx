@@ -19,7 +19,6 @@ const GoalForm: React.FC<GoalFormProps> = ({ initialValues, onSubmit, onCancel }
           key={key}
           label={key}
           name={key}
-          // Nu e required
           rules={[]}
         >
           <InputNumber style={{ width: '100%' }} min={0} step={0.01} />

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, Layout, Typography, Form, Input, Divider, Card, Alert } from 'antd';
-import { GoogleOutlined, AppleOutlined } from '@ant-design/icons';
+import { Button, Layout, Typography, Form, Input, Card, Alert } from 'antd';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.tsx';
 import type { AuthRequest, AuthData } from '../../types/UserEntities.ts';
@@ -71,13 +70,6 @@ export default function LoginPage() {
                             </Button>
                         </Form.Item>
                     </Form>
-
-                    <Divider>Or continue with</Divider>
-
-                    <div style={{ display: 'flex', gap: 8 }}>
-                        <Button icon={<GoogleOutlined />} block onClick={() => alert('Google login coming soon')} />
-                        <Button icon={<AppleOutlined />} block onClick={() => alert('Apple login coming soon')} />
-                    </div>
                 </Card>
             </Content>
         </Layout>

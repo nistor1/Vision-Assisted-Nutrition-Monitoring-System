@@ -81,28 +81,18 @@ export const Navbar: React.FC = () => {
           Nutrition App
         </div>
         {!isMobile && (
-          <Menu
-            mode="horizontal"
-            selectedKeys={[location.pathname]}
-            items={menuItems}
+          <Menu mode="horizontal" selectedKeys={[location.pathname]} items={menuItems}
             onClick={handleMenuClick}
             style={{ background: 'transparent', border: 'none' }}
           />
         )}
       </Header>
 
-      <Drawer
-        title="Navigation"
-        placement="left"
-        onClose={() => setMobileMenuVisible(false)}
-        open={mobileMenuVisible}
+      <Drawer title="Navigation" placement="left" onClose={() => setMobileMenuVisible(false)} open={mobileMenuVisible}
         closeIcon={<CloseOutlined />}
       >
-        <Menu
-          mode="vertical"
-          selectedKeys={[location.pathname]}
-          items={menuItems}
-          onClick={handleMenuClick}
+        <Menu mode="vertical" selectedKeys={[location.pathname]} items={menuItems}
+              onClick={handleMenuClick}
         />
       </Drawer>
     </>

@@ -17,14 +17,7 @@ interface MealTableProps {
   onChange: (pagination: TablePaginationConfig) => void;
 }
 
-const MealTable: React.FC<MealTableProps> = ({
-                                               data,
-                                               onView,
-                                               onEdit,
-                                               onDelete,
-                                               pagination,
-                                               onChange
-                                             }) => {
+const MealTable: React.FC<MealTableProps> = ({ data, onView, onEdit, onDelete, pagination, onChange}) => {
   const columns = [
     {
       title: 'Name',
