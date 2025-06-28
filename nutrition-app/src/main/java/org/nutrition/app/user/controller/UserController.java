@@ -11,6 +11,7 @@ import org.nutrition.app.exception.NutritionError;
 import org.nutrition.app.user.service.UserService;
 import org.nutrition.app.util.response.PageResponse;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,7 @@ public class UserController {
     private final UserService userService;
     private final AppContext appContext;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public NutritionResponse<PageResponse<UserDTO>> getUsers(
             @RequestParam(required = false) String search,
@@ -50,6 +52,7 @@ public class UserController {
                 ));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public NutritionResponse<UserDTO> getUserById(@PathVariable final UUID id) {
         return userService.findById(id)
@@ -59,6 +62,7 @@ public class UserController {
                         NOT_FOUND));
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/personal")
     public NutritionResponse<UserDTO> getUserPersonal() {
         return userService.findById(appContext.getUserId())
@@ -68,6 +72,7 @@ public class UserController {
                         NOT_FOUND));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public NutritionResponse<UserDTO> create(@RequestBody @Valid final CreateUserRequest request) {
         return userService.create(request)
@@ -77,6 +82,7 @@ public class UserController {
                         BAD_REQUEST));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping
     public NutritionResponse<UserDTO> update(@RequestBody @Valid final UpdateUserRequest request) {
         return userService.update(request)
@@ -86,6 +92,7 @@ public class UserController {
                         NOT_FOUND));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public NutritionResponse<UserDTO> deleteUserById(@PathVariable final UUID id) {
         return userService.deleteById(id)

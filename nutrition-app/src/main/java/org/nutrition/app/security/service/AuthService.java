@@ -62,7 +62,7 @@ public class AuthService {
                     PasswordToken passwordToken = PasswordToken.builder()
                             .withUserId(userDTO.id())
                             .withToken(UUID.randomUUID().toString())
-                            .withExpiryDate(LocalDateTime.now().plusMinutes(15))
+                            .withExpiryDate(LocalDateTime.now().plusMinutes(5))
                             .build();
                     passwordTokenRepository.save(passwordToken);
                     emailService.sendPasswordResetEmail(email, passwordToken.getToken());
@@ -81,11 +81,5 @@ public class AuthService {
                     return false;
                 })
                 .orElse(false);
-    }
-
-    public Optional<UserDTO> validateToken(final String token) {
-        return jwtService.extractUserId(token)
-                .flatMap(userService::findById)
-                .filter(userDto -> jwtService.isValidToken(token, userDto.id(), userDto.username(), userDto.role()));
     }
 }

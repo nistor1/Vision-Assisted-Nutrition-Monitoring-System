@@ -2,6 +2,7 @@ package org.nutrition.app.food.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.nutrition.app.food.dto.FoodItemDTO;
 import org.nutrition.app.food.dto.FoodItemSimpleDTO;
 import org.nutrition.app.food.dto.request.create.CreateFoodItemRequest;
@@ -11,6 +12,7 @@ import org.nutrition.app.exception.NutritionError;
 import org.nutrition.app.food.service.FoodItemService;
 import org.nutrition.app.util.response.PageResponse;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -28,6 +30,7 @@ import static org.nutrition.app.util.Constants.ReturnMessages.notFound;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+@Slf4j
 @RestController
 @RequestMapping("/food-items")
 @RequiredArgsConstructor
@@ -55,8 +58,6 @@ public class FoodItemController {
                         NOT_FOUND));
     }
 
-
-
     @GetMapping("/simple")
     public NutritionResponse<PageResponse<FoodItemSimpleDTO>> getSimpleFoodItems(
             @RequestParam(required = false) String search,
@@ -77,6 +78,7 @@ public class FoodItemController {
                         NOT_FOUND));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public NutritionResponse<FoodItemDTO> create(@RequestBody @Valid final CreateFoodItemRequest request) {
         return foodItemService.create(request)
@@ -86,6 +88,7 @@ public class FoodItemController {
                         BAD_REQUEST));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping
     public NutritionResponse<FoodItemDTO> update(
             @RequestBody @Valid final UpdateFoodItemRequest request
@@ -98,6 +101,7 @@ public class FoodItemController {
                         NOT_FOUND));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public NutritionResponse<FoodItemDTO> deleteFoodItemById(@PathVariable final UUID id) {
         return foodItemService.deleteById(id)

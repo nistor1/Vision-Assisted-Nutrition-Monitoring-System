@@ -22,14 +22,17 @@ import org.nutrition.app.meal.service.statistics.StatisticsUtils;
 import org.nutrition.app.security.config.AppContext;
 import org.nutrition.app.user.dto.UserDTO;
 import org.nutrition.app.user.entity.User;
-import org.nutrition.app.user.service.UserService;
 import org.nutrition.app.util.Constants.Time;
 import org.nutrition.app.util.Mapper;
 import org.springframework.cache.CacheManager;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.data.domain.Pageable;
+
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -61,12 +64,23 @@ public class MealService {
 
     private final CacheManager cacheManager;
 
-    private final UserService userService;
 
+    public Optional<Page<MealDTO>> findAll(UUID userId, LocalDate date, Pageable pageable) {
+        Page<Meal> meals;
 
-    public Optional<List<MealDTO>> findAll() {
-        return Optional.of(mealRepository.findAll().stream().map(this::mapMealToDTO).toList());
+        if (date != null) {
+
+            Date startOfDay = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Date endOfDay = Date.from(date.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+            meals = mealRepository.findAllByUserIdAndCreatedAtBetween(userId, startOfDay, endOfDay, pageable);
+        } else {
+            meals = mealRepository.findAllByUserId(userId, pageable);
+        }
+
+        return Optional.of(meals.map(this::mapMealToDTO));
     }
+
 
     public Optional<MealDTO> findById(final UUID id) {
         return mealRepository.findById(id).map(this::mapMealToDTO);
@@ -93,7 +107,7 @@ public class MealService {
 
         Meal saved = mealRepository.save(setTotals(meal, nutritionUtils.calculateTotals(entries)));
 
-        evictDailyStatistics(saved.getId(), saved.getCreatedAt());
+        evictDailyStatistics(saved.getUserId(), saved.getCreatedAt());
 
         return Optional.of(mapMealToDTO(saved));
     }
@@ -127,7 +141,7 @@ public class MealService {
 
         Meal saved = mealRepository.save(setTotals(meal, nutritionUtils.calculateTotals(meal.getEntries())));
 
-        evictDailyStatistics(saved.getId(), saved.getCreatedAt());
+        evictDailyStatistics(saved.getUserId(), saved.getCreatedAt());
 
         return Optional.of(mapMealToDTO(saved));
     }
@@ -136,7 +150,6 @@ public class MealService {
         return mealRepository.findById(id)
                 .map(meal -> {
                     meal.setMealStatus(MealStatus.FINALIZED);
-                    meal.setCreatedAt(Time.now());
 
                     mealRepository.save(meal);
 
@@ -201,7 +214,7 @@ public class MealService {
                 .map(meal -> {
                     mealRepository.delete(meal);
 
-                    evictDailyStatistics(meal.getId(), meal.getCreatedAt());
+                    evictDailyStatistics(meal.getUserId(), meal.getCreatedAt());
 
                     return mapMealToDTO(meal);
                 });
@@ -210,12 +223,16 @@ public class MealService {
     private Meal initializeMealDraft() {
         Meal meal = new Meal();
 
-        LocalTime now = LocalTime.now();
-        MealType mealType = determineMealType(now);
+        Date now = Time.now();
+        LocalTime time = Instant.ofEpochMilli(now.getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalTime();
+        log.debug("Initializing meal draft at time: {}", time);
+        MealType mealType = determineMealType(time);
 
         meal.setUserId(appContext.getUserId());
         meal.setMealType(mealType);
-        meal.setName(generateAutomaticMealName(mealType, now));
+        meal.setName(generateAutomaticMealName(mealType, time));
         meal.setMealStatus(MealStatus.DRAFT);
         meal.setCreatedAt(Time.now());
 
@@ -236,6 +253,7 @@ public class MealService {
 
     private String generateAutomaticMealName(final MealType mealType, final LocalTime time) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        log.debug("Generating automatic meal name for type: {}, time: {}", mealType, time);
         return "Meal " + mealType.name() + " " + time.format(formatter);
     }
 

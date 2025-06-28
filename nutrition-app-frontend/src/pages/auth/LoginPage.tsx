@@ -2,21 +2,21 @@ import { useState, useEffect } from 'react';
 import { Button, Layout, Typography, Form, Input, Divider, Card, Alert } from 'antd';
 import { GoogleOutlined, AppleOutlined } from '@ant-design/icons';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import type { AuthRequest, AuthData } from '../types/entities';
-import { getRedirectedPath } from '../utils/url';
-import { apiService } from '../services/api';
+import { useAuth } from '../../context/AuthContext.tsx';
+import type { AuthRequest, AuthData } from '../../types/UserEntities.ts';
+import { getRedirectedPath } from '../../utils/url.ts';
+import { apiService } from '../../services/api.ts';
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
 
 export default function LoginPage() {
-    const { login, isAuthenticated } = useAuth();
-    const navigate = useNavigate();
-    const location = useLocation();
+  const { login, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
     const handleFinish = async (values: AuthRequest) => {
         setLoading(true);

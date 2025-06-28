@@ -1,6 +1,8 @@
 spring:
   application:
     name: nutrition-app
+  jackson:
+      time-zone: Europe/Bucharest
   datasource:
     url: jdbc:postgresql://localhost:5432/nutrition_db
     username: postgres
@@ -35,9 +37,8 @@ springdoc:
 whitelisted-paths: /auth/**, /swagger-ui/**, /v3/api-docs/**, /v3/api-docs.yaml, /swagger-ui.html, /bus/**, /actuator/**
 reset-password-url: http://localhost:5173/reset-password
 reset-password-email-title: 'Password reset email - Nutrition App'
-reset-password-email-body: 'Reset your password using: '
-deal-mail: no-reply@deal.com
-app-mail: your@email.com
+reset-password-email-body: 'Reset password: '
+app-mail: no-reply@nutrition-app.local
 
 logging:
   level:

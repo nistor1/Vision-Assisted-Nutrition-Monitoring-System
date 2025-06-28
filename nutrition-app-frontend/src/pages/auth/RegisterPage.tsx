@@ -1,28 +1,20 @@
-import { useState } from 'react';
-import {
-    Button,
-    Layout,
-    Typography,
-    Form,
-    Input,
-    Divider,
-    Card,
-    Alert,
-} from 'antd';
+import { useState, useEffect } from 'react';
+import { Button, Layout, Typography, Form, Input, Divider, Card, Alert,} from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { apiService } from '../services/api';
-import type { RegisterRequest } from '../types/entities';
-import { useAuth } from '../context/AuthContext';
+import { apiService } from '../../services/api.ts';
+import type { RegisterRequest } from '../../types/UserEntities.ts';
+import { useAuth } from '../../context/AuthContext.tsx';
+import {getRedirectedPath} from "../../utils/url.ts";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
 
 export default function RegisterPage() {
-    const navigate = useNavigate();
-    const { login } = useAuth();
+  const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth();
 
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
     const handleFinish = async (values: RegisterRequest) => {
         setLoading(true);
@@ -37,6 +29,12 @@ export default function RegisterPage() {
             setLoading(false);
         }
     };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(getRedirectedPath(location.search));
+    }
+  }, [isAuthenticated, location.search, navigate]);
 
     return (
         <Layout>

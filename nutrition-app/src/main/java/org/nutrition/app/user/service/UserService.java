@@ -2,6 +2,8 @@ package org.nutrition.app.user.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.nutrition.app.goals.dto.request.CreateGoalRequest;
+import org.nutrition.app.goals.service.GoalService;
 import org.nutrition.app.user.dto.request.CreateUserRequest;
 import org.nutrition.app.user.dto.request.UpdateUserRequest;
 import org.nutrition.app.user.dto.UserDTO;
@@ -11,8 +13,7 @@ import org.nutrition.app.util.Mapper;
 import org.nutrition.app.util.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +28,7 @@ import java.util.UUID;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final GoalService goalService;
     private final PasswordEncoder passwordEncoder;
 
     public Optional<Page<UserDTO>> findAll(String search, Pageable pageable) {
@@ -48,17 +50,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id).map(this::mapToDTO);
     }
 
-    private String extractJwtFromContext() {
-        var auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth instanceof UsernamePasswordAuthenticationToken token) {
-            Object credentials = token.getCredentials();
-            if (credentials instanceof String jwt) {
-                return jwt;
-            }
-        }
-        return null;
-    }
-
     public Optional<UserDTO> create(final CreateUserRequest request) {
         var role = request.getRole() != null ? request.getRole() : Role.USER;
 
@@ -77,6 +68,9 @@ public class UserService implements UserDetailsService {
 
         user = userRepository.save(user);
 
+        var goal = new CreateGoalRequest(user.getId());
+        goalService.create(goal);
+
         return Optional.of(mapToDTO(user));
     }
 
@@ -92,6 +86,7 @@ public class UserService implements UserDetailsService {
     }
 
     public Optional<UserDTO> deleteById(final UUID id) {
+        goalService.deleteByUser(id);
         return userRepository.findById(id)
                 .filter(user -> userRepository.deleteByIdReturning(id) != 0)
                 .map(this::mapToDTO);

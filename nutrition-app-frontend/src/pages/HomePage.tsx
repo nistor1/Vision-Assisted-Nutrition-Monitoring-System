@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout, Typography, Button, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext.tsx';
 
 const { Content, Footer } = Layout;
 const { Title, Paragraph } = Typography;
@@ -18,9 +18,21 @@ const HomePage: React.FC = () => {
           <Paragraph>
             Track your meals, monitor your daily nutrients, and get smart food recommendations for a healthier life.
           </Paragraph>
-          <Button type="primary" onClick={() => navigate('/food-items')}>
-            Browse Available Food
-          </Button>
+          <Space direction="vertical">
+            {isAuthenticated && (
+              <Button type="primary" onClick={() => navigate('/meals/new')}>
+              Save Meal
+            </Button>
+            )}
+            {isAuthenticated && (
+              <Button onClick={() => navigate('/meals/statistics')}>
+              View Summary
+              </Button>
+            )}
+            <Button onClick={() => navigate('/food-items')}>
+              Browse Available Food
+            </Button>
+          </Space>
         </div>
       </Content>
 
@@ -29,7 +41,6 @@ const HomePage: React.FC = () => {
           <Space direction="vertical">
             {isAuthenticated && (
               <>
-                <Button block onClick={() => navigate('/summary')}>View Summary</Button>
                 <Button block onClick={() => navigate('/meals')}>Manage Meals</Button>
               </>
             )}
