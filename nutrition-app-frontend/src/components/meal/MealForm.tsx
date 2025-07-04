@@ -13,6 +13,7 @@ interface MealFormProps {
   meal?: UpdateMealRequest;
   onSubmit: (values: CreateMealRequest | UpdateMealRequest) => Promise<void>;
   onCancel: () => void;
+  onDelete?: () => void;
 }
 
 const { Option } = Select;
@@ -29,7 +30,7 @@ interface MealFormValues {
   entries: EntryFormValue[];
 }
 
-const MealForm: React.FC<MealFormProps> = ({ meal, onSubmit, onCancel }) => {
+const MealForm: React.FC<MealFormProps> = ({ meal, onSubmit, onCancel, onDelete }) => {
   const [form] = Form.useForm<MealFormValues>();
   const [foodOptions, setFoodOptions] = useState<FoodItemSimple[]>([]);
 
@@ -56,11 +57,20 @@ const MealForm: React.FC<MealFormProps> = ({ meal, onSubmit, onCancel }) => {
   }, [meal, form]);
 
   const handleFinish = async (values: MealFormValues) => {
+    const combined: Record<string, number> = {};
+    values.entries.forEach(({ foodItemId, quantity }) => {
+      combined[foodItemId] = (combined[foodItemId] || 0) + quantity;
+    });
+
+    const mergedEntries: EntryFormValue[] = Object.entries(combined).map(
+      ([foodItemId, quantity]) => ({ foodItemId, quantity })
+    );
+
     const payload: CreateMealRequest | UpdateMealRequest = {
       ...(meal && { id: meal.id }),
       name: values.name,
       mealType: values.mealType,
-      entries: values.entries
+      entries: mergedEntries
     };
 
     try {
@@ -69,6 +79,33 @@ const MealForm: React.FC<MealFormProps> = ({ meal, onSubmit, onCancel }) => {
       console.error('Submit error', err);
       message.error('Failed to save meal');
     }
+  };
+
+  const handleAddFoodItem = () => {
+    const currentEntries: EntryFormValue[] = form.getFieldValue('entries') || [];
+
+    const availableOptions = foodOptions.filter(opt =>
+      !currentEntries.some(entry => entry.foodItemId === opt.id)
+    );
+
+    if (availableOptions.length === 0) {
+      message.info("All food items are already added.");
+      return;
+    }
+
+    const newItemId = availableOptions[0].id;
+
+    const updatedEntries = currentEntries.map((entry) =>
+      entry.foodItemId === newItemId
+        ? { ...entry, quantity: entry.quantity + 1 }
+        : entry
+    );
+
+    if (!currentEntries.find((entry) => entry.foodItemId === newItemId)) {
+      updatedEntries.push({ foodItemId: newItemId, quantity: 1 });
+    }
+
+    form.setFieldsValue({ entries: updatedEntries });
   };
 
   return (
@@ -89,7 +126,7 @@ const MealForm: React.FC<MealFormProps> = ({ meal, onSubmit, onCancel }) => {
         <Divider>Food Items</Divider>
 
         <Form.List name="entries">
-          {(fields, { add, remove }) => (
+          {(fields, { remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
                 <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="start">
@@ -100,7 +137,13 @@ const MealForm: React.FC<MealFormProps> = ({ meal, onSubmit, onCancel }) => {
                   >
                     <Select placeholder="Select food item" style={{ width: 200 }}>
                       {foodOptions.map(item => (
-                        <Option key={item.id} value={item.id}>{item.foodName}</Option>
+                        <Option
+                          key={item.id}
+                          value={item.id}
+                          disabled={form.getFieldValue('entries')?.some((e: EntryFormValue, i: number) => e.foodItemId === item.id && i !== name)}
+                        >
+                          {item.foodName}
+                        </Option>
                       ))}
                     </Select>
                   </Form.Item>
@@ -118,7 +161,7 @@ const MealForm: React.FC<MealFormProps> = ({ meal, onSubmit, onCancel }) => {
               ))}
 
               <Form.Item>
-                <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                <Button type="dashed" onClick={handleAddFoodItem} block icon={<PlusOutlined />}>
                   Add Food Item
                 </Button>
               </Form.Item>
@@ -128,6 +171,11 @@ const MealForm: React.FC<MealFormProps> = ({ meal, onSubmit, onCancel }) => {
 
         <Space style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 24 }}>
           <Button onClick={onCancel}>Cancel</Button>
+          {meal?.id && (
+            <Button danger onClick={onDelete}>
+              Delete Meal
+            </Button>
+          )}
           <Button type="primary" htmlType="submit">
             {meal ? 'Confirm' : 'Create Meal'}
           </Button>

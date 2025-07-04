@@ -43,7 +43,7 @@ const FoodItemView: React.FC<FoodItemViewProps> = ({ foodItemId, onClose }) => {
     >
       <Image src={food.imageUrl} alt={food.foodName} width={150} height={150} style={{ marginBottom: 20 }} />
 
-      <Descriptions column={2} bordered>
+      <Descriptions column={2} bordered labelStyle={{ width: 120 }} contentStyle={{ width: 120 }}>
         <Descriptions.Item label="Category">{food.category}</Descriptions.Item>
         <Descriptions.Item label="Serving Size">
           {food.servingSize !== null ? `${food.servingSize} ${food.servingUnit}` : 'N/A'}
@@ -54,8 +54,8 @@ const FoodItemView: React.FC<FoodItemViewProps> = ({ foodItemId, onClose }) => {
         <Descriptions.Item label="Updated At">{dayjs(food.updatedAt).format('YYYY-MM-DD HH:mm')}</Descriptions.Item>
       </Descriptions>
 
-      <Divider>Proximates</Divider>
-      <Descriptions column={2} bordered size="small">
+      <Divider >Proximates</Divider>
+      <Descriptions column={2} bordered size="small" labelStyle={{ width: 120 }} contentStyle={{ width: 120 }}>
         {Object.entries(food.proximates)
           .filter(([k, v]) => k !== 'id' && k !== 'unit' && k !== 'portionSize' && v != null)
           .map(([key, value]) => (
@@ -64,7 +64,7 @@ const FoodItemView: React.FC<FoodItemViewProps> = ({ foodItemId, onClose }) => {
       </Descriptions>
 
       <Divider>Carbohydrates</Divider>
-      <Descriptions column={2} bordered size="small">
+      <Descriptions column={2} bordered size="small" labelStyle={{ width: 120 }} contentStyle={{ width: 120 }}>
         {Object.entries(food.carbohydrates)
           .filter(([k, v]) => k !== 'id' && k !== 'unit' && k !== 'portionSize' && v != null)
           .map(([key, value]) => (
@@ -73,7 +73,7 @@ const FoodItemView: React.FC<FoodItemViewProps> = ({ foodItemId, onClose }) => {
       </Descriptions>
 
       <Divider>Minerals (mg)</Divider>
-      <Descriptions column={2} bordered size="small">
+      <Descriptions column={2} bordered size="small" labelStyle={{ width: 120 }} contentStyle={{ width: 120 }}>
         {Object.entries(food.minerals)
           .filter(([k, v]) => k !== 'id' && k !== 'unit' && k !== 'portionSize' && v != null)
           .map(([key, value]) => (
@@ -82,7 +82,7 @@ const FoodItemView: React.FC<FoodItemViewProps> = ({ foodItemId, onClose }) => {
       </Descriptions>
 
       <Divider>Vitamins (mg)</Divider>
-      <Descriptions column={2} bordered size="small">
+      <Descriptions column={2} bordered size="small" labelStyle={{ width: 120 }} contentStyle={{ width: 120 }}>
         {Object.entries(food.vitamins)
           .filter(([k, v]) => k !== 'id' && k !== 'unit' && k !== 'portionSize' && v != null)
           .map(([key, value]) => (

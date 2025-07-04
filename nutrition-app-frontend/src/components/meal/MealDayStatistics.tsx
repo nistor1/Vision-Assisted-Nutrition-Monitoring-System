@@ -46,7 +46,7 @@ const renderSection = (
           return typeof value === 'number' ? (
             <Descriptions.Item key={key} label={key} labelStyle={{ width: 120 }} contentStyle={{ width: 120 }}>
               <span style={{ color: getColor(value, goal) }}>
-                {value.toFixed(2)}
+                {value.toFixed(2) } {unit}
               </span>
               {hasGoal && (
                 <> / {goal} {unit}</>
@@ -67,35 +67,35 @@ const DailyStatisticView: React.FC<DailyStatisticViewProps> = ({ stat, goals }) 
 
         <Descriptions.Item label="Calories">
           <span style={{ color: getColor(stat.totalCalories, goals.totalCalories) }}>
-            {stat.totalCalories.toFixed(2)}
+            {stat.totalCalories.toFixed(2)} kcal
           </span>
           {goals.totalCalories ? <> / {goals.totalCalories} kcal</> : null}
         </Descriptions.Item>
 
         <Descriptions.Item label="Proteins">
           <span style={{ color: getColor(stat.totalProteins, goals.totalProteins) }}>
-            {stat.totalProteins.toFixed(2)}
+            {stat.totalProteins.toFixed(2)} g
           </span>
           {goals.totalProteins ? <> / {goals.totalProteins} g</> : null}
         </Descriptions.Item>
 
         <Descriptions.Item label="Fats">
           <span style={{ color: getColor(stat.totalFats, goals.totalFats) }}>
-            {stat.totalFats.toFixed(2)}
+            {stat.totalFats.toFixed(2)} g
           </span>
           {goals.totalFats ? <> / {goals.totalFats} g</> : null}
         </Descriptions.Item>
 
         <Descriptions.Item label="Carbs">
           <span style={{ color: getColor(stat.totalCarbs, goals.totalCarbs) }}>
-            {stat.totalCarbs.toFixed(2)}
+            {stat.totalCarbs.toFixed(2)} g
           </span>
           {goals.totalCarbs ? <> / {goals.totalCarbs} g</> : null}
         </Descriptions.Item>
 
         <Descriptions.Item label="Sugars">
           <span style={{ color: getColor(stat.totalSugars, goals.totalSugars) }}>
-            {stat.totalSugars.toFixed(2)}
+            {stat.totalSugars.toFixed(2)} g
           </span>
           {goals.totalSugars ? <> / {goals.totalSugars} g</> : null}
         </Descriptions.Item>

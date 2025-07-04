@@ -12,6 +12,11 @@ const CreateFoodItemPage: React.FC = () => {
 
   const handleSubmit = async (values: Omit<FoodItem, 'id'>) => {
     try {
+      values.vitamins.portionSize = 100;
+      values.minerals.portionSize = 100;
+      values.carbohydrates.portionSize = 100;
+      values.proximates.portionSize = 100;
+
       const response = await apiService.createFoodItem(values);
 
       if (response.body.status === 'OK') {

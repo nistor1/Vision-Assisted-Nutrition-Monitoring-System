@@ -16,7 +16,7 @@ const HomePage: React.FC = () => {
         <div style={{ padding: 24, textAlign: 'center' }}>
           <Title>Welcome to the Nutrition App</Title>
           <Paragraph>
-            Track your meals, monitor your daily nutrients, and get smart food recommendations for a healthier life.
+            Track your meals, monitor your daily nutrients, and set personalized nutrition goals for a healthier life.
           </Paragraph>
           <Space direction="vertical">
             {isAuthenticated && (

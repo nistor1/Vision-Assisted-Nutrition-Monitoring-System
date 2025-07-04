@@ -109,8 +109,6 @@ const FoodForm: React.FC<FoodFormProps> = ({ initialValues, onSubmit, onCancel, 
         >
           <Select placeholder="Select serving unit">
             <Select.Option value="g">g (grams)</Select.Option>
-            <Select.Option value="mg">mg (milligrams)</Select.Option>
-            <Select.Option value="ml">ml (milliliters)</Select.Option>
           </Select>
         </Form.Item>
 
@@ -142,7 +140,6 @@ const FoodForm: React.FC<FoodFormProps> = ({ initialValues, onSubmit, onCancel, 
         >
           <Select placeholder="Select unit">
             <Select.Option value="g">g (grams)</Select.Option>
-            <Select.Option value="mg">mg (milligrams)</Select.Option>
           </Select>
         </Form.Item>
 
@@ -158,7 +155,6 @@ const FoodForm: React.FC<FoodFormProps> = ({ initialValues, onSubmit, onCancel, 
         >
           <Select placeholder="Select unit">
             <Select.Option value="g">g (grams)</Select.Option>
-            <Select.Option value="mg">mg (milligrams)</Select.Option>
           </Select>
         </Form.Item>
 
@@ -173,9 +169,7 @@ const FoodForm: React.FC<FoodFormProps> = ({ initialValues, onSubmit, onCancel, 
           rules={[{ required: true, message: 'Unit is required for minerals' }]}
         >
           <Select placeholder="Select unit">
-            <Select.Option value="g">g (grams)</Select.Option>
             <Select.Option value="mg">mg (milligrams)</Select.Option>
-            <Select.Option value="µg">µg (micrograms)</Select.Option>
           </Select>
         </Form.Item>
 
@@ -192,7 +186,6 @@ const FoodForm: React.FC<FoodFormProps> = ({ initialValues, onSubmit, onCancel, 
         >
           <Select placeholder="Select unit">
             <Select.Option value="mg">mg (milligrams)</Select.Option>
-            <Select.Option value="µg">µg (micrograms)</Select.Option>
           </Select>
         </Form.Item>
 
