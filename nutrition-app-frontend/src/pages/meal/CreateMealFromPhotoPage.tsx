@@ -33,10 +33,11 @@ const CreateMealFromPhotoPage: React.FC = () => {
     setLoading(true);
     try {
       const response = await apiService.createMealFromPhoto(formData);
-      if (response.body.status === 'OK' && response.body.payload?.id) {
-        message.success('Meal created from photo successfully');
-        const mealId = response.body.payload.id;
-        navigate(`/meals/edit/${mealId}`);
+      if (response.body.status === 'OK' && response.body.payload) {
+        message.success('Meal draft generated from photo successfully');
+        const mealDto = response.body.payload;
+
+        navigate(`/meals/new/request?redirect=` + location.pathname, {state: {mealDto}});
       } else {
         const errors =
           response.body.errors?.map(e => e.message).join(', ') ||

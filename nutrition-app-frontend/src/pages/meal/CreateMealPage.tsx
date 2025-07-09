@@ -9,6 +9,7 @@ import { getRedirectedPath } from '../../utils/url';
 const CreateMealPage: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const mealDto = location.state?.mealDto;
 
     const handleSubmit = async (values: CreateMealRequest) => {
         try {
@@ -33,7 +34,11 @@ const CreateMealPage: React.FC = () => {
 
     return (
         <Card title="Create New Meal" style={{ maxWidth: 1000, margin: '0 auto' }}>
-            <MealForm onSubmit={handleSubmit} onCancel={handleCancel} />
+            <MealForm
+              meal={mealDto}
+              onSubmit={handleSubmit}
+              onCancel={handleCancel}
+            />
         </Card>
     );
 };

@@ -23,6 +23,7 @@ import ResetPassword from "../pages/auth/ResetPassword.tsx";
 import ForgotPassword from "../pages/auth/ForgotPassword.tsx";
 import PageNotFound from "../pages/auth/PageNotFound.tsx";
 import PrivateRoute from "./PrivateRoute.tsx";
+import UserPersonalEditPage from "../pages/user/UserPersonalEditPage.tsx";
 
 export const ROUTES = {
   INDEX: "/",
@@ -36,6 +37,7 @@ export const ROUTES = {
   USERS: "/users",
   USER_PROFILE: "/users/:id",
   USER_PERSONAL_PROFILE: "/users/personal",
+  USER_EDIT_PERSONAL_PROFILE: "/users/personal/edit",
   USER_CREATE: "/users/new",
   USER_UPDATE: "/users/edit/:id",
   FOODITEMS: "/food-items",
@@ -68,6 +70,7 @@ export default function AppRouter() {
     <Route path={ROUTES.ADMIN_ROUTE + ROUTES.FOODITEMS_UPDATE} element={<AdminRoute><UpdateFoodItemPage /></AdminRoute>} />
     <Route path={ROUTES.FOODITEMS_VIEW} element={<FoodItemViewPage />} />
     <Route path={ROUTES.USER_PERSONAL_PROFILE} element={<PrivateRoute><UserPersonalProfilePage /></PrivateRoute>} />
+    <Route path={ROUTES.USER_EDIT_PERSONAL_PROFILE} element={<PrivateRoute><UserPersonalEditPage /></PrivateRoute>} />
     <Route path={ROUTES.MEALS} element={<PrivateRoute><MealsPage/></PrivateRoute>} />
     <Route path={ROUTES.MEALS_VIEW} element={<PrivateRoute><MealViewPage/></PrivateRoute>} />
     <Route path={ROUTES.MEALS_CREATE_REQUEST} element={<PrivateRoute><CreateMealPage/></PrivateRoute>} />

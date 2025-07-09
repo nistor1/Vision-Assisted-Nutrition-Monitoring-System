@@ -10,6 +10,7 @@ import org.nutrition.app.food.repository.FoodItemRepository;
 import org.nutrition.app.meal.constants.MealStatus;
 import org.nutrition.app.meal.constants.MealType;
 import org.nutrition.app.meal.dto.MealDTO;
+import org.nutrition.app.meal.dto.request.CreateMealEntryRequest;
 import org.nutrition.app.meal.dto.request.CreateMealRequest;
 import org.nutrition.app.meal.dto.request.UpdateMealEntryRequest;
 import org.nutrition.app.meal.dto.request.UpdateMealRequest;
@@ -232,11 +233,11 @@ class MealServiceTest {
         FoodItem food2 = randomFoodItem();
         food2.setId(foodId2);
 
-        UpdateMealEntryRequest entry1 = UpdateMealEntryRequest.builder()
+        CreateMealEntryRequest entry1 = CreateMealEntryRequest.builder()
                 .withFoodItemId(foodId1)
                 .withQuantity(100.0)
                 .build();
-        UpdateMealEntryRequest entry2 = UpdateMealEntryRequest.builder()
+        CreateMealEntryRequest entry2 = CreateMealEntryRequest.builder()
                 .withFoodItemId(foodId2)
                 .withQuantity(150.0)
                 .build();
@@ -301,31 +302,16 @@ class MealServiceTest {
         when(foodItemRepository.findByTag(202)).thenReturn(Optional.of(food2));
         when(appContext.getUserId()).thenReturn(userId);
 
-        NutritionTotals totals = new NutritionTotals();
-        totals.setCalories(new BigDecimal("123.4"));
-        totals.setProteins(new BigDecimal("10.2"));
-        totals.setFats(new BigDecimal("5.1"));
-        totals.setCarbohydrates(new BigDecimal("20.3"));
-        totals.setSugars(new BigDecimal("6.6"));
-
-        when(nutritionUtils.calculateTotals(anyList())).thenReturn(totals);
-        when(mealRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
-        when(cacheManager.getCache("dailyStatistics")).thenReturn(cache);
-
         // Act
-        Optional<MealDTO> result = mealService.createMealDraft(mockImage);
+        Optional<CreateMealRequest> result = mealService.createMealDraft(mockImage);
 
         // Assert
         assertTrue(result.isPresent());
-        MealDTO dto = result.get();
+        CreateMealRequest dto = result.get();
         assertEquals(2, dto.getEntries().size());
 
         verify(inferenceClient).predict(mockImage);
         verify(foodItemRepository).findByTag(101);
         verify(foodItemRepository).findByTag(202);
-        verify(nutritionUtils).calculateTotals(anyList());
-        verify(mealRepository).save(any());
     }
-
-
 }

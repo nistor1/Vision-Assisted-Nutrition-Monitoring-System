@@ -10,10 +10,9 @@ import type { FoodItemSimple } from '../../types/FoodEntities';
 import { apiService } from '../../services/api';
 
 interface MealFormProps {
-  meal?: UpdateMealRequest;
+  meal?: CreateMealRequest | UpdateMealRequest;
   onSubmit: (values: CreateMealRequest | UpdateMealRequest) => Promise<void>;
   onCancel: () => void;
-  onDelete?: () => void;
 }
 
 const { Option } = Select;
@@ -30,7 +29,7 @@ interface MealFormValues {
   entries: EntryFormValue[];
 }
 
-const MealForm: React.FC<MealFormProps> = ({ meal, onSubmit, onCancel, onDelete }) => {
+const MealForm: React.FC<MealFormProps> = ({ meal, onSubmit, onCancel }) => {
   const [form] = Form.useForm<MealFormValues>();
   const [foodOptions, setFoodOptions] = useState<FoodItemSimple[]>([]);
 
@@ -67,7 +66,7 @@ const MealForm: React.FC<MealFormProps> = ({ meal, onSubmit, onCancel, onDelete 
     );
 
     const payload: CreateMealRequest | UpdateMealRequest = {
-      ...(meal && { id: meal.id }),
+      ...(meal && 'id' in meal && { id: meal.id }),
       name: values.name,
       mealType: values.mealType,
       entries: mergedEntries
@@ -171,13 +170,8 @@ const MealForm: React.FC<MealFormProps> = ({ meal, onSubmit, onCancel, onDelete 
 
         <Space style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 24 }}>
           <Button onClick={onCancel}>Cancel</Button>
-          {meal?.id && (
-            <Button danger onClick={onDelete}>
-              Delete Meal
-            </Button>
-          )}
           <Button type="primary" htmlType="submit">
-            {meal ? 'Confirm' : 'Create Meal'}
+            {meal && 'id' in meal ? 'Confirm' : 'Create Meal'}
           </Button>
         </Space>
       </Form>

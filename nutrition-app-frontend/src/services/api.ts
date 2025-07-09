@@ -1,4 +1,11 @@
-import type {User, AuthRequest, AuthData, RegisterRequest, UserDetails} from '../types/UserEntities.ts';
+import type {
+  User,
+  AuthRequest,
+  AuthData,
+  RegisterRequest,
+  UserDetails,
+  UpdateProfileRequest
+} from '../types/UserEntities.ts';
 import type {
   NutritionResponse,
   NutritionResponseBody,
@@ -117,6 +124,13 @@ class ApiService {
 
   async updateUser(data: UserDetails): Promise<NutritionResponse<UserDetails>> {
     return this.request<UserDetails>(`/users`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateUserProfile(data: UpdateProfileRequest): Promise<NutritionResponse<UserDetails>> {
+    return this.request<UserDetails>(`/users/personal`, {
       method: 'PATCH',
       body: JSON.stringify(data),
     });

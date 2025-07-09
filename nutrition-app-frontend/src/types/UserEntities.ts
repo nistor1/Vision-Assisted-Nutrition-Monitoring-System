@@ -17,6 +17,15 @@ export interface  UserDetails extends User {
   phoneNumber: string;
 }
 
+export interface  UpdateProfileRequest {
+  fullName: string;
+  address: string;
+  city: string;
+  country: string;
+  postalCode: string;
+  phoneNumber: string;
+}
+
 export interface AuthUser {
   logged: boolean;
   jwtToken: string;

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.nutrition.app.goals.dto.request.CreateGoalRequest;
 import org.nutrition.app.goals.service.GoalService;
 import org.nutrition.app.user.dto.request.CreateUserRequest;
+import org.nutrition.app.user.dto.request.UpdateUserPersonalRequest;
 import org.nutrition.app.user.dto.request.UpdateUserRequest;
 import org.nutrition.app.user.dto.UserDTO;
 import org.nutrition.app.user.entity.User;
@@ -75,6 +76,17 @@ public class UserService implements UserDetailsService {
 
     public Optional<UserDTO> update(final UpdateUserRequest request) {
         return userRepository.findById(request.getId())
+                .map(user -> {
+                    Mapper.updateValues(user, request);
+
+                    userRepository.save(user);
+
+                    return mapToDTO(user);
+                });
+    }
+
+    public Optional<UserDTO> updatePersonal(final UpdateUserPersonalRequest request, UUID userId) {
+        return userRepository.findById(userId)
                 .map(user -> {
                     Mapper.updateValues(user, request);
 

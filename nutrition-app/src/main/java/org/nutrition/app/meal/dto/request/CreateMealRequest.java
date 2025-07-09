@@ -20,5 +20,5 @@ public class CreateMealRequest {
 
     private MealType mealType;
 
-    private List<UpdateMealEntryRequest> entries;
+    private List<CreateMealEntryRequest> entries;
 }

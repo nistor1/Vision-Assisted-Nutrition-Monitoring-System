@@ -10,6 +10,7 @@ import org.nutrition.app.food.repository.FoodItemRepository;
 import org.nutrition.app.meal.constants.MealStatus;
 import org.nutrition.app.meal.constants.MealType;
 import org.nutrition.app.meal.dto.MealDTO;
+import org.nutrition.app.meal.dto.request.CreateMealEntryRequest;
 import org.nutrition.app.meal.dto.request.CreateMealRequest;
 import org.nutrition.app.meal.dto.request.UpdateMealEntryRequest;
 import org.nutrition.app.meal.dto.request.UpdateMealRequest;
@@ -87,7 +88,7 @@ public class MealService {
     }
 
     @Transactional
-    public Optional<MealDTO> createMealDraft(final MultipartFile image) {
+    public Optional<CreateMealRequest> createMealDraft(final MultipartFile image) {
         List<DetectedObject> detectedObjects = inferenceClient.predict(image);
 
         if (detectedObjects == null || detectedObjects.isEmpty()) {
@@ -105,11 +106,7 @@ public class MealService {
 
         meal.setEntries(entries);
 
-        Meal saved = mealRepository.save(setTotals(meal, nutritionUtils.calculateTotals(entries)));
-
-        evictDailyStatistics(saved.getUserId(), saved.getCreatedAt());
-
-        return Optional.of(mapMealToDTO(saved));
+        return Optional.of(mapMealToCreateMealRequest(meal));
     }
 
     @Transactional
@@ -121,7 +118,7 @@ public class MealService {
 
         Set<UUID> incomingIds = new HashSet<>();
 
-        for (UpdateMealEntryRequest dto : request.getEntries()) {
+        for (CreateMealEntryRequest dto : request.getEntries()) {
             UUID foodId = dto.getFoodItemId();
             incomingIds.add(foodId);
 
@@ -295,5 +292,17 @@ public class MealService {
 
     public MealDTO mapMealToDTO(final Meal meal) {
         return Mapper.mapTo(meal, MealDTO.class);
+    }
+
+    public CreateMealRequest mapMealToCreateMealRequest(Meal meal) {
+        return CreateMealRequest.builder()
+                .withName(meal.getName())
+                .withMealType(meal.getMealType())
+                .withEntries(meal.getEntries().stream()
+                        .map(entry -> new CreateMealEntryRequest(
+                                entry.getFoodItem().getId(),
+                                entry.getQuantity()))
+                        .toList())
+                .build();
     }
 }

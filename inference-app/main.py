@@ -43,6 +43,8 @@ async def predict(file: UploadFile = File(...)):
             shutil.copyfileobj(file.file, buffer)
 
         cropped_images = detect_and_crop(temp_file, yolo_model)
+
+        #A list of labels for each cropped image
         labels = [
             classify_with_resnet(img, resnet_model, device, class_names)
             for img in cropped_images

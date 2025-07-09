@@ -13,18 +13,6 @@ services:
       - pgdata:/var/lib/postgresql/data
       - ./init-sql:/docker-entrypoint-initdb.d
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@nutrition.com
-      PGADMIN_DEFAULT_PASSWORD: admin123
-    ports:
-      - "5050:80"
-    depends_on:
-      - postgres
-    restart: always
-
   nutrition-app:
     build:
       context: ./nutrition-app
@@ -47,6 +35,24 @@ services:
       - nutrition-app
     ports:
       - "8000:8000"
+    restart: always
+
+  frontend:
+    build:
+      context: ./nutrition-app-frontend
+    container_name: nutrition-app-frontend
+    depends_on:
+      - nutrition-app
+    ports:
+      - "5173:80"
+    restart: always
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web UI
     restart: always
 
 volumes:

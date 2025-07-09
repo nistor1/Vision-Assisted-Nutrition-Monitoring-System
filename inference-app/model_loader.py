@@ -8,6 +8,7 @@ def load_models():
     # YOLO model
     yolo_model_path = "yolo_model.pt"
     yolo_model = YOLO(yolo_model_path)
+    yolo_model.to(device)
     yolo_model.eval()
 
     # ResNet model

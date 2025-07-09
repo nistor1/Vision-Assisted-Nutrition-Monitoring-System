@@ -48,19 +48,6 @@ const UpdateMealPage: React.FC = () => {
     fetchMeal();
   }, [id]);
 
-  const handleDelete = async () => {
-    if (!meal?.id) return;
-
-    try {
-      await apiService.deleteMeal(meal.id);
-      message.success('Meal deleted');
-      navigate(redirectPath);
-    } catch {
-      message.error('Delete failed');
-    }
-  };
-
-
   const handleSubmit = async (values: CreateMealRequest | UpdateMealRequest) => {
     if ('id' in values) {
       const response = await apiService.updateMeal(values);
@@ -90,7 +77,7 @@ const UpdateMealPage: React.FC = () => {
       title="Edit Meal"
       style={{ maxWidth: 1000, margin: '0 auto' }}
     >
-      <MealForm meal={meal} onSubmit={handleSubmit} onCancel={handleCancel} onDelete={handleDelete}/>
+      <MealForm meal={meal} onSubmit={handleSubmit} onCancel={handleCancel}/>
     </Card>
 
   );

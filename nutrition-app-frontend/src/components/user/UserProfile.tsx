@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Descriptions, Card, Spin, Alert, Button } from 'antd';
+import { Descriptions, Card, Spin, Alert, Button, Space } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import type { UserDetails } from '../../types/UserEntities.ts';
 import { apiService } from '../../services/api.ts';
@@ -13,6 +14,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ userId, onClose }) => {
   const [user, setUser] = useState<UserDetails | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -37,6 +39,14 @@ const UserProfile: React.FC<UserProfileProps> = ({ userId, onClose }) => {
     fetchUser();
   }, [userId]);
 
+  const handleEdit = () => {
+    if (userId) {
+      navigate(`/admin/users/edit/${userId}`);
+    } else {
+      navigate('/users/personal/edit');
+    }
+  };
+
   if (loading) return <Spin tip="Loading user..." />;
 
   if (error) return <Alert message={error} type="error" showIcon />;
@@ -46,7 +56,12 @@ const UserProfile: React.FC<UserProfileProps> = ({ userId, onClose }) => {
   return (
     <Card
       title="User Profile"
-      extra={<Button onClick={onClose}>Close</Button>}
+      extra={
+        <Space>
+          <Button onClick={handleEdit}>Edit</Button>
+          <Button onClick={onClose}>Close</Button>
+        </Space>
+      }
       style={{ maxWidth: 700, margin: '0 auto' }}
     >
       <Descriptions column={1} bordered>

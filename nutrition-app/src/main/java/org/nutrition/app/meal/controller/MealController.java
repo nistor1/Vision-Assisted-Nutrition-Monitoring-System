@@ -72,7 +72,7 @@ public class MealController {
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PostMapping
-    public NutritionResponse<MealDTO> createMealDraft(@RequestParam("image") final MultipartFile image) {
+    public NutritionResponse<CreateMealRequest> createMealDraft(@RequestParam("image") final MultipartFile image) {
         return mealService.createMealDraft(image)
                 .map(NutritionResponse::successResponse)
                 .orElse(NutritionResponse.failureResponse(
@@ -147,6 +147,4 @@ public class MealController {
 
         return NutritionResponse.successResponse(stats);
     }
-
-
 }

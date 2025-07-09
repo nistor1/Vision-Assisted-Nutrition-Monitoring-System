@@ -85,7 +85,8 @@ const MealView: React.FC<MealViewProps> = ({ mealId, onClose }) => {
               description={
                 <>
                   <div>Category: {entry.foodItem.category}</div>
-                  <div>Quantity: {entry.quantity} {entry.foodItem.servingUnit}</div>
+                  <div>Quantity: {entry.quantity}</div>
+                  <div>Calculated quantity: {Number(entry.quantity) * Number(entry.foodItem.servingSize)} {entry.foodItem.servingUnit}</div>
                 </>
               }
             />

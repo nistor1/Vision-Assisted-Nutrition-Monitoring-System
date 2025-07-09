@@ -3,6 +3,7 @@ package org.nutrition.app.user.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.nutrition.app.security.config.AppContext;
+import org.nutrition.app.user.dto.request.UpdateUserPersonalRequest;
 import org.nutrition.app.util.response.NutritionResponse;
 import org.nutrition.app.user.dto.UserDTO;
 import org.nutrition.app.user.dto.request.CreateUserRequest;
@@ -89,6 +90,16 @@ public class UserController {
                 .map(NutritionResponse::successResponse)
                 .orElse(NutritionResponse.failureResponse(
                         new NutritionError(notFound(UserDTO.class, "id", request.getId())),
+                        NOT_FOUND));
+    }
+
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PatchMapping("/personal")
+    public NutritionResponse<UserDTO> updatePersonal(@RequestBody @Valid final UpdateUserPersonalRequest request) {
+        return userService.updatePersonal(request, appContext.getUserId())
+                .map(NutritionResponse::successResponse)
+                .orElse(NutritionResponse.failureResponse(
+                        new NutritionError(notFound(UserDTO.class, "id", appContext.getUserId())),
                         NOT_FOUND));
     }
 

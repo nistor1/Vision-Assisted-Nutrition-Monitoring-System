@@ -1,18 +1,27 @@
 from PIL import Image, ImageOps
+import torchvision.transforms.functional as tf
 import torchvision.transforms as transforms
 import torch
 
-def pad_to_square(image):
-    width, height = image.size
-    max_dim = max(width, height)
-    delta_w = max_dim - width
-    delta_h = max_dim - height
-    padding = (delta_w // 2, delta_h // 2, delta_w - delta_w // 2, delta_h - delta_h // 2)
-    return ImageOps.expand(image, padding, fill=(0, 0, 0))
+
+def resize_with_padding(image, target_size=224):
+    w, h = image.size
+    scale = target_size / max(w, h)
+    new_w, new_h = int(w * scale), int(h * scale)
+    image = tf.resize(image, (new_h, new_w))
+
+    # Calculate padding
+    pad_left = (target_size - new_w) // 2
+    pad_top = (target_size - new_h) // 2
+    pad_right = target_size - new_w - pad_left
+    pad_bottom = target_size - new_h - pad_top
+
+    # Add black padding (0)
+    image = tf.pad(image, (pad_left, pad_top, pad_right, pad_bottom), fill=0)
+    return image
 
 resnet_transform = transforms.Compose([
-    transforms.Lambda(pad_to_square),
-    transforms.Resize(224),
+    transforms.Lambda(resize_with_padding),
     transforms.ToTensor(),
     transforms.Normalize(mean=[0.485, 0.456, 0.406],
                          std=[0.229, 0.224, 0.225])
@@ -20,7 +29,7 @@ resnet_transform = transforms.Compose([
 
 def detect_and_crop(image_path, model_yolo):
     image = Image.open(image_path).convert("RGB")
-    results = model_yolo(image_path)
+    results = model_yolo(image_path, imgsz=640)
     cropped_images = []
 
     for result in results:
