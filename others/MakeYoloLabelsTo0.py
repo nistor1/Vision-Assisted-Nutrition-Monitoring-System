@@ -1,6 +1,5 @@
 import os
 
-# Path to the dataset
 dataset_path = 'E:/anul 4/licenta/dataset/fruitsandvegetableslabel2'
 annotations_path = os.path.join(dataset_path, 'test', 'labels')
 

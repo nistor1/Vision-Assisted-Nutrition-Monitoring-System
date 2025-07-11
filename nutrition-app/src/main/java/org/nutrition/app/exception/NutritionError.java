@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public record NutritionError(String message) implements Serializable {
     public static final NutritionError BAD_CREDENTIAL_EXCEPTION = new NutritionError("Invalid username or password");
-    public static final NutritionError REGISTRATION_FAILED = new NutritionError("Registration failed");
-    public static final NutritionError BAD_TOKEN = new NutritionError("Malformed token");
+    public static final NutritionError REGISTRATION_FAILED = new NutritionError("Register failed");
+    public static final NutritionError BAD_TOKEN = new NutritionError("Bad token");
     public static final NutritionError FORBIDDEN = new NutritionError("Access denied");
     public static final NutritionError PASSWORD_RESET_FAIL = new NutritionError("Password reset failed");
 

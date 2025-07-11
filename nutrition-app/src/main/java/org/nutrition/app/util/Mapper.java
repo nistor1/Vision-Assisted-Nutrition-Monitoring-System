@@ -7,6 +7,7 @@ import org.nutrition.app.exception.NutritionException;
 import org.springframework.http.HttpStatus;
 
 public class Mapper {
+
     private final static ObjectMapper objectMapper = new ObjectMapper();
 
     public static <T, U> void updateValues(final T value, final U newValue) {

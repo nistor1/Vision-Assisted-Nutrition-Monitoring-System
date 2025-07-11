@@ -182,7 +182,7 @@ public class MealService {
                     entry.setQuantity(dto.getQuantity());
                 }
             } else {
-                // brand-new entry
+                // new entry
                 FoodItem food = foodItemRepository.findById(foodId)
                         .orElseThrow(() -> new NutritionException(
                                 NutritionError.FOOD_NOT_FOUND, HttpStatus.NOT_FOUND));
@@ -215,6 +215,11 @@ public class MealService {
 
                     return mapMealToDTO(meal);
                 });
+    }
+
+    @Transactional
+    public void deleteAllMealsByUserId(UUID userId) {
+        mealRepository.deleteAllByUserId(userId);
     }
 
     private Meal initializeMealDraft() {

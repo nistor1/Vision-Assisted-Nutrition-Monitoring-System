@@ -39,7 +39,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -248,7 +247,7 @@ class MealServiceTest {
                 .withEntries(List.of(entry1, entry2))
                 .build();
 
-        // Set up mock behaviors
+        // Mock behaviors
         UUID userId = UUID.randomUUID();
         when(appContext.getUserId()).thenReturn(userId);
         when(foodItemRepository.findById(foodId1)).thenReturn(Optional.of(food1));
@@ -314,4 +313,17 @@ class MealServiceTest {
         verify(foodItemRepository).findByTag(101);
         verify(foodItemRepository).findByTag(202);
     }
+
+    @Test
+    void testDeleteAllMealsByUserId_shouldCallRepositoryDelete() {
+        // Arrange
+        UUID userId = UUID.randomUUID();
+
+        // Act
+        mealService.deleteAllMealsByUserId(userId);
+
+        // Assert
+        verify(mealRepository).deleteAllByUserId(userId);
+    }
+
 }

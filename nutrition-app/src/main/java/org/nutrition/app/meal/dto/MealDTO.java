@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.nutrition.app.meal.constants.MealStatus;
 import org.nutrition.app.meal.constants.MealType;
-import org.nutrition.app.user.dto.UserDTO;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

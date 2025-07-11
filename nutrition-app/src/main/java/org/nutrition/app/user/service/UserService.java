@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.nutrition.app.goals.dto.request.CreateGoalRequest;
 import org.nutrition.app.goals.service.GoalService;
+import org.nutrition.app.meal.service.MealService;
 import org.nutrition.app.user.dto.request.CreateUserRequest;
 import org.nutrition.app.user.dto.request.UpdateUserPersonalRequest;
 import org.nutrition.app.user.dto.request.UpdateUserRequest;
@@ -29,6 +30,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final GoalService goalService;
+    private final MealService mealService;
     private final PasswordEncoder passwordEncoder;
 
     public Optional<Page<UserDTO>> findAll(String search, Pageable pageable) {
@@ -98,6 +100,7 @@ public class UserService implements UserDetailsService {
 
     public Optional<UserDTO> deleteById(final UUID id) {
         goalService.deleteByUser(id);
+        mealService.deleteAllMealsByUserId(id);
         return userRepository.findById(id)
                 .filter(user -> userRepository.deleteByIdReturning(id) != 0)
                 .map(this::mapToDTO);

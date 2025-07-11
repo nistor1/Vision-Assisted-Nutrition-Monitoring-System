@@ -54,7 +54,11 @@ const MealsPage: React.FC = () => {
   const handleEdit = (id: string) => navigate(`/meals/edit/${id}?redirect=` + location.pathname);
   const handleDelete = async (id: string) => {
     try {
-      await apiService.deleteMeal(id);
+      const response = await apiService.deleteMeal(id);
+      if(response.status !== 'OK') {
+        message.error('Delete failed');
+        return;
+      }
       message.success('Meal deleted');
       const isoDate = selectedDate?.format('YYYY-MM-DD') ?? undefined;
       fetchMeals(pagination.current - 1, pagination.pageSize, isoDate);

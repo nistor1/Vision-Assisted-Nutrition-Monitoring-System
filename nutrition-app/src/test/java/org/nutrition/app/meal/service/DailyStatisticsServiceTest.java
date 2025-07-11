@@ -45,7 +45,6 @@ class DailyStatisticsServiceTest {
 
     @Test
     void testGetStatisticsForDay_shouldReturnAggregatedResponse() {
-        // Arrange
         UUID userId = UUID.randomUUID();
         LocalDate date = LocalDate.of(2025, 7, 4);
 
@@ -76,10 +75,8 @@ class DailyStatisticsServiceTest {
 
         when(statisticsUtils.addIfPresent(any(), any(), any())).thenAnswer(inv -> inv.getArgument(0));
 
-        // Act
         Optional<DailyStatisticResponse> result = dailyStatisticsService.getStatisticsForDay(userId, date);
 
-        // Assert
         assertTrue(result.isPresent());
         DailyStatisticResponse response = result.get();
 

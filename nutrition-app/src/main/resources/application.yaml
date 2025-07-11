@@ -4,7 +4,7 @@ spring:
   jackson:
       time-zone: Europe/Bucharest
   datasource:
-    url: jdbc:postgresql://postgres:5433/nutrition_db
+    url: jdbc:postgresql://localhost:5432/nutrition_db
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -30,15 +30,15 @@ spring:
 server:
   port: 8080
 
+reset-password-email-title: 'Password reset email - Nutrition App'
+reset-password-email-body: 'Reset password: '
+whitelisted-paths: /auth/**, /swagger-ui/**, /v3/api-docs/**, /v3/api-docs.yaml, /swagger-ui.html, /bus/**, /actuator/**
+reset-password-url: http://localhost:5173/reset-password
+app-mail: no-reply@nutrition-app.local
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
-
-whitelisted-paths: /auth/**, /swagger-ui/**, /v3/api-docs/**, /v3/api-docs.yaml, /swagger-ui.html, /bus/**, /actuator/**
-reset-password-url: http://localhost:5173/reset-password
-reset-password-email-title: 'Password reset email - Nutrition App'
-reset-password-email-body: 'Reset password: '
-app-mail: no-reply@nutrition-app.local
 
 logging:
   level:

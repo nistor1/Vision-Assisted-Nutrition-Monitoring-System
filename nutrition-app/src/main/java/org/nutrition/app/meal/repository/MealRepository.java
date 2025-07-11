@@ -19,5 +19,6 @@ public interface MealRepository extends JpaRepository<Meal, UUID>{
 
     Page<Meal> findAllByUserIdAndCreatedAtBetween(UUID userId, Date start, Date end, Pageable pageable);
 
+    void deleteAllByUserId(UUID userId);
 
 }

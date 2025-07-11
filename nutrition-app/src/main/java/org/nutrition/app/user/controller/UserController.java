@@ -12,6 +12,8 @@ import org.nutrition.app.exception.NutritionError;
 import org.nutrition.app.user.service.UserService;
 import org.nutrition.app.util.response.PageResponse;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,7 +46,7 @@ public class UserController {
     @GetMapping
     public NutritionResponse<PageResponse<UserDTO>> getUsers(
             @RequestParam(required = false) String search,
-            Pageable pageable) {
+            @PageableDefault(sort = "username", direction = Sort.Direction.ASC) Pageable pageable) {
         return userService.findAll(search, pageable)
                 .map(page -> NutritionResponse.successResponse(new PageResponse<>(page)))
                 .orElse(NutritionResponse.failureResponse(

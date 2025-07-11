@@ -51,5 +51,4 @@ public class AuthController {
                 NutritionResponse.successResponse(null) :
                 NutritionResponse.failureResponse(PASSWORD_RESET_FAIL, BAD_REQUEST);
     }
-
 }

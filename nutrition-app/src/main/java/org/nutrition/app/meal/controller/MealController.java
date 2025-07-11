@@ -13,6 +13,8 @@ import org.nutrition.app.meal.service.statistics.StatisticsService;
 import org.nutrition.app.security.config.AppContext;
 import org.nutrition.app.util.response.NutritionResponse;
 import org.nutrition.app.util.response.PageResponse;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,7 +52,7 @@ public class MealController {
     @GetMapping
     public NutritionResponse<PageResponse<MealDTO>> getMealsByDate(
             final @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-            Pageable pageable) {
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         log.debug("Fetching meals for user {} on date {}", appContext.getUserId(), date);
         return mealService.findAll(appContext.getUserId(), date, pageable)
                 .map(page -> NutritionResponse.successResponse(new PageResponse<>(page)))

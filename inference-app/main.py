@@ -2,41 +2,40 @@ import os
 import shutil
 import base64
 from collections import Counter
-from fastapi import FastAPI, UploadFile, File, Header, HTTPException, Depends
+from fastapi import FastAPI, UploadFile, File, HTTPException, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
 
 from model_loader import load_models
 from inference import detect_and_crop, classify_with_resnet
 
-# === JWT ===
+# === JWT CONFIG ===
 BASE64_SECRET = "dW4tc2VjcmV0LWFsZWF0b3ItY29tcGxleC1kZS1taW5pbS0yNTYtYml0cw=="
 ALGORITHM = "HS256"
+SECRET_KEY = base64.b64decode(BASE64_SECRET)
 
-try:
-    SECRET_KEY = base64.b64decode(BASE64_SECRET)
-except Exception:
-    raise RuntimeError("Invalid Base64 secret key")
+# === SECURITY SCHEME ===
+security = HTTPBearer()
 
-# === VERIFY JWT ===
-def verify_jwt(authorization: str = Header(..., description="Bearer <token>")):
-    scheme, _, token = authorization.partition(" ")
-    if scheme.lower() != "bearer" or not token:
-        raise HTTPException(status_code=401, detail="Missing or invalid Authorization header")
+def verify_jwt(credentials: HTTPAuthorizationCredentials = Depends(security)):
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        return payload
-    except JWTError as e:
+        return jwt.decode(credentials.credentials, SECRET_KEY, algorithms=[ALGORITHM])
+    except JWTError:
         raise HTTPException(status_code=401, detail="Invalid or expired JWT token")
 
 # === INIT FASTAPI ===
 app = FastAPI()
 
+# === LOAD MODELS ===
 yolo_model, resnet_model, device = load_models()
 class_names = [str(i) for i in range(30)]
 
-# === SECURE ENDPOINT ===
-@app.post("/predict/", dependencies=[Depends(verify_jwt)])
-async def predict(file: UploadFile = File(...)):
+# === PREDICT ENDPOINT ===
+@app.post("/predict/")
+async def predict(
+    file: UploadFile = File(...),
+    payload: dict = Depends(verify_jwt)
+):
     temp_file = f"temp_{file.filename}"
     try:
         with open(temp_file, "wb") as buffer:
@@ -44,7 +43,6 @@ async def predict(file: UploadFile = File(...)):
 
         cropped_images = detect_and_crop(temp_file, yolo_model)
 
-        #A list of labels for each cropped image
         labels = [
             classify_with_resnet(img, resnet_model, device, class_names)
             for img in cropped_images
@@ -53,12 +51,9 @@ async def predict(file: UploadFile = File(...)):
 
         return [{"tag": int(tag), "count": count} for tag, count in counts.items()]
 
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Error during inference")
 
     finally:
         if os.path.exists(temp_file):
-            try:
-                os.remove(temp_file)
-            except Exception:
-                pass
+            os.remove(temp_file)

@@ -51,7 +51,11 @@ const FoodPage: React.FC = () => {
   const handleEdit = (id: string) => navigate(`/admin/food-items/edit/${id}?redirect=` + location.pathname);
   const handleDelete = async (id: string) => {
     try {
-      await apiService.deleteFoodItem(id);
+      const response = await apiService.deleteFoodItem(id);
+      if(response.status !== 'OK') {
+        message.error('Delete failed');
+        return;
+      }
       message.success('Food item deleted');
       fetchFoodItems(pagination.current - 1, pagination.pageSize, categoryFilter);
     } catch {

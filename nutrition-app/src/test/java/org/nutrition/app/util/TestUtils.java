@@ -1,6 +1,5 @@
 package org.nutrition.app.util;
 
-import org.nutrition.app.food.dto.FoodItemDTO;
 import org.nutrition.app.food.dto.request.create.CreateFoodItemRequest;
 import org.nutrition.app.food.dto.request.create.CreateNutritionCarbohydratesRequest;
 import org.nutrition.app.food.dto.request.create.CreateNutritionMineralsRequest;
@@ -17,7 +16,6 @@ import org.nutrition.app.meal.constants.MealStatus;
 import org.nutrition.app.meal.constants.MealType;
 import org.nutrition.app.meal.entity.Meal;
 import org.nutrition.app.meal.entity.MealEntry;
-import org.nutrition.app.user.dto.UserDTO;
 import org.nutrition.app.user.dto.request.CreateUserRequest;
 import org.nutrition.app.user.dto.request.UpdateUserRequest;
 import org.nutrition.app.user.entity.User;
@@ -55,16 +53,6 @@ public class TestUtils {
                     randomString(),
                     randomString()
             );
-        }
-
-        static UserDTO randomUserDTO() {
-            return Mapper.mapTo(randomUser(), UserDTO.class);
-        }
-
-        static UserDTO randomUserDTO(final String email) {
-            var user = randomUser();
-            user.setEmail(email);
-            return Mapper.mapTo(user, UserDTO.class);
         }
 
         static CreateUserRequest createUserRequest(final User user) {
@@ -118,10 +106,6 @@ public class TestUtils {
                     .withCarbohydrates(randomCarbohydrates())
                     .withVitamins(randomVitamins())
                     .build();
-        }
-
-        static FoodItemDTO randomFoodItemDTO() {
-            return Mapper.mapTo(randomFoodItem(), FoodItemDTO.class);
         }
 
         static CreateNutritionProximatesRequest mapToProximatesRequest(NutritionProximates p) {
@@ -362,19 +346,5 @@ public class TestUtils {
                     .withQuantity(Math.random() * 300)
                     .build();
         }
-
-        static MealEntry randomMealEntry() {
-            Meal meal = Meal.builder()
-                    .withId(UUID.randomUUID())
-                    .withName("GeneratedMeal")
-                    .withMealType(MealType.DINNER)
-                    .withMealStatus(MealStatus.DRAFT)
-                    .withCreatedAt(new Date())
-                    .withUserId(UUID.randomUUID())
-                    .build();
-
-            return randomMealEntry(meal);
-        }
     }
-
 }

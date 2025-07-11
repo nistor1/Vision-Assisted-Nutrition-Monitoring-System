@@ -16,7 +16,7 @@ def resize_with_padding(image, target_size=224):
     pad_right = target_size - new_w - pad_left
     pad_bottom = target_size - new_h - pad_top
 
-    # Add black padding (0)
+    # Add black padding
     image = tf.pad(image, (pad_left, pad_top, pad_right, pad_bottom), fill=0)
     return image
 

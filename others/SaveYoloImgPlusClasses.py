@@ -10,7 +10,7 @@ yolo_model = YOLO(yolo_model_path)
 yolo_model.eval()
 
 # Path to save cropped images
-output_dir = "E:/anul 4/LICENTA_NISTOR_IOAN_GABRIEL/datasets/yolo_crops_zucchini/"
+output_dir = "E:/anul 4/LICENTA_NISTOR_IOAN_GABRIEL/datasets/yolo_crops/"
 
 # Transform for saved images
 transform = transforms.Compose([
@@ -18,7 +18,6 @@ transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
-# Process each image
 image_dir = "E:/anul 4/licenta/dataset/zucchini/"
 images = [f for f in os.listdir(image_dir) if f.endswith('.jpg')]
 
@@ -27,7 +26,6 @@ for img_name in images:
     image = Image.open(image_path).convert("RGB")
     width, height = image.size
 
-    # Run YOLO on image
     results = yolo_model(image_path)
 
     for result in results:
@@ -35,21 +33,17 @@ for img_name in images:
             x_c, y_c, w, h = bbox
             class_id = int(cls.item())
 
-            # Convert to (x_min, y_min, x_max, y_max) format
             x_min = int((x_c - w / 2))
             y_min = int((y_c - h / 2))
             x_max = int((x_c + w / 2))
             y_max = int((y_c + h / 2))
 
-            # Crop the object
             cropped_img = image.crop((x_min, y_min, x_max, y_max))
 
-            # Create class folder
             class_folder = os.path.join(output_dir, str(class_id))
             os.makedirs(class_folder, exist_ok=True)
 
-            # Save the cropped image
             save_path = os.path.join(class_folder, f"{img_name}_crop.jpg")
             cropped_img.save(save_path)
 
-print("✅ Cropped images saved!")
+print("Cropped images saved!")

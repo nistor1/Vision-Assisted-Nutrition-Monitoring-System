@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.nutrition.app.goals.service.GoalService;
+import org.nutrition.app.meal.service.MealService;
 import org.nutrition.app.user.dto.UserDTO;
 import org.nutrition.app.user.entity.User;
 import org.nutrition.app.user.repository.UserRepository;
@@ -38,6 +39,9 @@ class UserServiceTest  {
 
     @Mock
     private GoalService goalService;
+
+    @Mock
+    private MealService mealService;
 
     @Mock
     private UserRepository userRepository;
@@ -184,6 +188,4 @@ class UserServiceTest  {
         verify(userRepository).deleteByIdReturning(user.getId());
         assertTrue(result.isEmpty());
     }
-
-
 }

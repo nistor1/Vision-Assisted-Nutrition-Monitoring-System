@@ -12,6 +12,8 @@ import org.nutrition.app.exception.NutritionError;
 import org.nutrition.app.food.service.FoodItemService;
 import org.nutrition.app.util.response.PageResponse;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +43,7 @@ public class FoodItemController {
     @GetMapping
     public NutritionResponse<PageResponse<FoodItemDTO>> getFoodItems(
             @RequestParam(required = false) String search,
-            Pageable pageable) {
+            @PageableDefault(sort = "foodName", direction = Sort.Direction.ASC)Pageable pageable) {
         return foodItemService.findAll(search, pageable)
                 .map(page -> NutritionResponse.successResponse(new PageResponse<>(page)))
                 .orElse(NutritionResponse.failureResponse(
@@ -61,7 +63,7 @@ public class FoodItemController {
     @GetMapping("/simple")
     public NutritionResponse<PageResponse<FoodItemSimpleDTO>> getSimpleFoodItems(
             @RequestParam(required = false) String search,
-            Pageable pageable) {
+            @PageableDefault(sort = "foodName", direction = Sort.Direction.ASC) Pageable pageable) {
         return foodItemService.findAllSimple(search, pageable)
                 .map(page -> NutritionResponse.successResponse(new PageResponse<>(page)))
                 .orElse(NutritionResponse.failureResponse(

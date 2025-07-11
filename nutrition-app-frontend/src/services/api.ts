@@ -89,12 +89,12 @@ class ApiService {
     return this.request<PageResponse<User>>(`/users?${params.toString()}`, {method: 'GET'});
   }
 
-  async deleteUser(id: string): Promise<void> {
+  async deleteUser(id: string): Promise<NutritionResponse<void>> {
     if (!id?.trim()) {
       throw new Error('Invalid user ID');
     }
 
-    await this.request<void>(`/users/${id}`, {
+    return this.request<void>(`/users/${id}`, {
       method: 'DELETE',
     });
   }
@@ -228,12 +228,12 @@ class ApiService {
     });
   }
 
-  async deleteFoodItem(id: string): Promise<void> {
+  async deleteFoodItem(id: string): Promise<NutritionResponse<void>> {
     if (!id?.trim()) {
       throw new Error('Invalid food item ID');
     }
 
-    await this.request<void>(`/food-items/${id}`, {
+    return this.request<void>(`/food-items/${id}`, {
       method: 'DELETE',
     });
   }
@@ -278,12 +278,12 @@ class ApiService {
     });
   }
 
-  async deleteMeal(id: string): Promise<void> {
+  async deleteMeal(id: string): Promise<NutritionResponse<null>> {
     if (!id?.trim()) {
       throw new Error('Invalid meal ID');
     }
 
-    await this.request<void>(`/meals/${id}`, {
+    return this.request<null>(`/meals/${id}`, {
       method: 'DELETE',
     });
   }

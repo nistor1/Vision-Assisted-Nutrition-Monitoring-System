@@ -45,7 +45,12 @@ const UsersPage: React.FC = () => {
   const handleEdit = (id: string) => navigate(`/admin/users/edit/${id}?redirect=` + location.pathname);
   const handleDelete = async (id: string) => {
     try {
-      await apiService.deleteUser(id);
+      const response = await apiService.deleteUser(id);
+      if(response.status !== 'OK') {
+        message.error('Delete failed');
+        return;
+      }
+
       message.success('User deleted');
       fetchUsers(pagination.current - 1, pagination.pageSize, roleFilter);
     } catch {

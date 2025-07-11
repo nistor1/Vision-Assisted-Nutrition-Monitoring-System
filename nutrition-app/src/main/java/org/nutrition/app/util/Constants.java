@@ -7,7 +7,6 @@ public interface Constants {
     String SUCCESS = "Success";
     String FAILURE = "Failure";
 
-
     interface ReturnMessages {
         static String notFound(Class<?> clazz, final String propertyName, final Object value) {
             return "Could not find " + clazz.getSimpleName() + " with " + propertyName + ": " + value;

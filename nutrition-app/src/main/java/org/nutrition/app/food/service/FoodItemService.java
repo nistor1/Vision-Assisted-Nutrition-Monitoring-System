@@ -187,5 +187,4 @@ public class FoodItemService {
                 .withVitaminK(dto.getVitaminK())
                 .build();
     }
-
 }
