@@ -5,11 +5,13 @@ import org.nutrition.app.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface GoalRepository extends JpaRepository<Goal, UUID> {
 
-    List<Goal> findAllByUser(User user);
+    Optional<Goal> findByUser(User user);
+    void deleteByUser(User user);
+
 }

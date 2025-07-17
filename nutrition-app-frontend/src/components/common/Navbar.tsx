@@ -3,7 +3,6 @@ import { Layout, Menu, Button, Drawer } from 'antd';
 import {
   HomeOutlined,
   DoubleRightOutlined,
-  ContactsOutlined,
   MenuOutlined,
   CloseOutlined,
   UserOutlined,
@@ -19,7 +18,7 @@ const { Header } = Layout;
 export const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { logout, isAuthenticated } = useAuth();
 
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -36,27 +35,25 @@ export const Navbar: React.FC = () => {
   }, []);
 
   const handleMenuClick = ({ key }: { key: string }) => {
-    if (key === 'logout') {
+    if (key === ROUTES.LOGOUT) {
       logout();
-      navigate(ROUTES.HOME);
+      navigate(ROUTES.LOGIN);
     } else {
       navigate(key);
     }
     setMobileMenuVisible(false);
   };
 
-  const menuItems = user.logged
+  const menuItems = isAuthenticated
     ? [
       { key: ROUTES.HOME, icon: <HomeOutlined />, label: 'Home' },
-      { key: ROUTES.PROFILE.replace(':username', user.username), icon: <UserOutlined />, label: 'Profile' },
-      { key: ROUTES.CONTACT, icon: <ContactsOutlined />, label: 'Contact' },
-      { key: 'logout', icon: <LogoutOutlined />, label: '' },
+      { key: ROUTES.USER_PERSONAL_PROFILE, icon: <UserOutlined />, label: 'Profile' },
+      { key: ROUTES.LOGOUT, icon: <LogoutOutlined />, label: '' },
     ]
     : [
       { key: ROUTES.HOME, icon: <HomeOutlined />, label: 'Home' },
       { key: ROUTES.LOGIN, icon: <LoginOutlined />, label: 'Login' },
       { key: ROUTES.REGISTER, icon: <DoubleRightOutlined />, label: 'Register' },
-      { key: ROUTES.CONTACT, icon: <ContactsOutlined />, label: 'Contact' },
     ];
 
   return (
@@ -84,28 +81,18 @@ export const Navbar: React.FC = () => {
           Nutrition App
         </div>
         {!isMobile && (
-          <Menu
-            mode="horizontal"
-            selectedKeys={[location.pathname]}
-            items={menuItems}
+          <Menu mode="horizontal" selectedKeys={[location.pathname]} items={menuItems}
             onClick={handleMenuClick}
             style={{ background: 'transparent', border: 'none' }}
           />
         )}
       </Header>
 
-      <Drawer
-        title="Navigation"
-        placement="left"
-        onClose={() => setMobileMenuVisible(false)}
-        open={mobileMenuVisible}
+      <Drawer title="Navigation" placement="left" onClose={() => setMobileMenuVisible(false)} open={mobileMenuVisible}
         closeIcon={<CloseOutlined />}
       >
-        <Menu
-          mode="vertical"
-          selectedKeys={[location.pathname]}
-          items={menuItems}
-          onClick={handleMenuClick}
+        <Menu mode="vertical" selectedKeys={[location.pathname]} items={menuItems}
+              onClick={handleMenuClick}
         />
       </Drawer>
     </>

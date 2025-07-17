@@ -50,17 +50,6 @@ public class NutritionResponse<T> extends ResponseEntity<Object> implements Seri
         return baseResponse(payload, SUCCESS, HttpStatus.OK, getDefaultHttpHeaders(), null);
     }
 
-
-    public static <T> NutritionResponse<T> successResponse(final T payload, final String headerKey, final String headerValue) {
-        HttpHeaders headers = getDefaultHttpHeaders();
-        headers.add(headerKey, headerValue);
-        return baseResponse(payload, SUCCESS, HttpStatus.OK, headers, null);
-    }
-
-    public static <T> NutritionResponse<T> successResponse(final T payload, final HttpStatus status) {
-        return baseResponse(payload, SUCCESS, status, getDefaultHttpHeaders(), null);
-    }
-
     public static <T> NutritionResponse<T> failureResponse(final NutritionError error) {
         return failureResponse(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }

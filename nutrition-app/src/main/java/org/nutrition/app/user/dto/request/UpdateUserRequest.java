@@ -1,7 +1,8 @@
 package org.nutrition.app.user.dto.request;
 
-
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,8 +23,10 @@ public class UpdateUserRequest {
     @NotNull(message = NutritionError.ID_IS_REQUIRED)
     private UUID id;
 
+    @Size(min = 3, max = 50, message = NutritionError.USERNAME_LENGTH)
     private String username;
 
+    @Email(message = NutritionError.EMAIL_INVALID)
     private String email;
 
     private Role role;

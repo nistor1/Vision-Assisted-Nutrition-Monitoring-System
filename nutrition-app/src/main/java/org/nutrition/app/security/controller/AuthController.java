@@ -5,10 +5,8 @@ import org.nutrition.app.util.response.NutritionResponse;
 import org.nutrition.app.security.dto.request.ForgotPasswordRequest;
 import org.nutrition.app.security.dto.request.LoginRequest;
 import org.nutrition.app.security.dto.request.ResetPasswordRequest;
-import org.nutrition.app.security.dto.request.ValidateTokenRequest;
 import org.nutrition.app.security.dto.response.AuthResponse;
 import org.nutrition.app.security.service.AuthService;
-import org.nutrition.app.user.dto.UserDTO;
 import org.nutrition.app.user.dto.request.CreateUserRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -52,12 +50,5 @@ public class AuthController {
         return authService.resetPassword(request.token(), request.newPassword()) ?
                 NutritionResponse.successResponse(null) :
                 NutritionResponse.failureResponse(PASSWORD_RESET_FAIL, BAD_REQUEST);
-    }
-
-    @PostMapping("/validate-token")
-    public NutritionResponse<UserDTO> validateToken(@RequestBody final ValidateTokenRequest request) {
-        return authService.validateToken(request.token())
-                .map(NutritionResponse::successResponse)
-                .orElse(NutritionResponse.failureResponse(BAD_CREDENTIAL_EXCEPTION, HttpStatus.UNAUTHORIZED));
     }
 }

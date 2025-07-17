@@ -1,14 +1,11 @@
 package org.nutrition.app.util;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.Date;
 
 public interface Constants {
 
     String SUCCESS = "Success";
     String FAILURE = "Failure";
-
 
     interface ReturnMessages {
         static String notFound(Class<?> clazz, final String propertyName, final Object value) {
@@ -38,12 +35,5 @@ public interface Constants {
             return new Date(System.currentTimeMillis() + delay);
         }
 
-        static Timestamp timestampNow() {
-            return Timestamp.from(Instant.now());
-        }
-
-        static Timestamp fromString(final String nanos) {
-            return new Timestamp(Long.parseLong(nanos) / 1_000_000);
-        }
     }
 }

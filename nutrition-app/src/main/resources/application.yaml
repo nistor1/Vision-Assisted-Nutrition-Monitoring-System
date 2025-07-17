@@ -1,8 +1,10 @@
 spring:
   application:
     name: nutrition-app
+  jackson:
+      time-zone: Europe/Bucharest
   datasource:
-    url: jdbc:postgresql://postgres:5432/nutrition_db
+    url: jdbc:postgresql://postgres:5433/nutrition_db
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -16,8 +18,11 @@ spring:
   jwt:
     secret-key: dW4tc2VjcmV0LWFsZWF0b3ItY29tcGxleC1kZS1taW5pbS0yNTYtYml0cw==
     token-expiration-days: 1
+  profiles:
+    active: dev
+
   mail:
-    host: localhost
+    host: mailhog
     port: 1025
     username:
     password:
@@ -27,16 +32,15 @@ spring:
 server:
   port: 8080
 
+reset-password-email-title: 'Password reset email - Nutrition App'
+reset-password-email-body: 'Reset password: '
+whitelisted-paths: /auth/**, /swagger-ui/**, /v3/api-docs/**, /v3/api-docs.yaml, /swagger-ui.html, /bus/**, /actuator/**
+reset-password-url: http://localhost:5173/reset-password
+app-mail: no-reply@nutrition-app.local
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
-
-whitelisted-paths: /auth/**, /swagger-ui/**, /v3/api-docs/**, /v3/api-docs.yaml, /swagger-ui.html, /bus/**, /actuator/**
-reset-password-url: http://localhost:5173/reset-password
-reset-password-email-title: 'Password reset email - Nutrition App'
-reset-password-email-body: 'Reset your password using: '
-deal-mail: no-reply@deal.com
-app-mail: your@email.com
 
 logging:
   level:

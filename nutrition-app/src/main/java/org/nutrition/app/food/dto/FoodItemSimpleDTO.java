@@ -10,6 +10,7 @@ public record FoodItemSimpleDTO(
         UUID id,
         String foodName,
         String category,
+        String imageUrl,
         Double servingSize,
         String servingUnit,
         boolean active

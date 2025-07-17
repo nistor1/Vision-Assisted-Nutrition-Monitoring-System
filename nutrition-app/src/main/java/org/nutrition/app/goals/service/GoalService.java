@@ -10,10 +10,8 @@ import org.nutrition.app.goals.dto.request.CreateGoalRequest;
 import org.nutrition.app.goals.dto.request.UpdateGoalRequest;
 import org.nutrition.app.goals.entity.Goal;
 import org.nutrition.app.goals.repository.GoalRepository;
-import org.nutrition.app.user.dto.UserDTO;
 import org.nutrition.app.user.entity.User;
 import org.nutrition.app.user.repository.UserRepository;
-import org.nutrition.app.util.Constants.Time;
 import org.nutrition.app.util.Mapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -34,12 +32,12 @@ public class GoalService {
         return Optional.of(goalRepository.findAll().stream().map(this::mapGoalToDTO).toList());
     }
 
-    public Optional<List<GoalDTO>> findAllByUserId(final UUID id) {
+    public Optional<GoalDTO> findByUserId(final UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() ->
                         new NutritionException(NutritionError.USER_NOT_FOUND.toString(), HttpStatus.NOT_FOUND)
                 );
-        return Optional.of(goalRepository.findAllByUser(user).stream().map(this::mapGoalToDTO).toList());
+        return goalRepository.findByUser(user).map(this::mapGoalToDTO);
     }
 
     public Optional<GoalDTO> findById(final UUID id) {
@@ -53,13 +51,6 @@ public class GoalService {
                 );
 
         var goal = Goal.builder()
-                .withCreatedAt(Time.now())
-                .withEndedAt(request.endedAt())
-                .withTotalSugars(request.totalSugars())
-                .withTotalCalories(request.totalCalories())
-                .withTotalCarbohydrates(request.totalCarbohydrates())
-                .withTotalFats(request.totalFats())
-                .withTotalProteins(request.totalProteins())
                 .withUser(user)
                 .build();
 
@@ -68,32 +59,34 @@ public class GoalService {
     }
 
     public Optional<GoalDTO> update(final UpdateGoalRequest request) {
-        return goalRepository.findById(request.id())
-                .map(foodItem -> {
-                    Mapper.updateValues(foodItem, request);
+        return goalRepository.findById(request.getId())
+                .map(goal -> {
+                    Mapper.updateValues(goal, request);
 
-                    goalRepository.save(foodItem);
+                    goalRepository.save(goal);
 
-                    return mapGoalToDTO(foodItem);
+                    return mapGoalToDTO(goal);
                 });
     }
 
     @Transactional
     public Optional<GoalDTO> deleteById(final UUID id) {
         return goalRepository.findById(id)
-                .map(foodItem -> {
-                    goalRepository.delete(foodItem);
-                    return mapGoalToDTO(foodItem);
+                .map(goal -> {
+                    goalRepository.delete(goal);
+                    return mapGoalToDTO(goal);
                 });
     }
 
-    public UserDTO mapUserToDTO(final User user) {
-        return Mapper.mapTo(user, UserDTO.class);
+    @Transactional
+    public void deleteByUser(final UUID id) {
+        userRepository.findById(id)
+                .ifPresent(goalRepository::deleteByUser);
     }
 
     public GoalDTO mapGoalToDTO(final Goal goal) {
         GoalDTO goalDTO =  Mapper.mapTo(goal, GoalDTO.class);
-        goalDTO.setUser(mapUserToDTO(goal.getUser()));
+        goalDTO.setUserId(goal.getUser().getId());
         return goalDTO;
     }
 }

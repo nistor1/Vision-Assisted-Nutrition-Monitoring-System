@@ -1,10 +1,10 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
-import type { AuthContextType, AuthUser, UserRole } from '../types/entities.ts';
+import type { AuthContextType, AuthUser, AuthData } from '../types/UserEntities.ts';
 
 const defaultUser: AuthUser = {
   logged: false,
   username: '',
-  role: undefined,
+  role: 'USER',
   jwtToken: '',
   id: '',
 };
@@ -17,33 +17,33 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<AuthUser>(() => {
-    const savedUser = localStorage.getItem('user');
+    const savedUser = localStorage.getItem('authUser');
     return savedUser ? JSON.parse(savedUser) : defaultUser;
   });
 
-  const login = (username: string, roleFromBackend: string, jwtToken: string, id: string) => {
-    const role: UserRole =
-      roleFromBackend === 'ADMIN' || roleFromBackend === 'USER'
-        ? roleFromBackend
-        : undefined;
+  const isAuthenticated = user.logged && user.jwtToken !== '';
 
-    const loggedUser: AuthUser = { logged: true, username, role, jwtToken, id };
+  const login = ({ accessToken, user }: AuthData) => {
+    const loggedUser: AuthUser = {
+      logged: true,
+      username: user.username,
+      role: user.role,
+      jwtToken: accessToken,
+      id: user.id,
+    };
+
     setUser(loggedUser);
-    localStorage.setItem('role', role ?? '');
-    localStorage.setItem('user', JSON.stringify(loggedUser));
-    localStorage.setItem('jwtToken', jwtToken);
-    localStorage.setItem('id', id);
+
+    localStorage.setItem('authUser', JSON.stringify(loggedUser));
   };
 
   const logout = () => {
     setUser(defaultUser);
-    localStorage.removeItem('role');
-    localStorage.removeItem('user');
-    localStorage.removeItem('id');
+    localStorage.removeItem('authUser');
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

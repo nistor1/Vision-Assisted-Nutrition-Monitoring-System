@@ -12,6 +12,7 @@ import org.nutrition.app.food.dto.request.create.CreateNutritionProximatesReques
 import org.nutrition.app.food.dto.request.create.CreateNutritionVitaminsRequest;
 import org.nutrition.app.food.dto.request.update.UpdateFoodItemRequest;
 import org.nutrition.app.food.entity.FoodItem;
+import org.nutrition.app.food.entity.FoodItemSimpleProjection;
 import org.nutrition.app.food.entity.NutritionCarbohydrates;
 import org.nutrition.app.food.entity.NutritionMinerals;
 import org.nutrition.app.food.entity.NutritionProximates;
@@ -19,9 +20,10 @@ import org.nutrition.app.food.entity.NutritionVitamins;
 import org.nutrition.app.food.repository.FoodItemRepository;
 import org.nutrition.app.util.Constants.Time;
 import org.nutrition.app.util.Mapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,12 +34,28 @@ public class FoodItemService {
 
     private final FoodItemRepository foodItemRepository;
 
-    public Optional<List<FoodItemDTO>> findAll() {
-        return Optional.of(foodItemRepository.findAll().stream().map(this::mapFoodItemToDTO).toList());
+    public Optional<Page<FoodItemDTO>> findAll(String search, Pageable pageable) {
+        Page<FoodItem> foodItems;
+
+        if (search != null && !search.trim().isEmpty()) {
+            foodItems = foodItemRepository.findByCategory(search, pageable);
+        } else {
+            foodItems = foodItemRepository.findAll(pageable);
+        }
+
+        return Optional.of(foodItems.map(this::mapFoodItemToDTO));
     }
 
-    public Optional<List<FoodItemSimpleDTO>> findAllSimple() {
-        return Optional.of(foodItemRepository.findAll().stream().map(this::mapFoodItemToSimpleDTO).toList());
+    public Optional<Page<FoodItemSimpleDTO>> findAllSimple(String search, Pageable pageable) {
+        Page<FoodItemSimpleProjection> foodItems;
+
+        if (search != null && !search.trim().isEmpty()) {
+            foodItems = foodItemRepository.findSimpleByCategory(search, pageable);
+        } else {
+            foodItems = foodItemRepository.findAllSimple(pageable);
+        }
+
+        return Optional.of(foodItems.map(this::mapFoodItemToSimpleDTO));
     }
 
     public Optional<FoodItemDTO> findById(final UUID id) {
@@ -45,7 +63,7 @@ public class FoodItemService {
     }
 
     public Optional<FoodItemSimpleDTO> findSimpleById(final UUID id) {
-        return foodItemRepository.findById(id).map(this::mapFoodItemToSimpleDTO);
+        return foodItemRepository.findSimpleById(id).map(this::mapFoodItemToSimpleDTO);
     }
 
     public Optional<FoodItemDTO> findByTag(final Integer tag) {
@@ -79,6 +97,7 @@ public class FoodItemService {
         return foodItemRepository.findById(request.getId())
                 .map(foodItem -> {
                     Mapper.updateValues(foodItem, request);
+                    foodItem.setUpdatedAt(Time.now());
 
                     foodItemRepository.save(foodItem);
 
@@ -99,7 +118,7 @@ public class FoodItemService {
         return Mapper.mapTo(foodItem, FoodItemDTO.class);
     }
 
-    public FoodItemSimpleDTO mapFoodItemToSimpleDTO(final FoodItem foodItem) {
+    public FoodItemSimpleDTO mapFoodItemToSimpleDTO(final FoodItemSimpleProjection foodItem) {
         return Mapper.mapTo(foodItem, FoodItemSimpleDTO.class);
     }
 
@@ -168,5 +187,4 @@ public class FoodItemService {
                 .withVitaminK(dto.getVitaminK())
                 .build();
     }
-
 }
