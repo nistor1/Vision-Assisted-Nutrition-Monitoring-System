@@ -33,7 +33,7 @@ INSERT INTO nutrition_vitamins (
              '1da71bb6-6737-42ec-99a7-010965000003', 100.0, 'mg', NULL, 0.009, 0.066,
              0.09, NULL, 0.021, NULL,
              6.0, NULL, NULL, NULL,
-            NULL, NULL
+             NULL, NULL
          );
 
 INSERT INTO food_item (
@@ -42,7 +42,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000004', 0, 'Apple', 'Fruit',
-             'https://example.com/images/apple.jpg', 200.0, 'g',
+             'https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg', 200.0, 'g',
              '2025-06-18T14:00:00.000+00:00', '2025-06-18T14:00:00.000+00:00', TRUE,
              '1da71bb6-6737-42ec-99a7-010965000000', '1da71bb6-6737-42ec-99a7-010965000001',
              '1da71bb6-6737-42ec-99a7-010965000002', '1da71bb6-6737-42ec-99a7-010965000003'
@@ -71,7 +71,7 @@ INSERT INTO nutrition_carbohydrates (
     glucose, fructose, maltose, lactose
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000007', 100.0, 'g', 8.32, NULL, NULL, NULL,
-            NULL, NULL, NULL, NULL
+             NULL, NULL, NULL, NULL
          );
 
 INSERT INTO nutrition_vitamins (
@@ -81,9 +81,9 @@ INSERT INTO nutrition_vitamins (
     vitamin_e, vitamin_k
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000008', 100.0, 'mg', NULL, NULL, NULL,
-            NULL, NULL, 0.167, NULL,
+             NULL, NULL, 0.167, NULL,
              4.0, NULL, NULL, NULL,
-            NULL, NULL
+             NULL, NULL
          );
 
 INSERT INTO food_item (
@@ -92,7 +92,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000009', 1, 'Avocado', 'Fruit',
-             'https://example.com/images/avocado.jpg', 250.0, 'g',
+             'https://cdn.pixabay.com/photo/2018/04/17/20/35/food-3328649_1280.jpg', 250.0, 'g',
              '2025-06-18T14:15:00.000+00:00', '2025-06-18T14:15:00.000+00:00', TRUE,
              '1da71bb6-6737-42ec-99a7-010965000005', '1da71bb6-6737-42ec-99a7-010965000006',
              '1da71bb6-6737-42ec-99a7-010965000007', '1da71bb6-6737-42ec-99a7-010965000008'
@@ -113,7 +113,7 @@ INSERT INTO nutrition_minerals (
     potassium, sodium, zinc, copper, manganese
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000011', 100.0, 'mg', NULL, NULL, NULL, NULL,
-            NULL, NULL, NULL, NULL, NULL
+             NULL, NULL, NULL, NULL, NULL
          );
 
 INSERT INTO nutrition_carbohydrates (
@@ -132,8 +132,8 @@ INSERT INTO nutrition_vitamins (
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000013', 100.0, 'mg', 0.001, 0.04, 0.1,
              0.57, NULL, 0.234, NULL,
-            NULL, NULL, 9.7, NULL,
-            NULL, 0.0002
+             NULL, NULL, 9.7, NULL,
+             NULL, 0.0002
          );
 
 INSERT INTO food_item (
@@ -142,7 +142,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000014', 2, 'Banana', 'Fruit',
-             'https://example.com/images/banana.jpg', 118.0, 'g',
+             'https://images.unsplash.com/photo-1587132137056-bfbf0166836e?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 118.0, 'g',
              '2025-06-18T14:30:00.000+00:00', '2025-06-18T14:30:00.000+00:00', TRUE,
              '1da71bb6-6737-42ec-99a7-010965000010', '1da71bb6-6737-42ec-99a7-010965000011',
              '1da71bb6-6737-42ec-99a7-010965000012', '1da71bb6-6737-42ec-99a7-010965000013'
@@ -171,7 +171,7 @@ INSERT INTO nutrition_carbohydrates (
     glucose, fructose, maltose, lactose
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000022', 100.0, 'g', 6.65, 1.2, NULL, NULL,
-            NULL, NULL, NULL, NULL
+             NULL, NULL, NULL, NULL
          );
 
 INSERT INTO nutrition_vitamins (
@@ -182,8 +182,8 @@ INSERT INTO nutrition_vitamins (
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000023', 100.0, 'mg', NULL, 0.055, 0.142,
              1.02, NULL, 0.303, 0.0004,
-            NULL, NULL, 142.0, NULL,
-            NULL, NULL
+             NULL, NULL, 142.0, NULL,
+             NULL, NULL
          );
 
 INSERT INTO food_item (
@@ -192,7 +192,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000024', 4, 'Bell Pepper', 'Vegetable',
-             'https://example.com/images/bell-pepper.jpg', 148.0, 'g',
+             'https://cdn.pixabay.com/photo/2019/09/21/18/24/red-pepper-4494487_1280.png', 148.0, 'g',
              '2025-06-18T14:35:00.000+00:00', '2025-06-18T14:35:00.000+00:00', TRUE,
              '1da71bb6-6737-42ec-99a7-010965000020', '1da71bb6-6737-42ec-99a7-010965000021',
              '1da71bb6-6737-42ec-99a7-010965000022', '1da71bb6-6737-42ec-99a7-010965000023'
@@ -231,9 +231,9 @@ INSERT INTO nutrition_vitamins (
     vitamin_e, vitamin_k
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000028', 100.0, 'mg', NULL, NULL, NULL,
-            NULL, NULL, NULL, NULL,
-            NULL, NULL, 4.6, NULL,
-            NULL, NULL
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, 4.6, NULL,
+             NULL, NULL
          );
 
 INSERT INTO food_item (
@@ -242,7 +242,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000029', 3, 'Beets', 'Vegetable',
-             'https://example.com/images/beets.jpg', 200.0, 'g',
+             'https://cdn.pixabay.com/photo/2016/10/09/13/39/red-beets-1725799_1280.jpg', 200.0, 'g',
              '2025-06-18T14:40:00.000+00:00', '2025-06-18T14:40:00.000+00:00', TRUE,
              '1da71bb6-6737-42ec-99a7-010965000025', '1da71bb6-6737-42ec-99a7-010965000026',
              '1da71bb6-6737-42ec-99a7-010965000027', '1da71bb6-6737-42ec-99a7-010965000028'
@@ -282,8 +282,8 @@ INSERT INTO nutrition_vitamins (
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000033', 100.0, 'mg', NULL, 0.507, 0.24,
              4.76, 0.548, 0.092, NULL,
-            NULL, NULL, NULL, NULL,
-            NULL, NULL
+             NULL, NULL, NULL, NULL,
+             NULL, NULL
          );
 
 INSERT INTO food_item (
@@ -292,7 +292,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000034', 5, 'Bread', 'Other',
-             'https://example.com/images/bread.jpg', 500.0, 'g',
+             'https://cdn.pixabay.com/photo/2018/04/03/18/26/fresh-bread-3287600_1280.jpg', 500.0, 'g',
              '2025-06-18T15:00:00.000+00:00', '2025-06-18T15:00:00.000+00:00', TRUE,
              '1da71bb6-6737-42ec-99a7-010965000030', '1da71bb6-6737-42ec-99a7-010965000031',
              '1da71bb6-6737-42ec-99a7-010965000032', '1da71bb6-6737-42ec-99a7-010965000033'
@@ -342,7 +342,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000039', 6, 'Broccoli', 'Vegetable',
-             'https://example.com/images/broccoli.jpg', 350.0, 'g',
+             'https://cdn.pixabay.com/photo/2016/06/11/15/33/broccoli-1450274_1280.png', 350.0, 'g',
              '2025-06-18T15:15:00.000+00:00', '2025-06-18T15:15:00.000+00:00', TRUE,
              '1da71bb6-6737-42ec-99a7-010965000035', '1da71bb6-6737-42ec-99a7-010965000036',
              '1da71bb6-6737-42ec-99a7-010965000037', '1da71bb6-6737-42ec-99a7-010965000038'
@@ -371,7 +371,7 @@ INSERT INTO nutrition_carbohydrates (
     glucose, fructose, maltose, lactose
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-01096500003c', 100.0, 'g', 6.38, NULL, NULL, NULL,
-            NULL, NULL, NULL, NULL
+             NULL, NULL, NULL, NULL
          );
 
 INSERT INTO nutrition_vitamins (
@@ -381,9 +381,9 @@ INSERT INTO nutrition_vitamins (
     vitamin_e, vitamin_k
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-01096500003d', 100.0, 'mg', NULL, NULL, NULL,
-            NULL, NULL, 0.138, NULL,
-            NULL, NULL, 40.3, NULL,
-            NULL, 0.0006
+             NULL, NULL, 0.138, NULL,
+             NULL, NULL, 40.3, NULL,
+             NULL, 0.0006
          );
 
 INSERT INTO food_item (
@@ -392,7 +392,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-01096500003e', 7, 'Cabbage', 'Vegetable',
-             'https://example.com/images/cabbage.jpg', 500.0, 'g',
+             'https://media.istockphoto.com/id/673162168/ro/fotografie/varz%C4%83-verde-izolat%C4%83-pe-alb.jpg?s=2048x2048&w=is&k=20&c=9bUZ8C99MT0uMQ_p-AVZR-pymY4yFIBXeBEE66zcQPI=', 500.0, 'g',
              '2025-06-18T15:30:00.000+00:00', '2025-06-18T15:30:00.000+00:00', TRUE,
              '1da71bb6-6737-42ec-99a7-01096500003a', '1da71bb6-6737-42ec-99a7-01096500003b',
              '1da71bb6-6737-42ec-99a7-01096500003c', '1da71bb6-6737-42ec-99a7-01096500003d'
@@ -421,7 +421,7 @@ INSERT INTO nutrition_carbohydrates (
     glucose, fructose, maltose, lactose
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000041', 100.0, 'g', 10.3, 3.1, NULL, NULL,
-            NULL, NULL, NULL, NULL
+             NULL, NULL, NULL, NULL
          );
 
 INSERT INTO nutrition_vitamins (
@@ -432,8 +432,8 @@ INSERT INTO nutrition_vitamins (
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000042', 100.0, 'mg', NULL, 0.065, 0.095,
              1.41, NULL, 0.146, 0.002,
-            NULL, NULL, NULL, NULL,
-            NULL, NULL
+             NULL, NULL, NULL, NULL,
+             NULL, NULL
          );
 
 INSERT INTO food_item (
@@ -442,7 +442,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000043', 8, 'Carrot', 'Vegetable',
-             'https://example.com/images/carrot.jpg', 70.0, 'g',
+             'https://cdn.pixabay.com/photo/2016/09/25/16/34/carrots-1694087_1280.jpg', 70.0, 'g',
              '2025-06-18T15:35:00.000+00:00', '2025-06-18T15:35:00.000+00:00', TRUE,
              '1da71bb6-6737-42ec-99a7-01096500003f', '1da71bb6-6737-42ec-99a7-010965000040',
              '1da71bb6-6737-42ec-99a7-010965000041', '1da71bb6-6737-42ec-99a7-010965000042'
@@ -471,7 +471,7 @@ INSERT INTO nutrition_carbohydrates (
     glucose, fructose, maltose, lactose
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000046', 100.0, 'g', 4.72, 1.9, NULL, NULL,
-            NULL, NULL, NULL, NULL
+             NULL, NULL, NULL, NULL
          );
 
 INSERT INTO nutrition_vitamins (
@@ -481,9 +481,9 @@ INSERT INTO nutrition_vitamins (
     vitamin_e, vitamin_k
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000047', 100.0, 'mg', NULL, NULL, NULL,
-            NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
              0.097, NULL, 67.1, NULL,
-            NULL, NULL
+             NULL, NULL
          );
 
 INSERT INTO food_item (
@@ -492,7 +492,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000048', 9, 'Cauliflower', 'Vegetable',
-             'https://example.com/images/cauliflower.jpg', 500.0, 'g',
+             'https://cdn.pixabay.com/photo/2015/09/25/16/51/cabbage-957778_1280.jpg', 500.0, 'g',
              '2025-06-18T15:45:00.000+00:00', '2025-06-18T15:45:00.000+00:00', TRUE,
              '1da71bb6-6737-42ec-99a7-010965000044', '1da71bb6-6737-42ec-99a7-010965000045',
              '1da71bb6-6737-42ec-99a7-010965000046', '1da71bb6-6737-42ec-99a7-010965000047'
@@ -521,7 +521,7 @@ INSERT INTO nutrition_carbohydrates (
     glucose, fructose, maltose, lactose
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000051', 100.0, 'g', 2.95, NULL, NULL, NULL,
-            NULL, NULL, NULL, NULL
+             NULL, NULL, NULL, NULL
          );
 
 INSERT INTO nutrition_vitamins (
@@ -531,9 +531,9 @@ INSERT INTO nutrition_vitamins (
     vitamin_e, vitamin_k
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000052', 100.0, 'mg', NULL, NULL, NULL,
-            NULL, NULL, NULL, 0.000962,
-            NULL, NULL, NULL, NULL,
-            NULL, 0.024
+             NULL, NULL, NULL, 0.000962,
+             NULL, NULL, NULL, NULL,
+             NULL, 0.024
          );
 
 INSERT INTO food_item (
@@ -542,7 +542,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000053', 10, 'Cucumber', 'Vegetable',
-             'https://example.com/images/cucumber.jpg', 300.0, 'g',
+             'https://cdn.pixabay.com/photo/2016/11/05/00/01/cucumbers-1799262_1280.jpg', 300.0, 'g',
              '2025-06-18T15:50:00.000+00:00', '2025-06-18T15:50:00.000+00:00', TRUE,
              '1da71bb6-6737-42ec-99a7-010965000049', '1da71bb6-6737-42ec-99a7-010965000050',
              '1da71bb6-6737-42ec-99a7-010965000051', '1da71bb6-6737-42ec-99a7-010965000052'
@@ -581,9 +581,9 @@ INSERT INTO nutrition_vitamins (
     vitamin_e, vitamin_k
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000057', 100.0, 'mg', NULL, NULL, NULL,
-            NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
              0.02, NULL, 0.8, NULL,
-            NULL, NULL
+             NULL, NULL
          );
 
 INSERT INTO food_item (
@@ -592,7 +592,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000058', 13, 'Eggplant', 'Vegetable',
-             'https://example.com/images/eggplant.jpg', 300.0, 'g',
+             'https://cdn.pixabay.com/photo/2021/03/30/10/42/eggplant-6136659_1280.jpg', 300.0, 'g',
              '2025-06-18T15:55:00.000+00:00', '2025-06-18T15:55:00.000+00:00', TRUE,
              '1da71bb6-6737-42ec-99a7-010965000054', '1da71bb6-6737-42ec-99a7-010965000055',
              '1da71bb6-6737-42ec-99a7-010965000056', '1da71bb6-6737-42ec-99a7-010965000057'
@@ -632,7 +632,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000063', 14, 'Garlic', 'Vegetable',
-             'https://example.com/images/garlic.jpg', 7.0, 'g',
+             'https://images.unsplash.com/photo-1587049693270-c7560da11218?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Z2FybGljfGVufDB8MnwwfHx8Mg%3D%3D', 7.0, 'g',
              '2025-06-18T15:58:00.000+00:00', '2025-06-18T15:58:00.000+00:00', TRUE,
              '1da71bb6-6737-42ec-99a7-010965000059', '1da71bb6-6737-42ec-99a7-010965000060',
              '1da71bb6-6737-42ec-99a7-010965000061', '1da71bb6-6737-42ec-99a7-010965000062'
@@ -678,7 +678,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000068', 18, 'Lettuce', 'Vegetable',
-             'https://example.com/images/lettuce.jpg', 250.0, 'g',
+             'https://cdn.pixabay.com/photo/2018/06/17/14/45/salad-3480650_1280.jpg', 250.0, 'g',
              '2025-06-18T16:03:00.000+00:00', '2025-06-18T16:03:00.000+00:00', TRUE,
              '1da71bb6-6737-42ec-99a7-010965000064', '1da71bb6-6737-42ec-99a7-010965000065',
              '1da71bb6-6737-42ec-99a7-010965000066', '1da71bb6-6737-42ec-99a7-010965000067'
@@ -724,7 +724,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '1da71bb6-6737-42ec-99a7-010965000073', 19, 'Mushroom', 'Vegetable',
-             'https://example.com/images/mushroom.jpg', 19.0, 'g',
+             'https://cdn.pixabay.com/photo/2017/08/05/07/30/mushroom-2582415_1280.png', 19.0, 'g',
              '2025-06-18T16:06:00.000+00:00', '2025-06-18T16:06:00.000+00:00', TRUE,
              '1da71bb6-6737-42ec-99a7-010965000069', '1da71bb6-6737-42ec-99a7-010965000070',
              '1da71bb6-6737-42ec-99a7-010965000071', '1da71bb6-6737-42ec-99a7-010965000072'
@@ -761,7 +761,7 @@ INSERT INTO nutrition_vitamins (
     vitamin_c
 ) VALUES (
              '9fa297df-ea06-40a5-bba6-010965000082', 100.0, 'mg',
-            NULL
+             NULL
          );
 
 INSERT INTO food_item (
@@ -770,7 +770,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '9fa297df-ea06-40a5-bba6-010965000083', 20, 'Onion', 'Vegetable',
-             'https://example.com/images/onion.jpg', 250.0, 'g',
+             'https://images.unsplash.com/photo-1587049633312-d628ae50a8ae?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8b25pb258ZW58MHwyfDB8fHwy', 250.0, 'g',
              '2025-06-18T16:15:00.000+00:00', '2025-06-18T16:15:00.000+00:00', TRUE,
              '9fa297df-ea06-40a5-bba6-010965000079', '9fa297df-ea06-40a5-bba6-010965000080',
              '9fa297df-ea06-40a5-bba6-010965000081', '9fa297df-ea06-40a5-bba6-010965000082'
@@ -818,7 +818,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              '9fa297df-ea06-40a5-bba6-010965000088', 21, 'Orange', 'Fruit',
-             'https://example.com/images/orange.jpg', 150.0, 'g',
+             'https://images.unsplash.com/photo-1587735243615-c03f25aaff15?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8b3JhbmdlfGVufDB8MnwwfHx8Mg%3D%3D', 150.0, 'g',
              '2025-06-18T16:20:00.000+00:00', '2025-06-18T16:20:00.000+00:00', TRUE,
              '9fa297df-ea06-40a5-bba6-010965000084', '9fa297df-ea06-40a5-bba6-010965000085',
              '9fa297df-ea06-40a5-bba6-010965000086', '9fa297df-ea06-40a5-bba6-010965000087'
@@ -866,7 +866,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              'ea2dfb7e-e5f0-4e90-a0aa-010965000088', 22, 'Pear', 'Fruit',
-             'https://example.com/images/pear.jpg', 166.0, 'g',
+             'https://cdn.pixabay.com/photo/2010/12/13/10/06/food-2280_1280.jpg', 166.0, 'g',
              '2025-06-18T17:00:00.000+00:00', '2025-06-18T17:00:00.000+00:00', TRUE,
              'ea2dfb7e-e5f0-4e90-a0aa-010965000084', 'ea2dfb7e-e5f0-4e90-a0aa-010965000085',
              'ea2dfb7e-e5f0-4e90-a0aa-010965000086', 'ea2dfb7e-e5f0-4e90-a0aa-010965000087'
@@ -914,7 +914,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              'ea2dfb7e-e5f0-4e90-a0aa-010965000093', 23, 'Pineapple', 'Fruit',
-             'https://example.com/images/pineapple.jpg', 905.0, 'g',
+             'https://cdn.pixabay.com/photo/2014/01/26/18/30/pineapple-252468_1280.jpg', 905.0, 'g',
              '2025-06-18T17:00:00.000+00:00', '2025-06-18T17:00:00.000+00:00', TRUE,
              'ea2dfb7e-e5f0-4e90-a0aa-010965000089', 'ea2dfb7e-e5f0-4e90-a0aa-010965000090',
              'ea2dfb7e-e5f0-4e90-a0aa-010965000091', 'ea2dfb7e-e5f0-4e90-a0aa-010965000092'
@@ -963,7 +963,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              'ea2dfb7e-e5f0-4e90-a0aa-010965000098', 12, 'Egg', 'Other',
-             'https://example.com/images/egg.jpg', 60.0, 'g',
+             'https://images.unsplash.com/photo-1691480158362-d958b907dc35?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8ZWdnfGVufDB8MnwwfHx8Mg%3D%3D', 60.0, 'g',
              '2025-06-18T17:00:00.000+00:00', '2025-06-18T17:00:00.000+00:00', TRUE,
              'ea2dfb7e-e5f0-4e90-a0aa-010965000094', 'ea2dfb7e-e5f0-4e90-a0aa-010965000095',
              'ea2dfb7e-e5f0-4e90-a0aa-010965000096', 'ea2dfb7e-e5f0-4e90-a0aa-010965000097'
@@ -1012,7 +1012,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              'ea2dfb7e-e5f0-4e90-a0aa-010965000103', 24, 'Potato', 'Vegetable',
-             'https://example.com/images/potato.jpg', 185.0, 'g',
+             'https://images.unsplash.com/photo-1617130094141-532436117aa1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cG90YXRvfGVufDB8MnwwfHx8Mg%3D%3D', 185.0, 'g',
              '2025-06-18T17:00:00.000+00:00', '2025-06-18T17:00:00.000+00:00', TRUE,
              'ea2dfb7e-e5f0-4e90-a0aa-010965000099', 'ea2dfb7e-e5f0-4e90-a0aa-010965000100',
              'ea2dfb7e-e5f0-4e90-a0aa-010965000101', 'ea2dfb7e-e5f0-4e90-a0aa-010965000102'
@@ -1060,7 +1060,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              'ea2dfb7e-e5f0-4e90-a0aa-010965000108', 25, 'Strawberry', 'Fruit',
-             'https://example.com/images/strawberry.jpg', 15.0, 'g',
+             'https://cdn.pixabay.com/photo/2014/02/23/11/09/strawberry-272810_1280.jpg', 15.0, 'g',
              '2025-06-18T17:00:00.000+00:00', '2025-06-18T17:00:00.000+00:00', TRUE,
              'ea2dfb7e-e5f0-4e90-a0aa-010965000104', 'ea2dfb7e-e5f0-4e90-a0aa-010965000105',
              'ea2dfb7e-e5f0-4e90-a0aa-010965000106', 'ea2dfb7e-e5f0-4e90-a0aa-010965000107'
@@ -1109,7 +1109,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              'fa2b9e55-d0c3-4e2b-8d02-010965000113', 27, 'Tomato', 'Vegetable',
-             'https://example.com/images/tomato.jpg', 123.0, 'g',
+             'https://cdn.pixabay.com/photo/2016/03/05/22/06/tomatoes-1239176_1280.jpg', 123.0, 'g',
              '2025-06-18T17:10:00.000+00:00', '2025-06-18T17:10:00.000+00:00', TRUE,
              'fa2b9e55-d0c3-4e2b-8d02-010965000109', 'fa2b9e55-d0c3-4e2b-8d02-010965000110',
              'fa2b9e55-d0c3-4e2b-8d02-010965000111', 'fa2b9e55-d0c3-4e2b-8d02-010965000112'
@@ -1157,7 +1157,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              'fa2b9e55-d0c3-4e2b-8d02-010965000118', 29, 'Zucchini', 'Vegetable',
-             'https://example.com/images/zucchini.jpg', 200.0, 'g',
+             'https://images.unsplash.com/photo-1583118208563-1654aa5caa31?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fGF2b2NhZG98ZW58MHwyfDB8fHwy', 200.0, 'g',
              '2025-06-18T17:15:00.000+00:00', '2025-06-18T17:15:00.000+00:00', TRUE,
              'fa2b9e55-d0c3-4e2b-8d02-010965000114', 'fa2b9e55-d0c3-4e2b-8d02-010965000115',
              'fa2b9e55-d0c3-4e2b-8d02-010965000116', 'fa2b9e55-d0c3-4e2b-8d02-010965000117'
@@ -1205,7 +1205,7 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              'fa2b9e55-d0c3-4e2b-8d02-010965000123', 17, 'Lemon', 'Fruit',
-             'https://example.com/images/lemon.jpg', 84.0, 'g',
+             'https://images.unsplash.com/photo-1587486937303-32eaa2134b78?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8TGVtb258ZW58MHwyfDB8fHwy', 84.0, 'g',
              '2025-06-18T17:20:00.000+00:00', '2025-06-18T17:20:00.000+00:00', TRUE,
              'fa2b9e55-d0c3-4e2b-8d02-010965000119', 'fa2b9e55-d0c3-4e2b-8d02-010965000120',
              'fa2b9e55-d0c3-4e2b-8d02-010965000121', 'fa2b9e55-d0c3-4e2b-8d02-010965000122'
@@ -1243,7 +1243,7 @@ INSERT INTO nutrition_vitamins (
     vitamin_b6, vitamin_b9, vitamin_k, vitamin_e
 ) VALUES (
              'fb3c2f66-e1d4-5f3c-9e13-121076001133', 100.0, 'mg',
-            NULL, 0.02, 0.015, 0.022,
+             NULL, 0.02, 0.015, 0.022,
              0.037, 0.001, 0.002, 0.18
          );
 
@@ -1255,7 +1255,7 @@ INSERT INTO food_item (
     nutrition_vitamins_id
 ) VALUES (
              'fb3c2f66-e1d4-5f3c-9e13-121076001135', 15, 'Ginger', 'Other',
-             'https://example.com/images/ginger.jpg', 30.0, 'g',
+             'https://cdn.pixabay.com/photo/2017/01/07/14/56/ginger-1960613_1280.jpg', 30.0, 'g',
              '2025-06-18T17:45:00.000+00:00', '2025-06-18T17:45:00.000+00:00', TRUE,
              'fb3c2f66-e1d4-5f3c-9e13-121076001130', 'fb3c2f66-e1d4-5f3c-9e13-121076001131',
              'fb3c2f66-e1d4-5f3c-9e13-121076001132', 'fb3c2f66-e1d4-5f3c-9e13-121076001133'
@@ -1307,7 +1307,7 @@ INSERT INTO food_item (
     nutrition_vitamins_id
 ) VALUES (
              'c5d42f99-9bb9-48a3-9f31-4cc573c4a0fc', 28, 'Watermelon', 'Fruit',
-             'https://example.com/images/watermelon.jpg', 152.0, 'g',
+             'https://images.unsplash.com/photo-1582281298055-e25b84a30b0b?q=80&w=905&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 152.0, 'g',
              '2025-06-18T17:50:00.000+00:00', '2025-06-18T17:50:00.000+00:00', TRUE,
              'c5d42f99-9bb9-48a3-9f31-4cc573c4a0f7', 'c5d42f99-9bb9-48a3-9f31-4cc573c4a0f8',
              'c5d42f99-9bb9-48a3-9f31-4cc573c4a0f9', 'c5d42f99-9bb9-48a3-9f31-4cc573c4a0fa'
@@ -1358,7 +1358,7 @@ INSERT INTO food_item (
     nutrition_vitamins_id
 ) VALUES (
              'b2a7f1a3-4235-4e1a-8d9f-7a67c4d9a0a6', 16, 'Guava', 'Fruit',
-             'https://example.com/images/guava.jpg', 150.0, 'g',
+             'https://media.istockphoto.com/id/171575811/ro/fotografie/guava.jpg?s=2048x2048&w=is&k=20&c=Q4tQdZa6HACJmTagRETfQFQfd1r_PIAyG2IsFGmnj1o=', 150.0, 'g',
              '2025-06-18T18:10:00.000+00:00', '2025-06-18T18:10:00.000+00:00', TRUE,
              'b2a7f1a3-4235-4e1a-8d9f-7a67c4d9a0a1', 'b2a7f1a3-4235-4e1a-8d9f-7a67c4d9a0a2',
              'b2a7f1a3-4235-4e1a-8d9f-7a67c4d9a0a3', 'b2a7f1a3-4235-4e1a-8d9f-7a67c4d9a0a4'
@@ -1409,7 +1409,7 @@ INSERT INTO food_item (
     nutrition_vitamins_id
 ) VALUES (
              'e8d314af-25f6-4c7d-8f4e-33a2b3e4a906', 11, 'Dragon fruit', 'Fruit',
-             'https://example.com/images/dragonfruit.jpg', 450.0, 'g',
+             'https://cdn.pixabay.com/photo/2017/03/06/11/59/dragon-fruit-2121292_1280.jpg', 450.0, 'g',
              '2025-06-18T18:10:00.000+00:00', '2025-06-18T18:10:00.000+00:00', TRUE,
              'e8d314af-25f6-4c7d-8f4e-33a2b3e4a901', 'e8d314af-25f6-4c7d-8f4e-33a2b3e4a902',
              'e8d314af-25f6-4c7d-8f4e-33a2b3e4a903', 'e8d314af-25f6-4c7d-8f4e-33a2b3e4a904'
@@ -1457,8 +1457,27 @@ INSERT INTO food_item (
     nutrition_proximates_id, nutrition_minerals_id, nutrition_carbohydrates_id, nutrition_vitamins_id
 ) VALUES (
              'a1b2c3d4-e5f6-7890-abcd-1234567890af', 26, 'Sugar apple', 'Fruit',
-             'https://example.com/images/sugar_apple.jpg', 200.0, 'g',
+             'https://media.istockphoto.com/id/913533868/ro/fotografie/zah%C4%83r-de-mere-izolat-pe-alb.jpg?s=2048x2048&w=is&k=20&c=7BU-qQDjMiTJHR_JDPyPj3r6KyxFuu3nqNfMJRe3E58=', 200.0, 'g',
              '2025-06-18T17:10:00.000+00:00', '2025-06-18T17:10:00.000+00:00', TRUE,
              'a1b2c3d4-e5f6-7890-abcd-1234567890ab', 'a1b2c3d4-e5f6-7890-abcd-1234567890ac',
              'a1b2c3d4-e5f6-7890-abcd-1234567890ad', 'a1b2c3d4-e5f6-7890-abcd-1234567890ae'
          );
+
+
+INSERT INTO users (
+    id, city, country, address, created_at, email, phone_number, password, full_name, postal_code, role, username
+) VALUES (
+             '11111111-1111-1111-1111-111111111111',
+             'Cluj-Napoca',
+             'Romania',
+             'Str. Strada',
+             '2025-07-11 12:00:00',
+             'admin1@admin.com',
+             '+40712345678',
+             '$2a$12$6TtTZV9AET6joo6G8rgCIeEOW6V7ndtztx.3DT5CsGBmSL9oeecVO',
+             'Admin User',
+             '400000',
+             'ADMIN',
+             'admin1'
+         );
+-- parola: admin1 (bcrypt)

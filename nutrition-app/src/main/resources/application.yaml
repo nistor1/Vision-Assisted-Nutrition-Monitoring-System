@@ -4,7 +4,7 @@ spring:
   jackson:
       time-zone: Europe/Bucharest
   datasource:
-    url: jdbc:postgresql://localhost:5432/nutrition_db
+    url: jdbc:postgresql://postgres:5433/nutrition_db
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -18,6 +18,8 @@ spring:
   jwt:
     secret-key: dW4tc2VjcmV0LWFsZWF0b3ItY29tcGxleC1kZS1taW5pbS0yNTYtYml0cw==
     token-expiration-days: 1
+  profiles:
+    active: dev
 
   mail:
     host: mailhog

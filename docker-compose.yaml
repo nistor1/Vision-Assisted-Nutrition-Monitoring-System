@@ -9,9 +9,6 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - "5433:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-      - ./init-sql:/docker-entrypoint-initdb.d
 
   nutrition-app:
     build:
@@ -51,9 +48,26 @@ services:
     image: mailhog/mailhog
     container_name: mailhog
     ports:
-      - "1025:1025"  # SMTP
-      - "8025:8025"  # Web UI
+      - "1025:1025"
+      - "8025:8025"
     restart: always
+
+  db-init:
+    image: postgres:15
+    container_name: db-init
+    depends_on:
+      - postgres
+      - nutrition-app
+    volumes:
+      - ./init-sql/data.sql:/data.sql
+    entrypoint: >
+      bash -c "
+        until pg_isready -h postgres -U postgres; do sleep 1; done;
+        sleep 15;
+        psql -h postgres -U postgres -d nutrition_db -f /data.sql
+      "
+    environment:
+      PGPASSWORD: postgres
 
 volumes:
   pgdata:
